@@ -3,6 +3,7 @@
 import { motion, useInView } from "motion/react";
 import Link from "next/link";
 import { useRef, type ReactNode } from "react";
+import { FitText } from "./FitText";
 
 /** The wordmark: a hanko seal carrying இ, the Tamil "I", beside INKDUB in poster gothic. */
 export function Logo({ light = false }: { light?: boolean }) {
@@ -153,32 +154,34 @@ export function Sfx({ children, className = "", delay = 0 }: { children: ReactNo
 }
 
 /**
- * A line lettered into one of the hero banner's own painted bubbles. `at` is the bubble's box as
- * percentages of the banner (left, top, right, bottom); text scales with the banner's width.
+ * A line lettered into one of the hero banner's own painted bubbles. `at` is the bubble body's box
+ * (tail excluded) as percentages of the banner: left, top, right, bottom. The text keeps to the oval's
+ * safe middle and is sized to fit, like the comic reader's lettering.
  */
 export function BannerLine({
   at: [left, top, right, bottom],
-  size,
+  text,
   delay = 0,
   className = "",
-  children,
 }: {
   at: [number, number, number, number];
-  size: number;
+  text: string;
   delay?: number;
   className?: string;
-  children: ReactNode;
 }) {
   return (
     <motion.div
-      className={`absolute grid place-items-center px-[2%] text-center leading-[1.05] ${className}`}
-      style={{ left: `${left}%`, top: `${top}%`, width: `${right - left}%`, height: `${bottom - top}%`, fontSize: `${size}cqw` }}
+      className={`absolute ${className}`}
+      style={{ left: `${left}%`, top: `${top}%`, width: `${right - left}%`, height: `${bottom - top}%` }}
       initial={{ opacity: 0, scale: 0.4 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 460, damping: 14, delay }}
     >
-      {children}
+      {/* Insets on an absolute child are relative to this bubble (padding % would follow the banner's width). */}
+      <div className="absolute" style={{ inset: "17% 15%" }}>
+        <FitText text={text} max={64} lineHeight={1.12} />
+      </div>
     </motion.div>
   );
 }

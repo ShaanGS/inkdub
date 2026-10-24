@@ -52,18 +52,10 @@ export default function Home() {
               sizes="(min-width: 1152px) 1152px, 100vw"
               className="object-cover"
             />
-            <BannerLine at={[10.6, 10.6, 23, 22.6]} size={2.25} delay={0.5} className="font-letter font-extrabold uppercase">
-              Anime gets dubs!
-            </BannerLine>
-            <BannerLine at={[19.2, 30.8, 25.4, 36.4]} size={1.05} delay={0.9} className="font-letter font-extrabold uppercase">
-              …manga?
-            </BannerLine>
-            <BannerLine at={[77.2, 10.4, 89.6, 23.2]} size={1.62} delay={1.3} className="font-tamil-display font-extrabold">
-              இனி மங்காவுக்கும் டப்பிங்!
-            </BannerLine>
-            <BannerLine at={[80.8, 30.2, 85.8, 35.2]} size={1.1} delay={1.7} className="font-tamil-display font-extrabold">
-              செம்ம!
-            </BannerLine>
+            <BannerLine at={[9.2, 10.6, 24.4, 25.7]} delay={0.5} className="font-letter font-extrabold uppercase" text="Anime gets dubs!" />
+            <BannerLine at={[18.3, 30.6, 26.3, 38]} delay={0.9} className="font-letter font-extrabold uppercase" text="…manga?" />
+            <BannerLine at={[75.5, 9.5, 91.4, 24.5]} delay={1.3} className="font-tamil-display font-extrabold" text="இனி மங்காவுக்கும் டப்பிங்!" />
+            <BannerLine at={[79.7, 29.7, 86.8, 36.6]} delay={1.7} className="font-tamil-display font-extrabold" text="செம்ம!" />
           </div>
         </Panel>
         <div className="relative z-10 -mt-[3.2rem] text-center sm:-mt-[5.5rem]">
