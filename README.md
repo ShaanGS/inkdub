@@ -6,8 +6,9 @@ Inkdub letters comic and manga pages into Tamil, right inside the speech bubbles
 
 Built in one day at Otaku.dev'26, the Hacktoberfest Hack Day in Chennai hosted by Commit Culture.
 
-- **Read a full episode in Tamil:** `/read` (Pepper&Carrot episode 6, all 10 pages)
-- **Dub your own page live:** `/dub` (upload, drop or paste any page)
+- **Live demo:** https://inkdub-three.vercel.app
+- **Read a full episode in Tamil:** [/read](https://inkdub-three.vercel.app/read) (Pepper&Carrot episode 6, all 10 pages)
+- **Dub your own page live:** [/dub](https://inkdub-three.vercel.app/dub) (upload, drop or paste any page)
 
 ## How it works
 
