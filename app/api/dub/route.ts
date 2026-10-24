@@ -5,6 +5,12 @@ export const maxDuration = 300;
 const DATA_URL = /^data:(image\/(?:png|jpeg|webp));base64,([A-Za-z0-9+/=]+)$/;
 
 export async function POST(request: Request) {
+  if (!process.env.GEMINI_API_KEY) {
+    return Response.json(
+      { error: "Live dubbing is switched off on this deployment: it has no GEMINI_API_KEY." },
+      { status: 503 },
+    );
+  }
   const { image, cast } = (await request.json().catch(() => ({}))) as { image?: string; cast?: string };
   const match = DATA_URL.exec(image ?? "");
   if (!match) {
