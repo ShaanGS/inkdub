@@ -43,3 +43,6 @@ next-env.d.ts
 # screenshot frames used to build docs/inkdub-demo.gif
 docs/frames/
 !.env.example
+
+# demo recording scratch frames
+.demo-frames/

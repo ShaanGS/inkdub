@@ -12,8 +12,11 @@
 <p align="center">
   <a href="https://inkdub-app.vercel.app"><b>Try it live</b></a> ·
   <a href="https://inkdub-app.vercel.app/read?page=4&view=madras">Read an episode in Madras Bashai</a> ·
-  <a href="https://inkdub-app.vercel.app/dub">Dub your own page</a>
+  <a href="https://inkdub-app.vercel.app/dub">Dub your own page</a> ·
+  <a href="docs/inkdub-demo.mp4"><b>▶ Demo video</b></a>
 </p>
+
+> **Demo video** ([`docs/inkdub-demo.mp4`](docs/inkdub-demo.mp4), 90 s): the landing banner, one page re-lettered into Tamil, Tanglish and Madras Bashai, and a **live Gemma 4 dub** of a page on the production site, recorded in real time (the wait for Gemma is not sped up). Recorded with [`scripts/record-demo.mjs`](scripts/record-demo.mjs).
 
 <p align="center">
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-ff4d2e"></a>
