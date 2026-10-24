@@ -2,7 +2,7 @@
   <img src="docs/inkdub-demo.gif" width="640" alt="Inkdub re-lettering a Pepper&Carrot page from English into Tamil, Tanglish and Madras Bashai">
 </p>
 
-<h1 align="center">Inkdub</h1>
+<h1 align="center"><img src="app/icon.svg" width="56" alt=""><br>Inkdub</h1>
 
 <p align="center">
   <b>Anime gets dubs. Manga never did.</b><br>
@@ -45,7 +45,8 @@ Anime has Tamil dubs now. Manga, manhwa and comics still don't. Inkdub fixes tha
 - **Peek at the original.** Hold `space` (or the button) to see the English underneath.
 - **Compare with human translators.** Press `C` to swap in the Pepper&Carrot community's own Tamil edition of the same page.
 - **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdub-app.vercel.app/dub). Gemma 4 letters it in about 15–40 seconds.
-- **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdub-app.vercel.app/read?page=7&view=madras) open on that page, in that style.
+- **Save and share a page.** One tap renders the lettered page as an image with an Inkdub credit strip and opens your phone's share sheet (WhatsApp, Instagram), or downloads it on a laptop.
+- **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdub-app.vercel.app/read?page=7&view=madras) open on that page, in that style. On a phone, swipe to turn pages.
 
 ## Design
 
@@ -68,6 +69,8 @@ flowchart LR
 1. **One Gemma 4 call per page** ([`lib/gemma.ts`](lib/gemma.ts)). The page image and a localization prompt go to `gemma-4-26b-a4b-it` through the Gemini API with the official [`@google/genai`](https://www.npmjs.com/package/@google/genai) SDK. Gemma returns every bubble as JSON: a bounding box (`box_2d`, normalized 0–1000), the original text, the speaker, the tone, and the three localizations. Malformed JSON is repaired, every field is validated, transient 5xx errors are retried, and `gemma-4-31b-it` takes over if the 26B endpoint is down.
 2. **Bubble tracing** ([`components/DubbedPage.tsx`](components/DubbedPage.tsx)). From each box, the browser samples the bubble's paper colour, flood-fills the paper outward, and treats everything the paper encloses as original lettering. A closed bubble gets its whole interior repainted. A bubble cut open by the panel edge only gets the enclosed letters near Gemma's box, so the gutter and nearby art are never touched.
 3. **Lettering** ([`components/FitText.tsx`](components/FitText.tsx)). The Tamil is set in Baloo Thambi 2 and binary-searched to the largest size that fits. Shouts are heavier and pop in; switching styles ripples across the page with [Motion](https://motion.dev).
+
+**Under load.** `/api/dub` allows each visitor 8 pages per 10 minutes and turns Gemini quota errors into a plain "try again in a minute". If Gemma can't be reached, the three sample pages on `/dub` fall back to the dub Gemma made of them earlier, and say so.
 
 The bundled episode was dubbed once and cached as JSON in [`public/comics/pepper-carrot/ep06/gemma`](public/comics/pepper-carrot/ep06/gemma), so the reader is instant. `/dub` calls Gemma live through [`app/api/dub/route.ts`](app/api/dub/route.ts).
 
@@ -121,11 +124,13 @@ app/
 components/
   DubbedPage.tsx      bubble tracing, patches, lettering and animation
   FitText.tsx         fit-to-bubble type setting
-  Comic.tsx           the design kit: inked panels, speech bubbles, sound effects, captions, the seal logo
+  Comic.tsx           the design kit: the logo, inked panels, speech bubbles, sound effects, captions
+  Share.tsx           save/share buttons (lib/share.ts renders the page and its credit strip)
   PanelCrop.tsx       one panel cut from a real page (the four-voices strip)
   Reader.tsx, LiveDub.tsx, HeroDemo.tsx, StyleSwitch.tsx, BubbleCard.tsx
 lib/
   gemma.ts            prompt, Gemini API call, retries, JSON validation
+  mark.ts             the logo mark as paths: an ink speech bubble whose tail is a drop of red ink, with இ
   episode.ts          the bundled Pepper&Carrot episode and its cached dub
 scripts/
   dub-episode.ts      batch-dub an episode

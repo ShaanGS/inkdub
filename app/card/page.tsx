@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { BannerLine } from "@/components/Comic";
+import { BannerLine, Mark } from "@/components/Comic";
 import banner from "@/public/art/kollywood-banner.jpg";
 
 export const metadata: Metadata = { title: "Inkdub share card", robots: { index: false } };
@@ -21,7 +21,8 @@ export default function Card() {
       </div>
       <div className="absolute inset-x-0 bottom-0 h-[230px] bg-gradient-to-t from-ink via-ink/75 to-transparent" />
       <div className="absolute inset-x-0 bottom-7 text-center">
-        <p className="font-display text-[120px] leading-[0.9] tracking-tight text-sun [-webkit-text-stroke:4px_var(--ink)] [paint-order:stroke_fill] [text-shadow:7px_7px_0_var(--accent)]">
+        <p className="inline-flex items-center gap-5 font-display text-[120px] leading-[0.9] tracking-tight text-sun [-webkit-text-stroke:4px_var(--ink)] [paint-order:stroke_fill] [text-shadow:7px_7px_0_var(--accent)]">
+          <Mark light className="size-[112px] -rotate-6 drop-shadow-[6px_6px_0_var(--ink)]" />
           INKDUB
         </p>
         <p className="mt-2 font-poster text-[28px] tracking-[0.16em] text-paper-hi uppercase">

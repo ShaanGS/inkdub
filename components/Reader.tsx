@@ -1,13 +1,15 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Episode } from "@/lib/episode";
+import { creditLabel } from "@/lib/share";
 import type { View } from "@/lib/types";
 import { VIEWS } from "@/lib/views";
 import { BubbleCard } from "./BubbleCard";
 import { Logo } from "./Comic";
 import { DubbedPage } from "./DubbedPage";
+import { LinkButton, SaveButton } from "./Share";
 import { StyleSwitch } from "./StyleSwitch";
 
 type ReaderProps = { episode: Episode; initialPage?: number; initialView?: View };
@@ -26,6 +28,7 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
   const [peek, setPeek] = useState(false);
   const [community, setCommunity] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
   const page = episode.pages[index];
   const last = episode.pages.length - 1;
 
@@ -92,7 +95,16 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
               animate="center"
               exit="exit"
               transition={{ type: "spring", stiffness: 210, damping: 26 }}
-              className="relative bg-paper-hi shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-black/40"
+              // Swipe to turn the page on phones, where the arrows are hidden.
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.3}
+              dragSnapToOrigin
+              onDragEnd={(_, { offset, velocity }) => {
+                if (offset.x < -70 || velocity.x < -500) goTo(index + 1);
+                else if (offset.x > 70 || velocity.x > 500) goTo(index - 1);
+              }}
+              className="relative touch-pan-y bg-paper-hi shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-black/40"
             >
               {community ? (
                 <>
@@ -108,17 +120,19 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
                   </span>
                 </>
               ) : (
-                <DubbedPage
-                  src={page.src}
-                  alt={`${episode.series} episode ${episode.number}, page ${index + 1}`}
-                  width={episode.width}
-                  height={episode.height}
-                  bubbles={page.bubbles}
-                  view={shown}
-                  playKey={page.id}
-                  selected={selected}
-                  onSelect={setSelected}
-                />
+                <div ref={pageRef}>
+                  <DubbedPage
+                    src={page.src}
+                    alt={`${episode.series} episode ${episode.number}, page ${index + 1}`}
+                    width={episode.width}
+                    height={episode.height}
+                    bubbles={page.bubbles}
+                    view={shown}
+                    playKey={page.id}
+                    selected={selected}
+                    onSelect={setSelected}
+                  />
+                </div>
               )}
             </motion.div>
           </AnimatePresence>
@@ -171,6 +185,19 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
             >
               Compare with the community&apos;s Tamil <kbd className="ml-1 hidden opacity-60 sm:inline">C</kbd>
             </button>
+            <LinkButton
+              text={`${episode.series} page ${index + 1}, dubbed into Tamil by Inkdub`}
+              className="border-2 border-paper/40 px-3 py-1.5 text-paper/80 transition hover:border-paper hover:text-paper-hi"
+            />
+            {!community && (
+              <SaveButton
+                target={pageRef}
+                pixelWidth={episode.width}
+                name={`inkdub-${episode.series.replace("&", "-and-").toLowerCase()}-p${index + 1}-${view}`}
+                label={creditLabel(view)}
+                className="stamp-paper !px-3 !py-1.5 !text-[11px] !shadow-[3px_3px_0_var(--accent)]"
+              />
+            )}
           </div>
         </div>
         <p className="mt-3 font-mono text-[10px] tracking-[0.06em] text-paper/45">

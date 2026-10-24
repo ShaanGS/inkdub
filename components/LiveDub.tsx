@@ -1,18 +1,21 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { creditLabel } from "@/lib/share";
 import type { DubResult, View } from "@/lib/types";
 import { Caption, Tag } from "./Comic";
 import { DubbedPage } from "./DubbedPage";
+import { SaveButton } from "./Share";
 import { StyleSwitch } from "./StyleSwitch";
 
 type Upload = { url: string; width: number; height: number };
 type State =
   | { phase: "idle" }
   | { phase: "dubbing"; page: Upload; started: number }
-  | { phase: "done"; page: Upload; result: DubResult }
+  | { phase: "done"; page: Upload; result: DubResult; cached: boolean }
   | { phase: "error"; page: Upload; message: string };
 
 const SAMPLES = ["P03", "P07", "P09"].map((id) => `/comics/pepper-carrot/ep06/en/${id}.jpg`);
@@ -24,22 +27,39 @@ export function LiveDub() {
   const [view, setView] = useState<View>("tamil");
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   const dub = useCallback(async (source: Blob | string) => {
+    const sample = typeof source === "string" ? SAMPLES.indexOf(source) : -1;
     const page = await toJpeg(source);
     setState({ phase: "dubbing", page, started: Date.now() });
     setView("tamil");
+    // On a phone the page sits below the intro; bring it up so the scan is actually seen.
+    if (window.innerWidth < 1024) stageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    track("dub_started", { source: sample >= 0 ? "sample" : "upload" });
     try {
       const response = await fetch("/api/dub", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: page.url }),
       });
-      const body = await response.json();
-      if (!response.ok) throw new Error(body.error ?? "Something went wrong.");
-      setState({ phase: "done", page, result: body as DubResult });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.error ?? "Something went wrong. Try again in a moment.");
+      const result = body as DubResult;
+      setState({ phase: "done", page, result, cached: false });
+      track("dub_done", { bubbles: result.bubbles.length, seconds: Math.round(result.ms / 1000) });
     } catch (error) {
-      setState({ phase: "error", page, message: error instanceof Error ? error.message : String(error) });
+      const message = error instanceof Error ? error.message : String(error);
+      track("dub_failed", { source: sample >= 0 ? "sample" : "upload" });
+      // When Gemma is swamped, the sample pages fall back to the dub Gemma made of them earlier.
+      if (sample >= 0) {
+        const cached = await fetch(SAMPLES[sample].replace("/en/", "/gemma/").replace(".jpg", ".json"))
+          .then((r) => r.json() as Promise<{ model: string; bubbles: DubResult["bubbles"] }>)
+          .catch(() => null);
+        if (cached) return setState({ phase: "done", page, result: { ...cached, ms: 0 }, cached: true });
+      }
+      setState({ phase: "error", page, message });
     }
   }, []);
 
@@ -65,7 +85,7 @@ export function LiveDub() {
         </h1>
         <p className="mt-6 max-w-md font-letter text-lg leading-snug">
           Drop in a comic or manga page. Gemma 4 finds every bubble and localizes it, and Inkdub letters the Tamil back
-          into the art. Usually in under twenty seconds.
+          into the art. Usually in fifteen to forty seconds.
         </p>
         <div className="mt-9">
           <p className="mb-3 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-soft uppercase">
@@ -94,8 +114,10 @@ export function LiveDub() {
               <StyleSwitch value={view} onChange={setView} />
               <p className="font-mono text-xs leading-relaxed text-ink-soft">
                 {state.result.bubbles.length} bubbles lettered by{" "}
-                <span className="font-semibold text-ink">{state.result.model}</span> in{" "}
-                {(state.result.ms / 1000).toFixed(1)}s
+                <span className="font-semibold text-ink">{state.result.model}</span>{" "}
+                {state.cached
+                  ? "earlier. Gemma is swamped right now, so this is the dub it made of this page before."
+                  : `in ${(state.result.ms / 1000).toFixed(1)}s`}
               </p>
             </motion.div>
           )}
@@ -109,6 +131,8 @@ export function LiveDub() {
       </div>
 
       <div
+        ref={stageRef}
+        className="scroll-mt-4"
         onDragOver={(e) => {
           e.preventDefault();
           setDragging(true);
@@ -149,9 +173,13 @@ export function LiveDub() {
               </span>
               <span className="absolute inset-0 grid place-items-center text-center">
                 <span>
-                  <span className="block font-letter text-4xl font-extrabold uppercase">Drop a page</span>
-                  <span className="mt-2 block font-mono text-xs tracking-[0.1em] text-ink-soft uppercase">
+                  <span className="block font-letter text-4xl font-extrabold uppercase pointer-coarse:hidden">Drop a page</span>
+                  <span className="hidden font-letter text-4xl font-extrabold uppercase pointer-coarse:block">Add a page</span>
+                  <span className="mt-2 block font-mono text-xs tracking-[0.1em] text-ink-soft uppercase pointer-coarse:hidden">
                     or click to upload · or paste ⌘V
+                  </span>
+                  <span className="mt-2 hidden font-mono text-xs tracking-[0.1em] text-ink-soft uppercase pointer-coarse:block">
+                    Tap to pick a photo or screenshot
                   </span>
                 </span>
               </span>
@@ -164,15 +192,17 @@ export function LiveDub() {
               className="relative border-[3px] border-ink bg-paper-hi shadow-[8px_8px_0_var(--ink)]"
             >
               {state.phase === "done" ? (
-                <DubbedPage
-                  src={page.url}
-                  alt="Your page, lettered in Tamil"
-                  width={page.width}
-                  height={page.height}
-                  bubbles={state.result.bubbles}
-                  view={view}
-                  playKey={page.url}
-                />
+                <div ref={pageRef}>
+                  <DubbedPage
+                    src={page.url}
+                    alt="Your page, lettered in Tamil"
+                    width={page.width}
+                    height={page.height}
+                    bubbles={state.result.bubbles}
+                    view={view}
+                    playKey={page.url}
+                  />
+                </div>
               ) : (
                 <div className="relative overflow-hidden" style={{ aspectRatio: `${page.width} / ${page.height}` }}>
                   {/* eslint-disable-next-line @next/next/no-img-element -- local preview of the upload */}
@@ -194,14 +224,29 @@ export function LiveDub() {
           )}
         </AnimatePresence>
         {page && state.phase !== "dubbing" && (
-          <button
-            type="button"
-            onClick={() => inputRef.current?.click()}
-            className="mt-6 font-mono text-xs font-semibold tracking-[0.1em] uppercase underline-offset-4 hover:underline"
-          >
-            Dub another page
-          </button>
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+            {state.phase === "done" && (
+              <SaveButton
+                target={pageRef}
+                pixelWidth={page.width}
+                name={`inkdub-${view}`}
+                label={creditLabel(view)}
+                className="stamp-ink"
+              />
+            )}
+            <button
+              type="button"
+              onClick={() => inputRef.current?.click()}
+              className="font-mono text-xs font-semibold tracking-[0.1em] uppercase underline-offset-4 hover:underline"
+            >
+              Dub another page
+            </button>
+          </div>
         )}
+        <p className="mt-6 max-w-md font-mono text-[10px] leading-relaxed tracking-[0.04em] text-ink-soft">
+          Your page goes to Google&apos;s Gemini API to be read and is not stored by Inkdub. Please only dub pages you
+          have the right to share.
+        </p>
       </div>
     </div>
   );

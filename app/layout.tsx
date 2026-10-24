@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import type { Metadata, Viewport } from "next";
 import { Anek_Tamil, Anton, Baloo_Thambi_2, Dela_Gothic_One, IBM_Plex_Mono, Noto_Sans_Tamil, Shantell_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -34,7 +35,11 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: { card: "summary_large_image", title: "Inkdub · Anime gets dubs. Manga never did.", description },
+  keywords: ["manga in Tamil", "comics in Tamil", "Tamil dub", "Tanglish", "Madras Bashai", "Gemma 4", "manga translation"],
+  applicationName: "Inkdub",
 };
+
+export const viewport: Viewport = { themeColor: "#f2ecdf" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -42,7 +47,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${shantell.variable} ${dela.variable} ${anton.variable} ${plexMono.variable} ${anek.variable} ${baloo.variable} ${notoTamil.variable} h-full antialiased`}
     >
-      <body className="paper min-h-full font-sans text-ink">{children}</body>
+      <body className="paper min-h-full font-sans text-ink">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

@@ -3,15 +3,28 @@
 import { motion, useInView } from "motion/react";
 import Link from "next/link";
 import { useRef, type ReactNode } from "react";
+import { MARK_BUBBLE, MARK_DROP, MARK_DROP_AT, MARK_GLYPH, MARK_VIEWBOX } from "@/lib/mark";
 import { FitText } from "./FitText";
 
-/** The wordmark: a hanko seal carrying இ, the Tamil "I", beside INKDUB in poster gothic. */
+/** The mark: an ink speech bubble carrying இ, its tail a falling drop of red ink. `light` is for dark grounds. */
+export function Mark({ light = false, className = "" }: { light?: boolean; className?: string }) {
+  return (
+    <svg viewBox={MARK_VIEWBOX} className={`overflow-visible ${className}`} aria-hidden>
+      <ellipse {...MARK_BUBBLE} fill={light ? "var(--paper-hi)" : "var(--ink)"} />
+      {/* The drop sits in its own group so hover can let it fall without fighting its own transform. */}
+      <g className="transition-transform duration-500 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover:translate-x-[-1.5px] group-hover:translate-y-[4px]">
+        <path d={MARK_DROP} transform={MARK_DROP_AT} fill="var(--accent)" />
+      </g>
+      <path d={MARK_GLYPH} fill={light ? "var(--ink)" : "var(--paper-hi)"} />
+    </svg>
+  );
+}
+
+/** The logo: the mark beside INKDUB in poster gothic. */
 export function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link href="/" className="group inline-flex items-center gap-2.5" aria-label="Inkdub home">
-      <span className="grid size-9 -rotate-6 place-items-center rounded-[5px] bg-accent font-tamil text-xl leading-none font-bold text-paper-hi shadow-[2px_2px_0_var(--ink)] transition-transform duration-300 group-hover:rotate-3">
-        இ
-      </span>
+    <Link href="/" className="group inline-flex items-center gap-2" aria-label="Inkdub home">
+      <Mark light={light} className="size-10 -rotate-6 transition-transform duration-300 group-hover:rotate-0" />
       <span className={`font-display text-xl tracking-tight ${light ? "text-paper-hi" : "text-ink"}`}>INKDUB</span>
     </Link>
   );
