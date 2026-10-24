@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Baloo_Thambi_2, Dela_Gothic_One, IBM_Plex_Mono, Noto_Sans_Tamil, Shantell_Sans } from "next/font/google";
+import { Anek_Tamil, Baloo_Thambi_2, Dela_Gothic_One, IBM_Plex_Mono, Noto_Sans_Tamil, Shantell_Sans } from "next/font/google";
 import "./globals.css";
 
 // Hand lettering for everything a character "says".
@@ -8,7 +8,9 @@ const shantell = Shantell_Sans({ variable: "--font-shantell", subsets: ["latin"]
 const dela = Dela_Gothic_One({ variable: "--font-dela", weight: "400", subsets: ["latin"] });
 // Printed labels, captions and buttons.
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500", "600"] });
-// Rounded, bold Tamil that reads like hand lettering inside a speech bubble.
+// Tamil lettering inside bubbles: a variable face whose width axis lets long lines run semi-condensed.
+const anek = Anek_Tamil({ variable: "--font-anek", subsets: ["tamil", "latin"], axes: ["wdth"] });
+// Rounded, heavy Tamil for display moments: sound effects and the closing "to be continued".
 const baloo = Baloo_Thambi_2({
   variable: "--font-baloo-thambi",
   subsets: ["tamil", "latin"],
@@ -36,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${shantell.variable} ${dela.variable} ${plexMono.variable} ${baloo.variable} ${notoTamil.variable} h-full antialiased`}
+      className={`${shantell.variable} ${dela.variable} ${plexMono.variable} ${anek.variable} ${baloo.variable} ${notoTamil.variable} h-full antialiased`}
     >
       <body className="paper min-h-full font-sans text-ink">{children}</body>
     </html>

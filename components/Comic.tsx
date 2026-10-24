@@ -141,7 +141,7 @@ export function Sfx({ children, className = "", delay = 0 }: { children: ReactNo
   return (
     <motion.span
       aria-hidden
-      className={`pointer-events-none inline-block font-bubble font-extrabold text-paper-hi [paint-order:stroke_fill] [-webkit-text-stroke:3px_var(--ink)] [text-shadow:5px_5px_0_var(--accent)] ${className}`}
+      className={`pointer-events-none inline-block font-tamil-display font-extrabold text-paper-hi [paint-order:stroke_fill] [-webkit-text-stroke:3px_var(--ink)] [text-shadow:5px_5px_0_var(--accent)] ${className}`}
       initial={{ opacity: 0, scale: 2.4, rotate: -14 }}
       whileInView={{ opacity: 1, scale: 1, rotate: -8, x: [0, -5, 4, -2, 0] }}
       viewport={{ once: true }}

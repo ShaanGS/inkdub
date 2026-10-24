@@ -20,7 +20,8 @@
   --font-letter: var(--font-shantell), system-ui, sans-serif;
   --font-display: var(--font-dela), var(--font-shantell), sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
-  --font-bubble: var(--font-baloo-thambi), var(--font-noto-tamil), system-ui, sans-serif;
+  --font-bubble: var(--font-anek), var(--font-noto-tamil), system-ui, sans-serif;
+  --font-tamil-display: var(--font-baloo-thambi), var(--font-noto-tamil), system-ui, sans-serif;
   --font-tamil: var(--font-noto-tamil), var(--font-baloo-thambi), system-ui, sans-serif;
 }
 

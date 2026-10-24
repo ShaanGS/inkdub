@@ -19,7 +19,7 @@ export default function Card() {
       <div className="absolute top-[38px] right-[40px] bottom-[38px] w-[600px] rotate-[1.5deg] border-[4px] border-ink bg-paper-hi shadow-[10px_10px_0_var(--ink)]">
         <Image src={rooftop} alt="" fill priority sizes="600px" className="object-cover object-[40%_50%]" />
         <Bubble className="absolute top-[34px] left-[190px] w-[230px]" rotate={-5}>
-          <span className="font-bubble text-[44px] leading-none font-extrabold">{CARD_LINE}</span>
+          <span className="font-tamil-display text-[44px] leading-none font-extrabold">{CARD_LINE}</span>
         </Bubble>
       </div>
 

@@ -111,15 +111,21 @@ export function DubbedPage({ src, alt, width, height, bubbles, view, playKey, se
               {dubbed && (
                 <motion.span
                   key={view}
-                  className="absolute font-bubble"
-                  style={{ inset: layout.round ? "13% 12%" : "5%", color: layout.ink, fontWeight: shout ? 800 : 600 }}
+                  className={`absolute ${view === "tanglish" ? "font-letter" : "font-bubble"}`}
+                  style={{
+                    inset: layout.round ? "13% 12%" : "2%",
+                    color: layout.ink,
+                    fontWeight: shout ? 760 : 620,
+                    // Semi-condensed Tamil fits more of a long line per row, so it can stay larger.
+                    fontStretch: view === "tanglish" ? undefined : "88%",
+                  }}
                   // Lettering is wiped on left to right like a brush stroke; shouts land with a little punch.
                   initial={{ clipPath: "inset(0% 100% 0% 0%)", scale: shout ? 1.18 : 1 }}
                   animate={{ clipPath: "inset(0% 0% 0% 0%)", scale: 1 }}
                   exit={{ opacity: 0, transition: { duration: 0.12 } }}
                   transition={{ duration: 0.42, delay: wait(i) + 0.1, ease: [0.65, 0, 0.35, 1] }}
                 >
-                  <FitText text={bubble[view]} />
+                  <FitText text={bubble[view]} lineHeight={view === "tanglish" ? 1.12 : 1.34} />
                 </motion.span>
               )}
             </AnimatePresence>
@@ -163,7 +169,7 @@ function useBubbleLayouts(src: string, bubbles: Bubble[]): Layout[] {
       if (!ctx) return;
       ctx.drawImage(img, 0, 0);
       const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      setTraced({ src, bubbles, layouts: bubbles.map((b) => layoutBubble(pixels, b.box_2d)) });
+      setTraced({ src, bubbles, layouts: bubbles.map((b) => layoutBubble(pixels, b)) });
     };
     return () => {
       cancelled = true;
@@ -173,12 +179,14 @@ function useBubbleLayouts(src: string, bubbles: Bubble[]): Layout[] {
   return traced && traced.src === src && traced.bubbles === bubbles ? traced.layouts : fallback;
 }
 
-function layoutBubble(pixels: ImageData, box: Box): Layout {
+function layoutBubble(pixels: ImageData, bubble: Bubble): Layout {
+  const box = bubble.box_2d;
+  const longest = [bubble.tamil, bubble.madras, bubble.tanglish].reduce((a, b) => (b.length > a.length ? b : a), "");
   const paper = samplePaper(pixels, box);
   const light = luma(paper) > 110;
   const background = `rgb(${paper.join(",")})`;
   const ink = light ? "#141414" : "#fafafa";
-  const trace = light ? traceBubble(pixels, box, paper) : null;
+  const trace = light ? traceBubble(pixels, box, paper, longest) : null;
   return trace ? { ...trace, background, ink } : untraced(box, background, ink);
 }
 
@@ -210,7 +218,7 @@ function samplePaper({ data, width: w, height: h }: ImageData, [y0, x0, y1, x1]:
  * 3. a closed bubble gets its whole interior painted. An open one (cut by the panel edge, or joined to
  *    another bubble) only gets the enclosed letters near Gemma's box, so the gutter and nearby art are safe.
  */
-function traceBubble({ data, width: w, height: h }: ImageData, box: Box, paper: number[]) {
+function traceBubble({ data, width: w, height: h }: ImageData, box: Box, paper: number[], longest: string) {
   const bx0 = Math.floor((box[1] / 1000) * w);
   const bx1 = Math.ceil((box[3] / 1000) * w);
   const by0 = Math.floor((box[0] / 1000) * h);
@@ -354,12 +362,80 @@ function traceBubble({ data, width: w, height: h }: ImageData, box: Box, paper: 
     }
   }
   ctx.putImageData(out, 0, 0);
-  const maskBox: Box = [
-    ((wy0 + minY) / h) * 1000,
-    ((wx0 + minX) / w) * 1000,
-    ((wy0 + maxY + 1) / h) * 1000,
-    ((wx0 + maxX + 1) / w) * 1000,
+  const toBox = (x0: number, y0: number, x1: number, y1: number): Box => [
+    ((wy0 + y0) / h) * 1000,
+    ((wx0 + x0) / w) * 1000,
+    ((wy0 + y1 + 1) / h) * 1000,
+    ((wx0 + x1 + 1) / w) * 1000,
   ];
-  // A closed bubble gives the Tamil its whole interior; an open one keeps to Gemma's box.
-  return { maskBox, mask: canvas.toDataURL(), textBox: open ? padded(box) : maskBox, round: !open };
+  const maskBox = toBox(minX, minY, maxX, maxY);
+  // An open bubble keeps to Gemma's box: its paper runs into the gutter, so its true edge is unknown.
+  if (open) return { maskBox, mask: canvas.toDataURL(), textBox: padded(box), round: false };
+
+  // A closed bubble: try the interior with a margin that clears an oval's curve, and the roomiest
+  // rectangle that actually fits the traced shape, and keep whichever sets this line larger.
+  const inset = { left: minX + (maxX - minX) * 0.12, right: maxX - (maxX - minX) * 0.12, top: minY + (maxY - minY) * 0.13, bottom: maxY - (maxY - minY) * 0.13 };
+  let pick = inset;
+  const roomy = roomiestRect(covered, ww, minY, maxY, (bx0 + bx1) / 2 - wx0, (by0 + by1) / 2 - wy0);
+  if (roomy) {
+    const padX = (roomy.right - roomy.left) * 0.03;
+    const padY = (roomy.bottom - roomy.top) * 0.04;
+    const snug = { left: roomy.left + padX, right: roomy.right - padX, top: roomy.top + padY, bottom: roomy.bottom - padY };
+    if (fitEstimate(snug, longest) > fitEstimate(inset, longest) * 1.04) pick = snug;
+  }
+  return { maskBox, mask: canvas.toDataURL(), textBox: toBox(pick.left, pick.top, pick.right, pick.bottom), round: false };
+}
+
+/** Roughly how large a line could be set in a box: limited by area, and by its longest word fitting across. */
+function fitEstimate(r: { left: number; right: number; top: number; bottom: number }, text: string) {
+  const w = r.right - r.left;
+  const h = r.bottom - r.top;
+  if (w <= 0 || h <= 0) return 0;
+  const longestWord = Math.max(1, ...text.split(/\s+/).map((word) => word.length));
+  return Math.min(Math.sqrt((w * h) / (Math.max(1, text.length) * 0.5 * 1.34)), w / (longestWord * 0.5));
+}
+
+/**
+ * The biggest upright rectangle of painted paper that still covers the centre of Gemma's text box,
+ * so Tamil (usually half again as long as the English) gets the whole belly of the bubble rather
+ * than the English text's footprint. Each row contributes the unbroken run of paper through the
+ * centre column, so the rectangle can never straddle an outline or a panel border.
+ */
+function roomiestRect(covered: Uint8Array, ww: number, minY: number, maxY: number, cxf: number, cyf: number) {
+  const cx = Math.round(cxf);
+  const cy = Math.round(cyf);
+  const run = (y: number): [number, number] | null => {
+    const row = y * ww;
+    if (y < minY || y > maxY || cx < 0 || cx >= ww || !covered[row + cx]) return null;
+    let l = cx;
+    while (l > 0 && covered[row + l - 1]) l--;
+    let r = cx;
+    while (r < ww - 1 && covered[row + r + 1]) r++;
+    return [l, r];
+  };
+  const reach = (step: 1 | -1) => {
+    const bands: { y: number; l: number; r: number }[] = [];
+    let l = -Infinity;
+    let r = Infinity;
+    for (let y = cy; ; y += step) {
+      const span = run(y);
+      if (!span) break;
+      l = Math.max(l, span[0]);
+      r = Math.min(r, span[1]);
+      bands.push({ y, l, r });
+    }
+    return bands;
+  };
+  const ups = reach(-1);
+  const downs = reach(1);
+  let best: { left: number; right: number; top: number; bottom: number; area: number } | null = null;
+  for (const up of ups) {
+    for (const down of downs) {
+      const left = Math.max(up.l, down.l);
+      const right = Math.min(up.r, down.r);
+      const area = (right - left) * (down.y - up.y + 1);
+      if (right - left > 12 && (!best || area > best.area)) best = { left, right, top: up.y, bottom: down.y, area };
+    }
+  }
+  return best;
 }

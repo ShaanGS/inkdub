@@ -247,7 +247,7 @@ export default function Home() {
 
       <footer className="border-t-[3px] border-ink">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-16 text-center">
-          <p className="font-bubble text-6xl leading-none font-extrabold sm:text-8xl">தொடரும்…</p>
+          <p className="font-tamil-display text-6xl leading-none font-extrabold sm:text-8xl">தொடரும்…</p>
           <p className="font-mono text-xs font-semibold tracking-[0.35em] uppercase">To be continued</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/read" className="stamp stamp-ink">
