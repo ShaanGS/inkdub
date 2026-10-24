@@ -46,12 +46,12 @@ Anime has Tamil dubs now. Manga, manhwa and comics still don't. Inkdub fixes tha
 
 ## Design
 
-Inkdub is designed like a printed manga, not a software landing page: newsprint paper, true-black ink, one hanko-seal red, and copy that lives in real speech bubbles.
+Inkdub is designed like a printed manga, not a software landing page: newsprint paper, true-black ink, one hanko-seal red, and copy that lives in real speech bubbles. It opens on a hand-painted Kollywood-style banner, an anime hero beside a Tamil hero, whose empty speech bubbles Inkdub has lettered, under a movie-poster title and billing block.
 
 - **Panels, not cards.** Sections are inked panels with slanted gutters, focus lines and screentone. Their borders ink themselves in as they scroll into view.
 - **Lettering you can watch.** Tamil wipes on left to right like a brush stroke, shouts land with a punch, and the style switch is a row of rubber stamps.
 - **A quiet reading room.** The reader drops the noise: a dark surround, pages that turn on their spine, a filmstrip of thumbnails.
-- **Type:** Shantell Sans for hand lettering, Dela Gothic One for chapter titles, IBM Plex Mono for printed labels, Baloo Thambi 2 and Noto Sans Tamil for Tamil.
+- **Type:** Shantell Sans for hand lettering, Dela Gothic One and Anton for poster titling, IBM Plex Mono for printed labels, Anek Tamil (semi-condensed) for Tamil lettering, Baloo Thambi 2 for display Tamil.
 
 ## How it works
 
@@ -145,6 +145,6 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Code:** Apache-2.0, see [LICENSE](LICENSE).
 - **Comic:** [Pepper&Carrot](https://www.peppercarrot.com) episode 6, "The Potion Contest", art and story by David Revoy, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The English pages are unmodified; Inkdub draws its lettering on top at display time. The pages in `public/comics/pepper-carrot/ep06/ta` are the Pepper&Carrot community's Tamil translation, kept for comparison.
 - **Model:** Gemma 4 by Google, Apache 2.0.
-- **Illustration:** the rooftop reader on the landing page and social card was made with [Magnific](https://www.magnific.ai) for this project.
+- **Art:** the Kollywood banner and the rooftop reader were made with [Magnific](https://www.magnific.ai) for this project.
 
 Built in one day at **Otaku.dev'26**, the Hacktoberfest Hack Day in Chennai hosted by Commit Culture.

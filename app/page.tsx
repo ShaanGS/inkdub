@@ -1,10 +1,10 @@
-import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Bubble, Caption, Logo, Panel, Sfx, Tag } from "@/components/Comic";
+import { BannerLine, Caption, Logo, Panel, Sfx, Tag } from "@/components/Comic";
 import { HeroDemo } from "@/components/HeroDemo";
 import { PanelCrop } from "@/components/PanelCrop";
 import { episode } from "@/lib/episode";
+import banner from "@/public/art/kollywood-banner.jpg";
 import rooftop from "@/public/art/rooftop-reader.jpg";
 
 const REPO = "https://github.com/ShaanGS/inkdub";
@@ -39,43 +39,53 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* The chapter's title page: a splash panel, the live specimen, and the narrator. */}
-      <section className="mx-auto grid max-w-6xl gap-3 px-5 pb-20 lg:grid-cols-[1.18fr_1fr]">
-        <Panel points="0,0 100,0 97.5,100 0,100" className="min-h-[460px] bg-paper-hi">
-          <div
-            className="focus-lines absolute inset-0 opacity-[0.17]"
-            style={{ "--fx": "46%", "--fy": "50%" } as CSSProperties}
-          />
-          <div className="relative flex h-full flex-col justify-between gap-4 p-6 sm:p-9">
-            <div className="flex items-center justify-between">
-              <Tag>Ch. 01 · The dub</Tag>
-              <span className="font-tamil text-sm text-ink-soft">அத்தியாயம் ௧</span>
-            </div>
-            <div className="relative py-2">
-              <Bubble className="w-[94%] max-w-[560px]" delay={0.25}>
-                <p className="font-letter text-[clamp(2.1rem,4.8vw,3.7rem)] leading-[0.95] font-extrabold tracking-tight uppercase">
-                  Anime gets dubs.
-                </p>
-              </Bubble>
-              <Bubble burst fill="var(--accent)" className="-mt-5 ml-auto w-[80%] max-w-[480px]" delay={0.85} rotate={-4}>
-                <p className="font-letter text-[clamp(1.75rem,4vw,3.1rem)] leading-[0.95] font-extrabold tracking-tight text-paper-hi uppercase">
-                  Manga never did!
-                </p>
-              </Bubble>
-            </div>
-            <Sfx className="self-end text-5xl sm:text-6xl" delay={1.5}>
-              டமால்!
-            </Sfx>
+      {/* The banner: a hand-painted Kollywood hoarding whose own empty bubbles Inkdub has lettered. */}
+      <section className="mx-auto max-w-6xl px-5">
+        <Panel className="bg-ink">
+          <div className="@container relative" style={{ aspectRatio: "16 / 9" }}>
+            <Image
+              src={banner}
+              alt="Hand-painted Kollywood banner: an anime hero and a Tamil hero side by side under a blazing sun, their speech bubbles lettered by Inkdub"
+              fill
+              priority
+              placeholder="blur"
+              sizes="(min-width: 1152px) 1152px, 100vw"
+              className="object-cover"
+            />
+            <BannerLine at={[10.6, 10.6, 23, 22.6]} size={2.25} delay={0.5} className="font-letter font-extrabold uppercase">
+              Anime gets dubs!
+            </BannerLine>
+            <BannerLine at={[19.2, 30.8, 25.4, 36.4]} size={1.05} delay={0.9} className="font-letter font-extrabold uppercase">
+              …manga?
+            </BannerLine>
+            <BannerLine at={[77.2, 10.4, 89.6, 23.2]} size={1.62} delay={1.3} className="font-tamil-display font-extrabold">
+              இனி மங்காவுக்கும் டப்பிங்!
+            </BannerLine>
+            <BannerLine at={[80.8, 30.2, 85.8, 35.2]} size={1.1} delay={1.7} className="font-tamil-display font-extrabold">
+              செம்ம!
+            </BannerLine>
           </div>
         </Panel>
+        <div className="relative z-10 -mt-[3.2rem] text-center sm:-mt-[5.5rem]">
+          <h1 className="font-display text-[clamp(3.6rem,13vw,9.5rem)] leading-[0.9] tracking-tight text-sun [-webkit-text-stroke:4px_var(--ink)] [paint-order:stroke_fill] [text-shadow:7px_7px_0_var(--accent)]">
+            INKDUB
+          </h1>
+          <p className="mt-3 font-poster text-2xl tracking-[0.16em] uppercase sm:text-4xl">Anime × Tamil · Now dubbing</p>
+          <p className="mx-auto mt-4 max-w-3xl font-poster text-[12px] leading-snug tracking-[0.12em] text-ink-soft uppercase sm:text-[14px]">
+            Gemma 4 presents · an open-source production · lettering in Tamil, Tanglish and Madras Bashai · starring
+            Pepper &amp; Carrot by David Revoy · built in one day at Otaku.dev&apos;26, Chennai
+          </p>
+        </div>
+      </section>
 
-        <Panel points="2.5,0 100,0 100,100 0,100" className="bg-paper-hi lg:row-span-2" delay={0.15}>
-          <HeroDemo page={episode.pages[1]} width={episode.width} height={episode.height} />
-        </Panel>
-
-        <Panel points="0,0 97.5,0 100,100 0,100" className="bg-paper-hi" delay={0.3}>
+      {/* The live specimen beside the narrator. */}
+      <section className="mx-auto grid max-w-6xl gap-3 px-5 pt-14 pb-20 lg:grid-cols-[1fr_1.05fr]">
+        <Panel points="0,0 100,0 97.5,100 0,100" className="bg-paper-hi">
           <div className="flex h-full flex-col justify-center gap-6 p-6 sm:p-9">
-            <p className="font-letter text-lg leading-snug sm:text-[1.35rem]">
+            <div>
+              <Tag>Ch. 01 · The dub</Tag>
+            </div>
+            <p className="font-letter text-xl leading-snug sm:text-2xl">
               Inkdub reads every speech bubble on a comic page and letters it back in natural <b>Tamil</b>, casual{" "}
               <b>Tanglish</b> or full <b>Madras Bashai</b>, right where the English was.
             </p>
@@ -90,7 +100,13 @@ export default function Home() {
             <p className="font-mono text-[11px] tracking-[0.12em] text-ink-soft uppercase">
               Gemma 4 · open weights · Apache 2.0 · open source
             </p>
+            <Sfx className="self-end text-5xl sm:text-6xl" delay={0.4}>
+              டமால்!
+            </Sfx>
           </div>
+        </Panel>
+        <Panel points="2.5,0 100,0 100,100 0,100" className="bg-paper-hi" delay={0.15}>
+          <HeroDemo page={episode.pages[1]} width={episode.width} height={episode.height} />
         </Panel>
       </section>
 

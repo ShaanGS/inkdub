@@ -6,6 +6,7 @@
   --ink: #141210;
   --ink-soft: #4a4640;
   --accent: #e4321b; /* hanko-seal red */
+  --sun: #ffc21a; /* banner-paint marigold */
   --night: #171513; /* the reading room */
 }
 
@@ -15,11 +16,13 @@
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-accent: var(--accent);
+  --color-sun: var(--sun);
   --color-night: var(--night);
   --font-sans: var(--font-shantell), system-ui, sans-serif;
   --font-letter: var(--font-shantell), system-ui, sans-serif;
   --font-display: var(--font-dela), var(--font-shantell), sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-poster: var(--font-anton), var(--font-dela), sans-serif;
   --font-bubble: var(--font-anek), var(--font-noto-tamil), system-ui, sans-serif;
   --font-tamil-display: var(--font-baloo-thambi), var(--font-noto-tamil), system-ui, sans-serif;
   --font-tamil: var(--font-noto-tamil), var(--font-baloo-thambi), system-ui, sans-serif;

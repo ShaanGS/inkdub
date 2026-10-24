@@ -1,42 +1,39 @@
-import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Bubble, Logo } from "@/components/Comic";
-import { CARD_LINE } from "@/lib/showcase";
-import rooftop from "@/public/art/rooftop-reader.jpg";
+import { BannerLine } from "@/components/Comic";
+import banner from "@/public/art/kollywood-banner.jpg";
 
 export const metadata: Metadata = { title: "Inkdub share card", robots: { index: false } };
 
 /**
  * The social share card, laid out at exactly 1200×630. `pnpm shoot` screenshots it into
- * app/opengraph-image.png, so the card uses the real fonts and real Gemma output.
+ * app/opengraph-image.png: the hero banner with its bubbles lettered, under a movie-poster title.
  */
 export default function Card() {
   return (
-    <div className="paper relative h-[630px] w-[1200px] overflow-hidden">
-      <div className="focus-lines absolute inset-0 opacity-[0.12]" style={{ "--fx": "26%", "--fy": "52%" } as CSSProperties} />
-
-      <div className="absolute top-[38px] right-[40px] bottom-[38px] w-[600px] rotate-[1.5deg] border-[4px] border-ink bg-paper-hi shadow-[10px_10px_0_var(--ink)]">
-        <Image src={rooftop} alt="" fill priority sizes="600px" className="object-cover object-[40%_50%]" />
-        <Bubble className="absolute top-[34px] left-[190px] w-[230px]" rotate={-5}>
-          <span className="font-tamil-display text-[44px] leading-none font-extrabold">{CARD_LINE}</span>
-        </Bubble>
+    <div className="relative h-[630px] w-[1200px] overflow-hidden bg-ink">
+      <div className="@container absolute inset-x-0 top-[-14px] aspect-[16/9]">
+        <Image src={banner} alt="" fill priority sizes="1200px" className="object-cover" />
+        <BannerLine at={[10.6, 10.6, 23, 22.6]} size={2.25} className="font-letter font-extrabold uppercase">
+          Anime gets dubs!
+        </BannerLine>
+        <BannerLine at={[19.2, 30.8, 25.4, 36.4]} size={1.05} className="font-letter font-extrabold uppercase">
+          …manga?
+        </BannerLine>
+        <BannerLine at={[77.2, 10.4, 89.6, 23.2]} size={1.62} className="font-tamil-display font-extrabold">
+          இனி மங்காவுக்கும் டப்பிங்!
+        </BannerLine>
+        <BannerLine at={[80.8, 30.2, 85.8, 35.2]} size={1.1} className="font-tamil-display font-extrabold">
+          செம்ம!
+        </BannerLine>
       </div>
-
-      <div className="relative flex h-full w-[560px] flex-col justify-center gap-7 pl-14">
-        <Logo />
-        <div>
-          <Bubble className="w-[500px]">
-            <p className="font-letter text-[50px] leading-[0.95] font-extrabold tracking-tight uppercase">Anime gets dubs.</p>
-          </Bubble>
-          <Bubble burst fill="var(--accent)" className="-mt-4 ml-14 w-[440px]" rotate={-4}>
-            <p className="font-letter text-[40px] leading-[0.95] font-extrabold tracking-tight text-paper-hi uppercase">
-              Manga never did!
-            </p>
-          </Bubble>
-        </div>
-        <p className="font-mono text-[15px] font-semibold tracking-[0.08em] uppercase">
-          Tamil · Tanglish · Madras Bashai · Gemma 4
+      <div className="absolute inset-x-0 bottom-0 h-[230px] bg-gradient-to-t from-ink via-ink/75 to-transparent" />
+      <div className="absolute inset-x-0 bottom-7 text-center">
+        <p className="font-display text-[120px] leading-[0.9] tracking-tight text-sun [-webkit-text-stroke:4px_var(--ink)] [paint-order:stroke_fill] [text-shadow:7px_7px_0_var(--accent)]">
+          INKDUB
+        </p>
+        <p className="mt-2 font-poster text-[28px] tracking-[0.16em] text-paper-hi uppercase">
+          Anime × Tamil · Now dubbing · Gemma 4
         </p>
       </div>
     </div>

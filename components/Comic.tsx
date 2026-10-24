@@ -152,6 +152,37 @@ export function Sfx({ children, className = "", delay = 0 }: { children: ReactNo
   );
 }
 
+/**
+ * A line lettered into one of the hero banner's own painted bubbles. `at` is the bubble's box as
+ * percentages of the banner (left, top, right, bottom); text scales with the banner's width.
+ */
+export function BannerLine({
+  at: [left, top, right, bottom],
+  size,
+  delay = 0,
+  className = "",
+  children,
+}: {
+  at: [number, number, number, number];
+  size: number;
+  delay?: number;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <motion.div
+      className={`absolute grid place-items-center px-[2%] text-center leading-[1.05] ${className}`}
+      style={{ left: `${left}%`, top: `${top}%`, width: `${right - left}%`, height: `${bottom - top}%`, fontSize: `${size}cqw` }}
+      initial={{ opacity: 0, scale: 0.4 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ type: "spring", stiffness: 460, damping: 14, delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 /** A rectangular narration caption, the boxes manga uses for the narrator's voice. */
 export function Caption({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
