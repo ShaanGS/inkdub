@@ -1,63 +1,139 @@
-# Inkdub
+<p align="center">
+  <img src="docs/inkdub-demo.gif" width="640" alt="Inkdub re-lettering a Pepper&Carrot page from English into Tamil, Tanglish and Madras Bashai">
+</p>
 
-**Anime gets dubs. Manga never did.**
+<h1 align="center">Inkdub</h1>
 
-Inkdub letters comic and manga pages into Tamil, right inside the speech bubbles. Gemma 4 reads the page, finds every bubble, and localizes each line three ways: natural Tamil, casual Tanglish, and Chennai's Madras Bashai. Inkdub then traces each bubble's shape in the browser and sets the Tamil back into the art.
+<p align="center">
+  <b>Anime gets dubs. Manga never did.</b><br>
+  Read any comic in Tamil, Tanglish or Madras Bashai, lettered right inside the speech bubbles by Gemma 4.
+</p>
 
-Built in one day at Otaku.dev'26, the Hacktoberfest Hack Day in Chennai hosted by Commit Culture.
+<p align="center">
+  <a href="https://inkdub-app.vercel.app"><b>Try it live</b></a> ·
+  <a href="https://inkdub-app.vercel.app/read?page=4&view=madras">Read an episode in Madras Bashai</a> ·
+  <a href="https://inkdub-app.vercel.app/dub">Dub your own page</a>
+</p>
 
-- **Live demo:** https://inkdub-three.vercel.app
-- **Read a full episode in Tamil:** [/read](https://inkdub-three.vercel.app/read) (Pepper&Carrot episode 6, all 10 pages)
-- **Dub your own page live:** [/dub](https://inkdub-three.vercel.app/dub) (upload, drop or paste any page)
+<p align="center">
+  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-ff4d2e"></a>
+  <a href="https://ai.google.dev/gemma/docs/core"><img alt="Model: Gemma 4" src="https://img.shields.io/badge/model-Gemma%204%20(open%20weights)-0b0b0f"></a>
+  <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-0b0b0f">
+  <img alt="Built at Hacktoberfest 2026" src="https://img.shields.io/badge/built%20at-Hacktoberfest%202026-ff4d2e">
+</p>
+
+---
+
+Anime has Tamil dubs now. Manga, manhwa and comics still don't. Inkdub fixes that for any page you can screenshot:
+
+- **Gemma 4 reads the page.** One multimodal call finds every speech bubble, thought bubble and caption, reads it, and works out who is speaking and how.
+- **It localizes, not translates.** Every line comes back three ways: clean **Tamil**, casual **Tanglish**, and full **Madras Bashai**, with honorifics and jokes adapted for Tamil readers.
+- **Inkdub letters it back into the art.** The browser traces each bubble's real shape, paints over the original lettering with the bubble's own paper colour, and fits the Tamil inside.
+
+![Inkdub landing page](docs/landing.jpg)
+
+| Page 4 in Madras Bashai | Page 2 in Tamil |
+| --- | --- |
+| ![Pepper&Carrot page 4 lettered in Madras Bashai](docs/reader-madras.jpg) | ![Pepper&Carrot page 2 lettered in Tamil](docs/reader-tamil.jpg) |
+
+## What you can do
+
+- **Read a whole episode in Tamil.** All 10 pages of Pepper&Carrot episode 6 at [`/read`](https://inkdub-app.vercel.app/read), with a style switch (keys `1`–`4`), page turns (`←` `→`), and a tap on any bubble to see the original, the speaker and all three dubs.
+- **Peek at the original.** Hold `space` (or the button) to see the English underneath.
+- **Compare with human translators.** Press `C` to swap in the Pepper&Carrot community's own Tamil edition of the same page.
+- **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdub-app.vercel.app/dub). Gemma 4 letters it in about 15–40 seconds.
+- **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdub-app.vercel.app/read?page=7&view=madras) open on that page, in that style.
 
 ## How it works
 
-1. **One Gemma 4 call per page** ([`lib/gemma.ts`](lib/gemma.ts)). The page image goes to Gemma 4 through the Gemini API. It returns every bubble as JSON: a bounding box (`box_2d`, normalized 0–1000), the original text, the speaker, the tone, and the three localizations. The prompt asks for localization, not word-for-word translation, so honorifics and jokes land for Tamil readers.
-2. **Bubble tracing in the browser** ([`components/DubbedPage.tsx`](components/DubbedPage.tsx)). For each box, Inkdub samples the bubble's paper colour, flood-fills the interior outward from Gemma's box until it meets the outline, and paints a patch the exact shape of the bubble. If the fill escapes (an open bubble, or two bubbles joined by a connector) it falls back to a padded patch.
-3. **Lettering** ([`components/FitText.tsx`](components/FitText.tsx)). The Tamil is set in Baloo Thambi 2 and binary-searched to the largest size that fits. Shouts get a heavier weight and a pop-in.
+```mermaid
+flowchart LR
+  A[Comic page] -->|image| B["Gemma 4 (gemma-4-26b-a4b-it)<br/>via the Gemini API"]
+  B -->|"JSON per bubble: box, text, speaker, tone,<br/>tamil / tanglish / madras"| C[Bubble tracing<br/>in the browser]
+  C -->|paper-coloured patch + fitted Tamil| D[Lettered page]
+```
 
-The bundled episode was dubbed ahead of time and cached as JSON ([`public/comics/pepper-carrot/ep06/gemma`](public/comics/pepper-carrot/ep06/gemma)), so the reader is instant. `/dub` calls Gemma live for any page you bring.
+1. **One Gemma 4 call per page** ([`lib/gemma.ts`](lib/gemma.ts)). The page image and a localization prompt go to `gemma-4-26b-a4b-it` through the Gemini API with the official [`@google/genai`](https://www.npmjs.com/package/@google/genai) SDK. Gemma returns every bubble as JSON: a bounding box (`box_2d`, normalized 0–1000), the original text, the speaker, the tone, and the three localizations. Malformed JSON is repaired, every field is validated, transient 5xx errors are retried, and `gemma-4-31b-it` takes over if the 26B endpoint is down.
+2. **Bubble tracing** ([`components/DubbedPage.tsx`](components/DubbedPage.tsx)). From each box, the browser samples the bubble's paper colour, flood-fills the paper outward, and treats everything the paper encloses as original lettering. A closed bubble gets its whole interior repainted. A bubble cut open by the panel edge only gets the enclosed letters near Gemma's box, so the gutter and nearby art are never touched.
+3. **Lettering** ([`components/FitText.tsx`](components/FitText.tsx)). The Tamil is set in Baloo Thambi 2 and binary-searched to the largest size that fits. Shouts are heavier and pop in; switching styles ripples across the page with [Motion](https://motion.dev).
 
-## Model
+The bundled episode was dubbed once and cached as JSON in [`public/comics/pepper-carrot/ep06/gemma`](public/comics/pepper-carrot/ep06/gemma), so the reader is instant. `/dub` calls Gemma live through [`app/api/dub/route.ts`](app/api/dub/route.ts).
 
-- **Gemma 4 26B A4B instruction-tuned (`gemma-4-26b-a4b-it`)**, an open-weight mixture-of-experts model released under the [Apache 2.0 license](https://opensource.googleblog.com/2026/03/gemma-4-expanding-the-gemmaverse-with-apache-20.html). Model docs: [ai.google.dev/gemma](https://ai.google.dev/gemma/docs/core).
-- Called through the **Gemini API** with the official [`@google/genai`](https://www.npmjs.com/package/@google/genai) SDK. `gemma-4-31b-it` is the fallback when the 26B endpoint is busy.
-- Thinking is set to `MINIMAL`. In our tests that cut a full page from about 50 seconds to about 15, with no visible loss in quality.
+## The model
+
+- **Gemma 4 26B A4B, instruction-tuned (`gemma-4-26b-a4b-it`)**: an open-weight mixture-of-experts model from Google, released under the [Apache 2.0 license](https://opensource.googleblog.com/2026/03/gemma-4-expanding-the-gemmaverse-with-apache-20.html). Docs: [ai.google.dev/gemma](https://ai.google.dev/gemma/docs/core).
+- **Fallback:** `gemma-4-31b-it`, the dense 31B model, same license.
+- **Thinking set to `MINIMAL`.** In our tests that cut a full page from about 50 seconds to about 15, with no visible quality loss.
 
 ### What we measured while building
 
 | Test | Result |
 | --- | --- |
-| Bubble detection on a test page (26B) | 5/5 bubbles, text read exactly, mean box overlap (IoU) 0.89 |
-| Same test on 31B | 5/5 bubbles, mean IoU 0.70, about twice as slow |
-| Full page, find + read + localize, one call (26B, minimal thinking) | 15–40 s per page depending on bubble count |
-| Free-tier reliability | Intermittent HTTP 500s, so the API route retries and falls back to 31B |
+| Bubble detection on a test page, 26B | 5 of 5 bubbles, every word read exactly, sound effects correctly skipped, mean box overlap (IoU) 0.89 |
+| Same test, 31B | 5 of 5 bubbles, mean IoU 0.70, about twice as slow |
+| Find + read + localize a real page in one call (26B, minimal thinking) | 15–40 s per page, depending on how many bubbles it has |
+| Thinking on vs minimal (26B, same request) | 50 s and 1,862 thought tokens vs 11 s and none |
+| Free-tier reliability | Intermittent HTTP 500s under load, hence retries and the 31B fallback |
 
 ## Why open matters here
 
-- Comic translation is volunteer work. Pepper&Carrot is translated into 69 languages by its community, and its Tamil edition is 21% done. Inkdub drafts every bubble so a Tamil reader only has to review, not start from a blank page.
-- Gemma 4 is Apache 2.0, so fan translators can run the same model on their own machines with no per-page bill, and a community can fine-tune it for Tamil comics and share the result.
+- **Comic translation is volunteer work.** [Pepper&Carrot](https://www.peppercarrot.com) is translated into 69 languages by its community, and the Tamil edition is 21% done. Inkdub drafts every bubble so a Tamil reader only has to review, not start from a blank page.
+- **Open weights mean no gatekeeper.** Gemma 4 is Apache 2.0, so fan translators can run the same model on their own machines with no per-page bill, and a community can fine-tune it for Tamil comics and share the result.
+- **Inkdub is Apache-2.0 too.** Add your language, your slang, your favourite series.
 
 ## Run it locally
 
 ```bash
+git clone https://github.com/ShaanGS/inkdub && cd inkdub
 pnpm install
-echo "GEMINI_API_KEY=your-key" > .env.local   # a free key from https://aistudio.google.com/apikey
-pnpm dev
+cp .env.example .env.local   # then paste a free Gemini API key from https://aistudio.google.com/apikey
+pnpm dev                     # http://localhost:3000
 ```
 
-Open http://localhost:3000. To re-dub the bundled episode with the same pipeline the live route uses (pages that already have JSON are skipped):
+| Script | What it does |
+| --- | --- |
+| `pnpm dev` / `pnpm build` / `pnpm start` | Develop, build, serve |
+| `pnpm lint` | ESLint |
+| `pnpm dub:episode public/comics/pepper-carrot/ep06` | Dub an episode with the same pipeline as the live API and cache the JSON (skips pages already done) |
+| `pnpm shoot` | Rebuild the README screenshots and the social card from a running production server |
 
-```bash
-pnpm dub:episode public/comics/pepper-carrot/ep06
+## Project layout
+
+```
+app/
+  page.tsx            landing page
+  read/               episode reader (deep-linkable)
+  dub/                live dubbing for your own pages
+  api/dub/route.ts    the Gemma 4 endpoint
+  card/               the social card, screenshotted into opengraph-image.png
+components/
+  DubbedPage.tsx      bubble tracing, patches, lettering and animation
+  FitText.tsx         fit-to-bubble type setting
+  Reader.tsx, LiveDub.tsx, HeroDemo.tsx, StyleSwitch.tsx, BubbleCard.tsx, Ribbon.tsx
+lib/
+  gemma.ts            prompt, Gemini API call, retries, JSON validation
+  episode.ts          the bundled Pepper&Carrot episode and its cached dub
+scripts/
+  dub-episode.ts      batch-dub an episode
+  shoot.mjs           screenshots over the Chrome DevTools protocol
 ```
 
-## Key dependencies
+## Roadmap
 
-Next.js 16 (App Router), React 19, Tailwind CSS 4, [Motion](https://motion.dev) for animation, and `@google/genai` for the Gemini API.
+- More languages and slangs: Telugu, Malayalam, Hindi, Kongu Tamil, Madurai Tamil.
+- Right-to-left, vertical Japanese pages.
+- An offline mode that runs Gemma 4 E4B on the device, so private scans never leave the phone.
+- Send reviewed Tamil episodes upstream to Pepper&Carrot.
+
+## Contributing
+
+Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Credits and licenses
 
 - **Code:** Apache-2.0, see [LICENSE](LICENSE).
 - **Comic:** [Pepper&Carrot](https://www.peppercarrot.com) episode 6, "The Potion Contest", art and story by David Revoy, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The English pages are unmodified; Inkdub draws its lettering on top at display time. The pages in `public/comics/pepper-carrot/ep06/ta` are the Pepper&Carrot community's Tamil translation, kept for comparison.
 - **Model:** Gemma 4 by Google, Apache 2.0.
+- **Illustration:** the rooftop reader on the landing page and social card was made with [Magnific](https://www.magnific.ai) for this project.
+
+Built in one day at **Otaku.dev'26**, the Hacktoberfest Hack Day in Chennai hosted by Commit Culture.

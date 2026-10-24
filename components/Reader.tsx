@@ -7,16 +7,28 @@ import type { Episode } from "@/lib/episode";
 import type { View } from "@/lib/types";
 import { BubbleCard } from "./BubbleCard";
 import { DubbedPage } from "./DubbedPage";
-import { StyleSwitch, VIEWS } from "./StyleSwitch";
+import { VIEWS } from "@/lib/views";
+import { StyleSwitch } from "./StyleSwitch";
 
-export function Reader({ episode }: { episode: Episode }) {
-  const [index, setIndex] = useState(0);
+type ReaderProps = { episode: Episode; initialPage?: number; initialView?: View };
+
+export function Reader({ episode, initialPage = 0, initialView = "tamil" }: ReaderProps) {
+  const [index, setIndex] = useState(initialPage);
   const [direction, setDirection] = useState(1);
-  const [view, setView] = useState<View>("tamil");
+  const [view, setView] = useState<View>(initialView);
   const [peek, setPeek] = useState(false);
+  const [community, setCommunity] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
   const page = episode.pages[index];
   const last = episode.pages.length - 1;
+
+  // Keep the address bar shareable: /read?page=4&view=madras opens exactly this.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", String(index + 1));
+    url.searchParams.set("view", view);
+    window.history.replaceState(null, "", url);
+  }, [index, view]);
 
   const goTo = useCallback(
     (next: number) => {
@@ -36,6 +48,7 @@ export function Reader({ episode }: { episode: Episode }) {
         e.preventDefault();
         setPeek(true);
       } else if (e.key === "Escape") setSelected(null);
+      else if (e.key === "c") setCommunity((on) => !on);
       else if (/^[1-4]$/.test(e.key)) setView(VIEWS[Number(e.key) - 1].id);
     };
     const up = (e: KeyboardEvent) => e.key === " " && setPeek(false);
@@ -67,25 +80,40 @@ export function Reader({ episode }: { episode: Episode }) {
         <div className="relative w-full max-w-[min(94vw,calc((100dvh-150px)*1200/1660))]">
           <AnimatePresence mode="wait" custom={direction} initial={false}>
             <motion.div
-              key={page.id}
+              key={`${page.id}-${community}`}
               custom={direction}
               initial={{ opacity: 0, x: 48 * direction, rotate: 0.8 * direction }}
               animate={{ opacity: 1, x: 0, rotate: 0 }}
               exit={{ opacity: 0, x: -48 * direction, rotate: -0.8 * direction }}
               transition={{ type: "spring", stiffness: 260, damping: 30 }}
-              className="overflow-hidden rounded-lg shadow-[0_40px_100px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/10"
+              className="relative overflow-hidden rounded-lg shadow-[0_40px_100px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/10"
             >
-              <DubbedPage
-                src={page.src}
-                alt={`${episode.series} episode ${episode.number}, page ${index + 1}`}
-                width={episode.width}
-                height={episode.height}
-                bubbles={page.bubbles}
-                view={shown}
-                playKey={page.id}
-                selected={selected}
-                onSelect={setSelected}
-              />
+              {community ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- the community page is shown as-is */}
+                  <img
+                    src={page.humanTamilSrc}
+                    alt={`Page ${index + 1} in the Pepper&Carrot community's Tamil translation`}
+                    className="block w-full"
+                    style={{ aspectRatio: `${episode.width} / ${episode.height}` }}
+                  />
+                  <span className="absolute top-3 left-3 rounded-full bg-ink/85 px-3 py-1 text-xs font-medium text-paper backdrop-blur">
+                    Human translation by the Pepper&amp;Carrot community
+                  </span>
+                </>
+              ) : (
+                <DubbedPage
+                  src={page.src}
+                  alt={`${episode.series} episode ${episode.number}, page ${index + 1}`}
+                  width={episode.width}
+                  height={episode.height}
+                  bubbles={page.bubbles}
+                  view={shown}
+                  playKey={page.id}
+                  selected={selected}
+                  onSelect={setSelected}
+                />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -112,15 +140,29 @@ export function Reader({ episode }: { episode: Episode }) {
             {index + 1} / {last + 1}
           </span>
         </div>
-        <button
-          type="button"
-          onPointerDown={() => setPeek(true)}
-          onPointerUp={() => setPeek(false)}
-          onPointerLeave={() => setPeek(false)}
-          className="rounded-full border border-white/10 px-3 py-1.5 text-paper/70 transition hover:border-white/25 active:bg-white/10"
-        >
-          Hold to peek at the original <kbd className="ml-1 hidden opacity-60 sm:inline">space</kbd>
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onPointerDown={() => setPeek(true)}
+            onPointerUp={() => setPeek(false)}
+            onPointerLeave={() => setPeek(false)}
+            className="rounded-full border border-white/10 px-3 py-1.5 text-paper/70 transition hover:border-white/25 active:bg-white/10"
+          >
+            Hold to peek at the original <kbd className="ml-1 hidden opacity-60 sm:inline">space</kbd>
+          </button>
+          <button
+            type="button"
+            aria-pressed={community}
+            onClick={() => setCommunity((on) => !on)}
+            className={`rounded-full border px-3 py-1.5 transition ${
+              community
+                ? "border-accent bg-accent/15 text-paper"
+                : "border-white/10 text-paper/70 hover:border-white/25"
+            }`}
+          >
+            Compare with the community&apos;s Tamil <kbd className="ml-1 hidden opacity-60 sm:inline">C</kbd>
+          </button>
+        </div>
         <p>
           Art &amp; story:{" "}
           <a href={episode.sourceUrl} className="underline decoration-white/20 underline-offset-2 hover:text-paper">

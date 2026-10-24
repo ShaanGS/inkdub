@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "dub:episode": "node --env-file=.env.local scripts/dub-episode.ts"
+    "dub:episode": "node --env-file=.env.local scripts/dub-episode.ts",
+    "shoot": "node scripts/shoot.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",
@@ -27,5 +28,8 @@
     "typescript": "^5"
   },
   "packageManager": "pnpm@11.5.3",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "description": "Read any comic in Tamil, Tanglish or Madras Bashai, lettered inside the speech bubbles by Gemma 4.",
+  "repository": "github:ShaanGS/inkdub",
+  "homepage": "https://inkdub-app.vercel.app"
 }

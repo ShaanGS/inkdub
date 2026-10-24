@@ -23,6 +23,31 @@ body {
   color: var(--paper);
 }
 
+/* Ribbons of dubbed lines: the track holds the list twice, so sliding it by half loops seamlessly. */
+@keyframes ribbon {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ribbon {
+  animation: ribbon 60s linear infinite;
+}
+
+.ribbon-reverse {
+  animation: ribbon 70s linear infinite reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon,
+  .ribbon-reverse {
+    animation: none;
+  }
+}
+
 /* Screentone dots, the texture of a printed manga page. */
 .halftone {
   background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1.3px);

@@ -2,13 +2,7 @@
 
 import { motion } from "motion/react";
 import type { View } from "@/lib/types";
-
-export const VIEWS: { id: View; label: string; hint: string }[] = [
-  { id: "original", label: "Original", hint: "English" },
-  { id: "tamil", label: "தமிழ்", hint: "Tamil" },
-  { id: "tanglish", label: "Tanglish", hint: "Casual" },
-  { id: "madras", label: "Madras", hint: "Bashai" },
-];
+import { VIEWS } from "@/lib/views";
 
 export function StyleSwitch({ value, onChange, id = "style" }: { value: View; onChange: (view: View) => void; id?: string }) {
   return (
@@ -27,7 +21,7 @@ export function StyleSwitch({ value, onChange, id = "style" }: { value: View; on
             aria-checked={active}
             title={`${view.hint} (${i + 1})`}
             onClick={() => onChange(view.id)}
-            className={`relative rounded-full px-3 py-1.5 text-sm font-semibold transition-colors sm:px-4 ${
+            className={`relative rounded-full px-2.5 py-1 text-xs font-semibold transition-colors sm:px-4 sm:py-1.5 sm:text-sm ${
               active ? "text-white" : "text-paper/60 hover:text-paper"
             }`}
           >
