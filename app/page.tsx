@@ -34,11 +34,11 @@ export default function Home() {
         <Link href="/" className="font-display text-2xl tracking-tight">
           Ink<span className="text-accent">dub</span>
         </Link>
-        <div className="flex items-center gap-1 text-sm sm:gap-2">
-          <Link href="/read" className="rounded-full px-3 py-1.5 text-paper/70 transition hover:text-paper">
+        <div className="flex items-center gap-1 text-sm whitespace-nowrap sm:gap-2">
+          <Link href="/read" className="hidden rounded-full px-3 py-1.5 text-paper/70 transition hover:text-paper sm:block">
             Read
           </Link>
-          <Link href="/dub" className="rounded-full px-3 py-1.5 text-paper/70 transition hover:text-paper">
+          <Link href="/dub" className="hidden rounded-full px-3 py-1.5 text-paper/70 transition hover:text-paper sm:block">
             Dub a page
           </Link>
           <a
