@@ -113,10 +113,11 @@ export function DubbedPage({ src, alt, width, height, bubbles, view, playKey, se
                   key={view}
                   className="absolute font-bubble"
                   style={{ inset: layout.round ? "13% 12%" : "5%", color: layout.ink, fontWeight: shout ? 800 : 600 }}
-                  initial={{ opacity: 0, y: 5, scale: shout ? 1.25 : 1, filter: "blur(5px)" }}
-                  animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -5, filter: "blur(5px)", transition: { duration: 0.14 } }}
-                  transition={{ duration: 0.32, delay: wait(i) + 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  // Lettering is wiped on left to right like a brush stroke; shouts land with a little punch.
+                  initial={{ clipPath: "inset(0% 100% 0% 0%)", scale: shout ? 1.18 : 1 }}
+                  animate={{ clipPath: "inset(0% 0% 0% 0%)", scale: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.12 } }}
+                  transition={{ duration: 0.42, delay: wait(i) + 0.1, ease: [0.65, 0, 0.35, 1] }}
                 >
                   <FitText text={bubble[view]} />
                 </motion.span>

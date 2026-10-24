@@ -4,36 +4,31 @@ import { motion } from "motion/react";
 import type { View } from "@/lib/types";
 import { VIEWS } from "@/lib/views";
 
-export function StyleSwitch({ value, onChange, id = "style" }: { value: View; onChange: (view: View) => void; id?: string }) {
+/** The dub styles as rubber-stamp tabs; the chosen one is inked red and knocked slightly askew. */
+export function StyleSwitch({ value, onChange }: { value: View; onChange: (view: View) => void }) {
   return (
-    <div
-      role="radiogroup"
-      aria-label="Dub style"
-      className="relative flex rounded-full border border-white/10 bg-white/[0.04] p-1 backdrop-blur"
-    >
+    <div role="radiogroup" aria-label="Dub style" className="flex flex-wrap gap-1.5">
       {VIEWS.map((view, i) => {
         const active = value === view.id;
         return (
-          <button
+          <motion.button
             key={view.id}
             type="button"
             role="radio"
             aria-checked={active}
             title={`${view.hint} (${i + 1})`}
             onClick={() => onChange(view.id)}
-            className={`relative rounded-full px-2.5 py-1 text-xs font-semibold transition-colors sm:px-4 sm:py-1.5 sm:text-sm ${
-              active ? "text-white" : "text-paper/60 hover:text-paper"
+            animate={{ rotate: active ? -3 : 0, y: active ? -2 : 0 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 520, damping: 18 }}
+            className={`border-2 border-ink px-2.5 py-1 font-mono text-[11px] font-semibold tracking-[0.1em] uppercase transition-colors sm:px-3 sm:text-xs ${
+              active ? "bg-accent text-paper-hi shadow-[3px_3px_0_var(--ink)]" : "bg-paper-hi text-ink hover:bg-paper"
             }`}
           >
-            {active && (
-              <motion.span
-                layoutId={`${id}-pill`}
-                className="absolute inset-0 rounded-full bg-accent shadow-[0_6px_24px_-6px_rgba(255,77,46,0.8)]"
-                transition={{ type: "spring", stiffness: 520, damping: 36 }}
-              />
-            )}
-            <span className={`relative ${view.id === "tamil" ? "font-tamil" : ""}`}>{view.label}</span>
-          </button>
+            <span className={view.id === "tamil" ? "font-tamil text-[13px] tracking-normal normal-case" : ""}>
+              {view.label}
+            </span>
+          </motion.button>
         );
       })}
     </div>

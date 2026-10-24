@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import { Baloo_Thambi_2, Dela_Gothic_One, Geist, Noto_Sans_Tamil } from "next/font/google";
+import { Baloo_Thambi_2, Dela_Gothic_One, IBM_Plex_Mono, Noto_Sans_Tamil, Shantell_Sans } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
+// Hand lettering for everything a character "says".
+const shantell = Shantell_Sans({ variable: "--font-shantell", subsets: ["latin"], weight: ["400", "500", "700", "800"] });
+// Chapter titles and the wordmark: a heavy Japanese poster gothic.
 const dela = Dela_Gothic_One({ variable: "--font-dela", weight: "400", subsets: ["latin"] });
+// Printed labels, captions and buttons.
+const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500", "600"] });
 // Rounded, bold Tamil that reads like hand lettering inside a speech bubble.
 const baloo = Baloo_Thambi_2({
   variable: "--font-baloo-thambi",
@@ -32,9 +36,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${dela.variable} ${baloo.variable} ${notoTamil.variable} h-full antialiased`}
+      className={`${shantell.variable} ${dela.variable} ${plexMono.variable} ${baloo.variable} ${notoTamil.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-ink font-sans text-paper">{children}</body>
+      <body className="paper min-h-full font-sans text-ink">{children}</body>
     </html>
   );
 }

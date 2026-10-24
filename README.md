@@ -44,6 +44,15 @@ Anime has Tamil dubs now. Manga, manhwa and comics still don't. Inkdub fixes tha
 - **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdub-app.vercel.app/dub). Gemma 4 letters it in about 15–40 seconds.
 - **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdub-app.vercel.app/read?page=7&view=madras) open on that page, in that style.
 
+## Design
+
+Inkdub is designed like a printed manga, not a software landing page: newsprint paper, true-black ink, one hanko-seal red, and copy that lives in real speech bubbles.
+
+- **Panels, not cards.** Sections are inked panels with slanted gutters, focus lines and screentone. Their borders ink themselves in as they scroll into view.
+- **Lettering you can watch.** Tamil wipes on left to right like a brush stroke, shouts land with a punch, and the style switch is a row of rubber stamps.
+- **A quiet reading room.** The reader drops the noise: a dark surround, pages that turn on their spine, a filmstrip of thumbnails.
+- **Type:** Shantell Sans for hand lettering, Dela Gothic One for chapter titles, IBM Plex Mono for printed labels, Baloo Thambi 2 and Noto Sans Tamil for Tamil.
+
 ## How it works
 
 ```mermaid
@@ -109,7 +118,9 @@ app/
 components/
   DubbedPage.tsx      bubble tracing, patches, lettering and animation
   FitText.tsx         fit-to-bubble type setting
-  Reader.tsx, LiveDub.tsx, HeroDemo.tsx, StyleSwitch.tsx, BubbleCard.tsx, Ribbon.tsx
+  Comic.tsx           the design kit: inked panels, speech bubbles, sound effects, captions, the seal logo
+  PanelCrop.tsx       one panel cut from a real page (the four-voices strip)
+  Reader.tsx, LiveDub.tsx, HeroDemo.tsx, StyleSwitch.tsx, BubbleCard.tsx
 lib/
   gemma.ts            prompt, Gemini API call, retries, JSON validation
   episode.ts          the bundled Pepper&Carrot episode and its cached dub

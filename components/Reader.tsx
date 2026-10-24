@@ -1,16 +1,23 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import type { Episode } from "@/lib/episode";
 import type { View } from "@/lib/types";
-import { BubbleCard } from "./BubbleCard";
-import { DubbedPage } from "./DubbedPage";
 import { VIEWS } from "@/lib/views";
+import { BubbleCard } from "./BubbleCard";
+import { Logo } from "./Comic";
+import { DubbedPage } from "./DubbedPage";
 import { StyleSwitch } from "./StyleSwitch";
 
 type ReaderProps = { episode: Episode; initialPage?: number; initialView?: View };
+
+// Pages turn on their spine: the old page swings away, the new one settles in from the other side.
+const turn = {
+  enter: (dir: number) => ({ opacity: 0, rotateY: 20 * dir, x: 28 * dir, transformOrigin: dir > 0 ? "100% 50%" : "0% 50%" }),
+  center: { opacity: 1, rotateY: 0, x: 0 },
+  exit: (dir: number) => ({ opacity: 0, rotateY: -70 * dir, x: -16 * dir, transformOrigin: dir > 0 ? "0% 50%" : "100% 50%" }),
+};
 
 export function Reader({ episode, initialPage = 0, initialView = "tamil" }: ReaderProps) {
   const [index, setIndex] = useState(initialPage);
@@ -64,29 +71,28 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
   const bubble = selected === null ? null : page.bubbles[selected];
 
   return (
-    <div className="flex min-h-dvh flex-col bg-ink text-paper">
-      <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-white/[0.07] bg-ink/80 px-4 py-3 backdrop-blur-xl sm:px-6">
-        <Link href="/" className="font-display text-xl tracking-tight">
-          Ink<span className="text-accent">dub</span>
-        </Link>
-        <p className="hidden text-sm text-paper/55 lg:block">
-          {episode.series} · Episode {episode.number}: {episode.title}
+    <div className="flex min-h-dvh flex-col bg-night text-paper-hi">
+      <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-night/90 px-4 py-3 backdrop-blur sm:px-6">
+        <Logo light />
+        <p className="hidden font-mono text-[11px] font-semibold tracking-[0.14em] text-paper/60 uppercase lg:block">
+          {episode.series} · Ep. {episode.number} · {episode.title}
         </p>
         <StyleSwitch value={view} onChange={setView} />
       </header>
 
-      <main className="relative flex flex-1 items-center justify-center gap-3 px-3 py-5 sm:gap-6">
+      <main className="relative flex flex-1 items-center justify-center gap-4 px-3 py-6 sm:gap-8">
         <PageArrow label="Previous page" disabled={index === 0} onClick={() => goTo(index - 1)} flip />
-        <div className="relative w-full max-w-[min(94vw,calc((100dvh-150px)*1200/1660))]">
+        <div className="relative w-full max-w-[min(94vw,calc((100dvh-190px)*1200/1660))] [perspective:1800px]">
           <AnimatePresence mode="wait" custom={direction} initial={false}>
             <motion.div
               key={`${page.id}-${community}`}
               custom={direction}
-              initial={{ opacity: 0, x: 48 * direction, rotate: 0.8 * direction }}
-              animate={{ opacity: 1, x: 0, rotate: 0 }}
-              exit={{ opacity: 0, x: -48 * direction, rotate: -0.8 * direction }}
-              transition={{ type: "spring", stiffness: 260, damping: 30 }}
-              className="relative overflow-hidden rounded-lg shadow-[0_40px_100px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/10"
+              variants={turn}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ type: "spring", stiffness: 210, damping: 26 }}
+              className="relative bg-paper-hi shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-black/40"
             >
               {community ? (
                 <>
@@ -97,8 +103,8 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
                     className="block w-full"
                     style={{ aspectRatio: `${episode.width} / ${episode.height}` }}
                   />
-                  <span className="absolute top-3 left-3 rounded-full bg-ink/85 px-3 py-1 text-xs font-medium text-paper backdrop-blur">
-                    Human translation by the Pepper&amp;Carrot community
+                  <span className="absolute top-3 left-3 border-2 border-ink bg-paper-hi px-2 py-1 font-mono text-[11px] font-semibold tracking-[0.1em] text-ink uppercase">
+                    Human translation · Pepper&amp;Carrot community
                   </span>
                 </>
               ) : (
@@ -120,59 +126,63 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
         <PageArrow label="Next page" disabled={index === last} onClick={() => goTo(index + 1)} />
       </main>
 
-      <footer className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-white/[0.07] px-4 py-3 text-xs text-paper/45 sm:px-6">
-        <div className="flex items-center gap-1.5" aria-label="Pages">
-          {episode.pages.map((p, i) => (
+      <footer className="border-t border-white/10 px-4 py-4 sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <nav aria-label="Pages" className="flex max-w-full gap-2 overflow-x-auto pb-1">
+            {episode.pages.map((p, i) => (
+              <button
+                key={p.id}
+                type="button"
+                aria-label={`Page ${i + 1}`}
+                aria-current={i === index}
+                onClick={() => goTo(i)}
+                className={`relative w-9 shrink-0 transition-transform duration-200 hover:-translate-y-1 ${
+                  i === index ? "-translate-y-1.5" : "opacity-55 hover:opacity-100"
+                }`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element -- tiny page thumbnails */}
+                <img src={p.src} alt="" className="block w-full" style={{ aspectRatio: `${episode.width} / ${episode.height}` }} />
+                {i === index && <motion.span layoutId="thumb" className="absolute -inset-1 border-2 border-accent" />}
+              </button>
+            ))}
+            <span className="self-center pl-2 font-mono text-xs text-paper/60 tabular-nums">
+              {index + 1}/{last + 1}
+            </span>
+          </nav>
+          <div className="flex flex-wrap gap-2 font-mono text-[11px] font-semibold tracking-[0.1em] uppercase">
             <button
-              key={p.id}
               type="button"
-              aria-label={`Page ${i + 1}`}
-              aria-current={i === index}
-              onClick={() => goTo(i)}
-              className="relative h-1.5 w-5 overflow-hidden rounded-full bg-white/10 transition hover:bg-white/25"
+              onPointerDown={() => setPeek(true)}
+              onPointerUp={() => setPeek(false)}
+              onPointerLeave={() => setPeek(false)}
+              className="border-2 border-paper/40 px-3 py-1.5 text-paper/80 transition hover:border-paper hover:text-paper-hi active:bg-paper active:text-ink"
             >
-              {i === index && (
-                <motion.span layoutId="page-dot" className="absolute inset-0 rounded-full bg-accent" />
-              )}
+              Hold to peek at the English <kbd className="ml-1 hidden opacity-60 sm:inline">space</kbd>
             </button>
-          ))}
-          <span className="ml-2 tabular-nums">
-            {index + 1} / {last + 1}
-          </span>
+            <button
+              type="button"
+              aria-pressed={community}
+              onClick={() => setCommunity((on) => !on)}
+              className={`border-2 px-3 py-1.5 transition ${
+                community
+                  ? "border-accent bg-accent text-paper-hi"
+                  : "border-paper/40 text-paper/80 hover:border-paper hover:text-paper-hi"
+              }`}
+            >
+              Compare with the community&apos;s Tamil <kbd className="ml-1 hidden opacity-60 sm:inline">C</kbd>
+            </button>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onPointerDown={() => setPeek(true)}
-            onPointerUp={() => setPeek(false)}
-            onPointerLeave={() => setPeek(false)}
-            className="rounded-full border border-white/10 px-3 py-1.5 text-paper/70 transition hover:border-white/25 active:bg-white/10"
-          >
-            Hold to peek at the original <kbd className="ml-1 hidden opacity-60 sm:inline">space</kbd>
-          </button>
-          <button
-            type="button"
-            aria-pressed={community}
-            onClick={() => setCommunity((on) => !on)}
-            className={`rounded-full border px-3 py-1.5 transition ${
-              community
-                ? "border-accent bg-accent/15 text-paper"
-                : "border-white/10 text-paper/70 hover:border-white/25"
-            }`}
-          >
-            Compare with the community&apos;s Tamil <kbd className="ml-1 hidden opacity-60 sm:inline">C</kbd>
-          </button>
-        </div>
-        <p>
+        <p className="mt-3 font-mono text-[10px] tracking-[0.06em] text-paper/45">
           Art &amp; story:{" "}
-          <a href={episode.sourceUrl} className="underline decoration-white/20 underline-offset-2 hover:text-paper">
+          <a href={episode.sourceUrl} className="underline underline-offset-2 hover:text-paper-hi">
             {episode.author}
           </a>{" "}
           (
-          <a href={episode.licenseUrl} className="underline decoration-white/20 underline-offset-2 hover:text-paper">
+          <a href={episode.licenseUrl} className="underline underline-offset-2 hover:text-paper-hi">
             {episode.license}
           </a>
-          ) · Dub: Gemma 4
+          ) · Lettering: {episode.model}
         </p>
       </footer>
 
@@ -190,10 +200,11 @@ function PageArrow({ label, disabled, onClick, flip }: { label: string; disabled
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
+      whileHover={{ scale: 1.06, rotate: flip ? 3 : -3 }}
       whileTap={{ scale: 0.9 }}
-      className="hidden size-12 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-xl text-paper/70 transition hover:border-white/25 hover:text-paper disabled:pointer-events-none disabled:opacity-20 sm:grid"
+      className="hidden size-12 shrink-0 place-items-center border-2 border-paper-hi bg-paper-hi font-mono text-lg font-bold text-ink shadow-[4px_4px_0_var(--accent)] disabled:pointer-events-none disabled:opacity-20 sm:grid"
     >
-      <span className={flip ? "rotate-180" : ""}>→</span>
+      {flip ? "←" : "→"}
     </motion.button>
   );
 }

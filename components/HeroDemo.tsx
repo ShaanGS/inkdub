@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { Page } from "@/lib/episode";
 import type { View } from "@/lib/types";
@@ -34,28 +33,29 @@ export function HeroDemo({ page, width, height }: { page: Page; width: number; h
   const shown = auto && pinned ? pinned : view;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30, rotate: 2 }}
-      animate={{ opacity: 1, y: 0, rotate: 1.2 }}
-      transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.15 }}
-      className="relative"
-    >
-      <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent/20 blur-3xl" />
-      <div className="overflow-hidden rounded-xl shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
-        <DubbedPage
-          src={page.src}
-          alt="Pepper&Carrot page lettered in Tamil by Inkdub"
-          width={width}
-          height={height}
-          bubbles={page.bubbles}
-          view={shown}
-          playKey="hero"
-          delay={0.6}
-        />
+    <div className="flex h-full flex-col">
+      <div
+        className="flex flex-wrap items-center justify-between gap-2 border-b-[3px] border-ink bg-paper-hi py-2.5 pr-3 pl-[6%]"
+        onPointerDown={() => setAuto(false)}
+      >
+        <span className="font-mono text-[10px] font-semibold tracking-[0.14em] text-ink-soft uppercase">
+          Live · Pepper&amp;Carrot ep.6 p.2
+        </span>
+        <StyleSwitch value={shown} onChange={setView} />
       </div>
-      <div className="absolute -bottom-5 left-1/2 -translate-x-1/2" onPointerDown={() => setAuto(false)}>
-        <StyleSwitch id="hero" value={shown} onChange={setView} />
-      </div>
-    </motion.div>
+      <DubbedPage
+        src={page.src}
+        alt="A Pepper&Carrot page lettered in Tamil by Inkdub"
+        width={width}
+        height={height}
+        bubbles={page.bubbles}
+        view={shown}
+        playKey="hero"
+        delay={0.9}
+      />
+      <p className="mt-auto border-t-[3px] border-ink px-4 py-3 font-mono text-[11px] leading-relaxed tracking-[0.06em] text-ink-soft uppercase">
+        ↑ Tap a stamp to re-letter this page. Every line here came straight from Gemma 4.
+      </p>
+    </div>
   );
 }

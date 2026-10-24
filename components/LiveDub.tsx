@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { DubResult, View } from "@/lib/types";
+import { Caption, Tag } from "./Comic";
 import { DubbedPage } from "./DubbedPage";
 import { StyleSwitch } from "./StyleSwitch";
 
@@ -54,46 +55,56 @@ export function LiveDub() {
   const page = state.phase === "idle" ? null : state.page;
 
   return (
-    <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 pt-4 pb-16 lg:grid-cols-[1fr_minmax(0,560px)]">
-      <div className="lg:pt-10">
-        <h1 className="font-display text-4xl leading-tight sm:text-5xl">
-          Dub any page, <span className="text-accent">live.</span>
+    <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 pt-2 pb-16 lg:grid-cols-[1fr_minmax(0,540px)]">
+      <div className="lg:pt-8">
+        <Tag>Live · Gemma 4</Tag>
+        <h1 className="mt-5 font-display text-5xl leading-[0.95] sm:text-6xl">
+          Dub any page,
+          <br />
+          <span className="text-accent">live.</span>
         </h1>
-        <p className="mt-4 max-w-md text-paper/65">
-          Drop in a comic or manga page. Gemma 4 finds every bubble, localizes it, and Inkdub letters the Tamil back
-          into the art, usually in under twenty seconds.
+        <p className="mt-6 max-w-md font-letter text-lg leading-snug">
+          Drop in a comic or manga page. Gemma 4 finds every bubble and localizes it, and Inkdub letters the Tamil back
+          into the art. Usually in under twenty seconds.
         </p>
-        <div className="mt-8">
-          <p className="mb-3 text-xs font-semibold tracking-wider text-paper/40 uppercase">Or try a real page</p>
+        <div className="mt-9">
+          <p className="mb-3 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-soft uppercase">
+            Or try a real page
+          </p>
           <div className="flex gap-3">
-            {SAMPLES.map((src) => (
-              <button
+            {SAMPLES.map((src, i) => (
+              <motion.button
                 key={src}
                 type="button"
                 disabled={state.phase === "dubbing"}
                 onClick={() => dub(src)}
-                className="group relative h-28 w-20 overflow-hidden rounded-lg ring-1 ring-white/10 transition hover:-translate-y-1 hover:ring-accent disabled:opacity-40"
+                whileHover={{ y: -6, rotate: i % 2 ? 2 : -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-20 border-[2.5px] border-ink bg-paper-hi shadow-[4px_4px_0_var(--ink)] disabled:opacity-40"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element -- tiny local thumbnails */}
-                <img src={src} alt="Sample comic page" className="h-full w-full object-cover" />
-              </button>
+                <img src={src} alt="Sample comic page" className="block aspect-[1200/1660] w-full object-cover" />
+              </motion.button>
             ))}
           </div>
         </div>
         <AnimatePresence>
           {state.phase === "done" && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-10 space-y-4">
-              <StyleSwitch id="live" value={view} onChange={setView} />
-              <p className="text-sm text-paper/50">
+              <StyleSwitch value={view} onChange={setView} />
+              <p className="font-mono text-xs leading-relaxed text-ink-soft">
                 {state.result.bubbles.length} bubbles lettered by{" "}
-                <span className="text-paper/80">{state.result.model}</span> in {(state.result.ms / 1000).toFixed(1)}s
-                · tap a bubble to see the original
+                <span className="font-semibold text-ink">{state.result.model}</span> in{" "}
+                {(state.result.ms / 1000).toFixed(1)}s
               </p>
             </motion.div>
           )}
         </AnimatePresence>
-        <Link href="/read" className="mt-10 inline-block text-sm text-paper/50 underline-offset-4 hover:text-paper hover:underline">
-          ← Read the full Pepper&amp;Carrot episode in Tamil
+        <Link
+          href="/read"
+          className="mt-10 inline-block font-mono text-xs font-semibold tracking-[0.1em] uppercase underline-offset-4 hover:underline"
+        >
+          ← Read the full episode in Tamil
         </Link>
       </div>
 
@@ -123,16 +134,26 @@ export function LiveDub() {
               key="drop"
               type="button"
               onClick={() => inputRef.current?.click()}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, scale: dragging ? 1.02 : 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className={`halftone grid aspect-[1200/1660] w-full place-items-center rounded-2xl border-2 border-dashed transition-colors ${
-                dragging ? "border-accent bg-accent/10" : "border-white/15 bg-white/[0.02] hover:border-white/30"
-              }`}
+              initial={{ opacity: 0, rotate: 1 }}
+              animate={{ opacity: 1, rotate: dragging ? -1.5 : 0, scale: dragging ? 1.02 : 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              className={`relative grid aspect-[1200/1660] w-full grid-rows-[1.2fr_1fr] gap-3 border-[3px] p-4 transition-colors ${
+                dragging ? "border-accent bg-accent/10" : "border-ink bg-paper-hi"
+              } shadow-[8px_8px_0_var(--ink)]`}
             >
-              <span className="text-center">
-                <span className="block font-display text-2xl">Drop a page here</span>
-                <span className="mt-2 block text-sm text-paper/50">or click to upload · or paste with ⌘V</span>
+              {/* A blank page with panel guides, waiting for art. */}
+              <span className="border-2 border-dashed border-ink/30" />
+              <span className="grid grid-cols-[1fr_1.3fr] gap-3">
+                <span className="border-2 border-dashed border-ink/30" />
+                <span className="border-2 border-dashed border-ink/30" />
+              </span>
+              <span className="absolute inset-0 grid place-items-center text-center">
+                <span>
+                  <span className="block font-letter text-4xl font-extrabold uppercase">Drop a page</span>
+                  <span className="mt-2 block font-mono text-xs tracking-[0.1em] text-ink-soft uppercase">
+                    or click to upload · or paste ⌘V
+                  </span>
+                </span>
               </span>
             </motion.button>
           ) : (
@@ -140,7 +161,7 @@ export function LiveDub() {
               key={page.url}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              className="relative overflow-hidden rounded-xl shadow-[0_40px_100px_-30px_rgba(0,0,0,0.9)] ring-1 ring-white/10"
+              className="relative border-[3px] border-ink bg-paper-hi shadow-[8px_8px_0_var(--ink)]"
             >
               {state.phase === "done" ? (
                 <DubbedPage
@@ -153,22 +174,18 @@ export function LiveDub() {
                   playKey={page.url}
                 />
               ) : (
-                <div className="relative" style={{ aspectRatio: `${page.width} / ${page.height}` }}>
+                <div className="relative overflow-hidden" style={{ aspectRatio: `${page.width} / ${page.height}` }}>
                   {/* eslint-disable-next-line @next/next/no-img-element -- local preview of the upload */}
                   <img src={page.url} alt="Your page" className="absolute inset-0 h-full w-full" />
                   {state.phase === "dubbing" && <Scanner started={state.started} />}
                   {state.phase === "error" && (
-                    <div className="absolute inset-0 grid place-items-center bg-ink/70 p-6 text-center backdrop-blur-sm">
-                      <div>
-                        <p className="font-semibold">{state.message}</p>
-                        <button
-                          type="button"
-                          onClick={() => dub(page.url)}
-                          className="mt-4 rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white"
-                        >
+                    <div className="absolute inset-0 grid place-items-center bg-paper/80 p-6">
+                      <Caption className="max-w-xs text-center">
+                        <p className="font-letter font-bold">{state.message}</p>
+                        <button type="button" onClick={() => dub(page.url)} className="stamp stamp-ink mt-4">
                           Try again
                         </button>
-                      </div>
+                      </Caption>
                     </div>
                   )}
                 </div>
@@ -180,7 +197,7 @@ export function LiveDub() {
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="mt-4 text-sm text-paper/50 underline-offset-4 hover:text-paper hover:underline"
+            className="mt-6 font-mono text-xs font-semibold tracking-[0.1em] uppercase underline-offset-4 hover:underline"
           >
             Dub another page
           </button>
@@ -190,7 +207,7 @@ export function LiveDub() {
   );
 }
 
-/** While Gemma works: a scanning beam, the stage it is probably on, and an honest clock. */
+/** While Gemma works: a band of screentone sweeps the page, with the likely stage and an honest clock. */
 function Scanner({ started }: { started: number }) {
   const [now, setNow] = useState(started);
   useEffect(() => {
@@ -200,26 +217,22 @@ function Scanner({ started }: { started: number }) {
   const seconds = (now - started) / 1000;
   const stage = STAGES[Math.min(STAGES.length - 1, Math.floor(seconds / 4.5))];
   return (
-    <div className="absolute inset-0 overflow-hidden bg-ink/35">
+    <div className="absolute inset-0">
       <motion.div
-        className="absolute inset-x-0 h-28 bg-gradient-to-b from-transparent via-accent/45 to-transparent mix-blend-screen"
-        initial={{ top: "-15%" }}
-        animate={{ top: "105%" }}
-        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+        className="tone absolute inset-x-0 h-1/4 opacity-40 [mask-image:linear-gradient(to_bottom,transparent,black_40%,black_60%,transparent)]"
+        initial={{ top: "-25%" }}
+        animate={{ top: "100%" }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
       />
-      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-ink/90 to-transparent p-4 pt-12">
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={stage}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            className="text-sm font-semibold"
-          >
-            {stage}…
-          </motion.span>
-        </AnimatePresence>
-        <span className="text-sm text-paper/60 tabular-nums">Gemma 4 · {seconds.toFixed(1)}s</span>
+      <div className="absolute inset-x-3 bottom-3">
+        <Caption className="flex items-center justify-between gap-3 font-mono text-xs font-semibold tracking-[0.06em] uppercase">
+          <AnimatePresence mode="wait">
+            <motion.span key={stage} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}>
+              {stage}…
+            </motion.span>
+          </AnimatePresence>
+          <span className="text-ink-soft tabular-nums">Gemma 4 · {seconds.toFixed(1)}s</span>
+        </Caption>
       </div>
     </div>
   );
