@@ -1,0 +1,81 @@
+{
+ "model": "gemma-4-26b-a4b-it",
+ "page": "P07",
+ "bubbles": [
+  {
+   "box_2d": [
+    804,
+    42,
+    823,
+    155
+   ],
+   "text": "...huh, cool!",
+   "kind": "thought",
+   "speaker": "Pepper",
+   "tone": "calm",
+   "tamil": "...ஹ்ம், சூப்பர்!",
+   "tanglish": "...hm, super!",
+   "madras": "...ஹ்ம், செம!"
+  },
+  {
+   "box_2d": [
+    830,
+    71,
+    849,
+    234
+   ],
+   "text": "So it's my turn now?",
+   "kind": "thought",
+   "speaker": "Pepper",
+   "tone": "thinking",
+   "tamil": "அப்போ இப்போ என் முறை தானா?",
+   "tanglish": "Appo ippo en murai dhaana?",
+   "madras": "அப்போ இப்போ என் டைம் தானா?"
+  },
+  {
+   "box_2d": [
+    898,
+    68,
+    957,
+    236
+   ],
+   "text": "...my potion will at least be worth a few laughs because...",
+   "kind": "thought",
+   "speaker": "Pepper",
+   "tone": "thinking",
+   "tamil": "...என்னோட மருந்து குறைஞ்சது ஒரு ரெண்டு பேரை சிரிக்க வைக்கும், ஏன்னா...",
+   "tanglish": "...ennoda marundhu kuranjadhu oru rendu perai sirikka vaikkum, yenna...",
+   "madras": "...என்னோட அந்த மேஜிக் டானிக் குறைஞ்சது ஒரு ரெண்டு பேரை சிரிக்க வைக்கும், ஏன்னா..."
+  },
+  {
+   "box_2d": [
+    801,
+    799,
+    819,
+    913
+   ],
+   "text": "Run, idiot!",
+   "kind": "speech",
+   "speaker": "Man in hat",
+   "tone": "shout",
+   "tamil": "ஓடு, முட்டாளே!",
+   "tanglish": "Odu, muttaalae!",
+   "madras": "ஓடுடா லூசு பயலே!"
+  },
+  {
+   "box_2d": [
+    918,
+    767,
+    976,
+    944
+   ],
+   "text": "The competition is over!\n...save yourself!",
+   "kind": "speech",
+   "speaker": "Man in hat",
+   "tone": "shout",
+   "tamil": "போட்டி முடிஞ்சிருச்சு!\n...உன்ன உனக்கே காப்பாத்திக்கோ!",
+   "tanglish": "Potti mudinjiruchu!\n...Unna unakke kaappathikko!",
+   "madras": "போட்டி முடிஞ்சு போச்சு!\n...உன்ன உனக்கே பாத்துக்கோ!"
+  }
+ ]
+}

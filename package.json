@@ -1,14 +1,17 @@
 {
-  "name": "inkdub-tmp",
+  "name": "inkdub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "dub:episode": "node --env-file=.env.local scripts/dub-episode.ts"
   },
   "dependencies": {
+    "@google/genai": "^2.31.0",
+    "motion": "^14.6.0",
     "next": "16.4.2",
     "react": "19.3.0",
     "react-dom": "19.3.0"
@@ -23,5 +26,6 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@11.5.3"
+  "packageManager": "pnpm@11.5.3",
+  "license": "Apache-2.0"
 }

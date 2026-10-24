@@ -1,0 +1,66 @@
+{
+ "model": "gemma-4-26b-a4b-it",
+ "page": "P02",
+ "bubbles": [
+  {
+   "box_2d": [
+    498,
+    274,
+    575,
+    488
+   ],
+   "text": "Carrot!\nYou're so cute to have\nthought of bringing me to\nthe Contest!",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "excited",
+   "tamil": "கேரட்!\nஎன்னை இந்த போட்டிக்கு கூட்டிட்டு வரணும்னு நினைச்சது ரொம்ப கியூட்டா இருக்கு!",
+   "tanglish": "Carrot!\nEnnai indha potti-ku koottitu varanum-nu ninachadhu romba cute-ah irukku!",
+   "madras": "கேரட்!\nஎன்னை இந்த போட்டிக்கு கூட்டிட்டு வரணும்னு நெனச்சது செம க்யூட்டா இருக்குடா!"
+  },
+  {
+   "box_2d": [
+    700,
+    645,
+    732,
+    768
+   ],
+   "text": "Fan-tas-tic!",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "excited",
+   "tamil": "அற்புதம்!",
+   "tanglish": "Arpudham!",
+   "madras": "மிரட்டலா இருக்கு!"
+  },
+  {
+   "box_2d": [
+    758,
+    711,
+    831,
+    945
+   ],
+   "text": "You even thought of\nbringing a potion, my\nclothes, and my hat...",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "excited",
+   "tamil": "நீ ஒரு மருந்து, என் துணி, அப்புறம் என் தொப்பிய கூட எடுத்துட்டு வரணும்னு நினைச்சிருக்க!",
+   "tanglish": "Nee oru marundhu, en thuni, appuram en thoppiya kooda eduthutu varanum-nu ninachirukka!",
+   "madras": "மனுஷன் ஒரு மருந்து, என் டிரஸ், அப்புறம் என் தொப்பிய கூட எடுத்துட்டு வரணும்னு நெனச்சுட்டான் பாரு..."
+  },
+  {
+   "box_2d": [
+    872,
+    731,
+    923,
+    945
+   ],
+   "text": "...let's see which\npotion you brought...",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "excited",
+   "tamil": "...நீ என்ன மருந்து கொண்டு வந்திருக்கன்னு பார்ப்போம்...",
+   "tanglish": "...Nee enna marundhu kondu vandhirukkannu paappom...",
+   "madras": "...என்ன மருந்து கொண்டு வந்திருக்கன்னு பாப்போம்..."
+  }
+ ]
+}

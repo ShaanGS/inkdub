@@ -1,0 +1,48 @@
+{
+ "model": "gemma-4-26b-a4b-it",
+ "page": "P10",
+ "bubbles": [
+  {
+   "box_2d": [
+    4,
+    31,
+    73,
+    968
+   ],
+   "text": "Pepper&Carrot is entirely free(libre), open-source and sponsored thanks to the kind patronage of readers. For this episode, thank you to the 245 Patrons:",
+   "kind": "narration",
+   "speaker": "narrator",
+   "tone": "calm",
+   "tamil": "Pepper&Carrot முற்றிலும் இலவசமானது, திறந்த மூலமானது மற்றும் வாசகர்களின் அன்பான ஆதரவினால் நிதியளிக்கப்படுகிறது. இந்த எபிசோடிற்கு, 245 ஆதரவாளர்களுக்கு நன்றி:",
+   "tanglish": "Pepper&Carrot muzhuvadhum free, open-source, readers oda support-la run aagudhu. Indha episode-ku, 245 patrons-ku thanks!"
+  },
+  {
+   "box_2d": [
+    700,
+    355,
+    743,
+    653
+   ],
+   "text": "You can also become a patron of Pepper&Carrot for the next episode:",
+   "kind": "narration",
+   "speaker": "narrator",
+   "tone": "calm",
+   "tamil": "அடுத்த எபிசோடிற்கும் நீங்கள் Pepper&Carrot-ன் ஆதரவாளராக முடியும்:",
+   "tanglish": "Adutha episode-kum neenga Pepper&Carrot-ku patron aagalam:"
+  },
+  {
+   "box_2d": [
+    838,
+    223,
+    882,
+    776
+   ],
+   "text": "Open-source: all source files with layers and fonts, are available on the official site\nTools: This episode was 100% drawn with Free/Libre software\nKrita on Linux Mint",
+   "kind": "narration",
+   "speaker": "narrator",
+   "tone": "calm",
+   "tamil": "திறந்த மூல மென்பொருள்: லேயர்கள் மற்றும் எழுத்துருக்களுடன் கூடிய அனைத்து மூலக் கோப்புகளும் அதிகாரப்பூர்வ தளத்தில் கிடைக்கின்றன\nகருவிகள்: இந்த எபிசோட் 100% இலவச மென்பொருளால் வரையப்பட்டது\nLinux Mint-ல் Krita",
+   "tanglish": "Open-source: layers matrum fonts ulla ella source files-um official site-la iruku\nTools: Indha episode 100% free software-la varainjadhhu\nLinux Mint-la Krita"
+  }
+ ]
+}

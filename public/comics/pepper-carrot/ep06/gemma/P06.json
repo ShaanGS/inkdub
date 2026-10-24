@@ -1,0 +1,156 @@
+{
+ "model": "gemma-4-26b-a4b-it",
+ "page": "P06",
+ "bubbles": [
+  {
+   "box_2d": [
+    5,
+    94,
+    85,
+    358
+   ],
+   "text": "That last demonstration would now seem difficult to beat for Shichimi!",
+   "kind": "narration",
+   "speaker": "Narrator",
+   "tone": "calm",
+   "tamil": "ஷிச்சிமியின் அந்த கடைசி செயல்முறை, இனி யாராலும் வெல்ல முடியாத ஒன்றாகத் தெரியும்!",
+   "tanglish": "Shichimi-oda andha kadaisi demonstration, ini yaaraalum vella mudiyadha onna theriyum!",
+   "madras": "அவன் பண்ண அந்த கடைசி மேட்டர், இனி யாராலயும் மிஞ்ச முடியாது போலயே!"
+  },
+  {
+   "box_2d": [
+    11,
+    405,
+    95,
+    574
+   ],
+   "text": "...come on Shichimi, everyone's waiting for you.",
+   "kind": "speech",
+   "speaker": "Crowd/Announcer",
+   "tone": "calm",
+   "tamil": "...சீக்கிரம் ஷிச்சிமி, எல்லாரும் உனக்காகக் காத்துக்கிட்டு இருக்காங்க.",
+   "tanglish": "...seekiram Shichimi, ellarum unakkaga kaathukittu irukkanga.",
+   "madras": "டேய் ஷிச்சிமி, சீக்கிரம் வாடா... எல்லாரும் வெயிட் பண்றாங்க!"
+  },
+  {
+   "box_2d": [
+    6,
+    704,
+    85,
+    945
+   ],
+   "text": "It seems, Ladies & Gentlemen, that Shichimi forfeits...",
+   "kind": "speech",
+   "speaker": "Announcer",
+   "tone": "calm",
+   "tamil": "பெரியோர்களே, தாய்மார்களே! ஷிச்சிமி போட்டியிலிருந்து விலகிவிடுகிறான் என்று தோன்றுகிறது...",
+   "tanglish": "Periyorgale, thaimaargale! Shichimi pottiyilirundhu vilagividugiraan endru thondrugiradhu...",
+   "madras": "அண்ணே, அண்ணே... ஷிச்சிமி மேட்ச்ல இருந்து டக்குனு விலகிட்டான் போலயே!"
+  },
+  {
+   "box_2d": [
+    218,
+    46,
+    297,
+    197
+   ],
+   "text": "I... I did not know we had to give a demonstration.",
+   "kind": "speech",
+   "speaker": "Shichimi",
+   "tone": "sad",
+   "tamil": "நான்... ஒரு செயல்முறை செய்யணும்னு எனக்குத் தெரியாது.",
+   "tanglish": "Naan... oru seyalmurai seiyanum-nu enakku theriyaadhu.",
+   "madras": "எனக்குத் தெரியலையேப்பா... டெமோமோனு எதைக் கேக்குறீங்கன்னு!"
+  },
+  {
+   "box_2d": [
+    222,
+    405,
+    327,
+    555
+   ],
+   "text": "NO! I cannot, it is too dangerous SORRY!",
+   "kind": "speech",
+   "speaker": "Shichimi",
+   "tone": "shout",
+   "tamil": "வேண்டாம்! என்னால் முடியாது, இது ரொம்ப ஆபத்தானது, மன்னித்துவிடுங்கள்!",
+   "tanglish": "Vendam! Ennaal mudiyadhu, idhu romba aabathaanadhu, mannithuvidungal!",
+   "madras": "வேணாம்ப்பா! இது ரொம்ப ரிஸ்க், சாரிங்க!"
+  },
+  {
+   "box_2d": [
+    394,
+    86,
+    442,
+    208
+   ],
+   "text": "Give me that!",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "excited",
+   "tamil": "அதை என்கிட்ட கொடு!",
+   "tanglish": "Adhai enkitta kodu!",
+   "madras": "அதை இங்க குடுடா!"
+  },
+  {
+   "box_2d": [
+    372,
+    285,
+    454,
+    512
+   ],
+   "text": "...and stop pretending to be shy, you're spoiling the show.",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "calm",
+   "tamil": "...அப்புறம், வெட்கப்படுற மாதிரி நடிக்காதே, நீ ஷோவை கெடுத்துட்டே இருக்க!",
+   "tanglish": "...appuram, vetkappadura maadhiri nadikkadhe, nee show-va keduthutte irukka!",
+   "madras": "ஏன்டா வெட்கப்படுற மாதிரி சீன் போடுற? ஷோவே சொதப்பிடுற!"
+  },
+  {
+   "box_2d": [
+    548,
+    291,
+    626,
+    503
+   ],
+   "text": "Everyone already knows that I've won the contest no matter what your potion does...",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "calm",
+   "tamil": "உன்னோட மருந்து என்ன பண்ணாலும், நான் தான் இந்த போட்டியில் ஜெயிச்சிருக்கேன்னு எல்லாருக்கும் ஏற்கனவே தெரியும்...",
+   "tanglish": "Unnoda marundhu enna pannaalum, naan dhaan indha pottiyil jeichirukken-nu ellarukkum erkenave theriyum...",
+   "madras": "உன் மருந்து என்ன பண்ணாலும், நான் தான் வின் பண்ணப்போறேன்னு எல்லாருக்கும் முன்னாடியே தெரியும்!"
+  },
+  {
+   "box_2d": [
+    370,
+    885,
+    404,
+    945
+   ],
+   "text": "!!!",
+   "kind": "speech",
+   "speaker": "Shichimi",
+   "tone": "excited",
+   "tamil": "!!!",
+   "tanglish": "!!!",
+   "madras": "!!! "
+  },
+  {
+   "box_2d": [
+    678,
+    766,
+    738,
+    925
+   ],
+   "text": "CAREFUL!!! It's a potion for GIANT MONSTERS!",
+   "kind": "speech",
+   "speaker": "Shichimi",
+   "tone": "shout",
+   "tamil": "கவனமா இரு!!! இது ராட்சத அரக்கர்களுக்கான மருந்து!",
+   "tanglish": "Gavanama iru!!! Idhu raatchadha arakkarghalukkaana marundhu!",
+   "madras": "பாத்துக்கோடா!!! இது பெரிய ராட்சதனுக்கான மருந்து!"
+  }
+ ]
+}

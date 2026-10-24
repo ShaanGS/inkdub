@@ -1,26 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0b0b0f;
+  --surface: #16161d;
+  --paper: #f5f0e6;
+  --accent: #ff4d2e;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-paper: var(--paper);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-display: var(--font-dela), var(--font-geist), sans-serif;
+  --font-bubble: var(--font-baloo-thambi), var(--font-noto-tamil), system-ui, sans-serif;
+  --font-tamil: var(--font-noto-tamil), var(--font-baloo-thambi), system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Screentone dots, the texture of a printed manga page. */
+.halftone {
+  background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1.3px);
+  background-size: 9px 9px;
 }

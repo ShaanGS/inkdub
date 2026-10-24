@@ -1,0 +1,66 @@
+{
+ "model": "gemma-4-26b-a4b-it",
+ "page": "P03",
+ "bubbles": [
+  {
+   "box_2d": [
+    185,
+    207,
+    314,
+    478
+   ],
+   "text": "WHAT?!!",
+   "kind": "speech",
+   "speaker": "Pepper",
+   "tone": "shout",
+   "tamil": "என்னது?!!",
+   "tanglish": "Ennadhu?!!",
+   "madras": "என்னதுடா?!!"
+  },
+  {
+   "box_2d": [
+    536,
+    151,
+    624,
+    378
+   ],
+   "text": "As Mayor of Komona, I declare the potion contest... Open!",
+   "kind": "speech",
+   "speaker": "Mayor",
+   "tone": "calm",
+   "tamil": "கொமோனாவின் மேயராக, நான் இந்த மருந்து தயாரிப்பு போட்டியைத் தொடங்கி வைக்கிறேன்!",
+   "tanglish": "Komona-vin mayor-ah, naan indha marundhu thayarippu potti-yai thodangi vaikkiren!",
+   "madras": "கொமோனா மேயர் நானு, இந்த போட்டியை இப்போவே ஆரம்பிக்கிறேன்!"
+  },
+  {
+   "box_2d": [
+    648,
+    95,
+    741,
+    378
+   ],
+   "text": "Our town is delighted to welcome no fewer than four witches for this first edition.",
+   "kind": "speech",
+   "speaker": "Mayor",
+   "tone": "calm",
+   "tamil": "இந்த முதல் பதிப்பில் நான்கு சூனியக்காரிகளை வரவேற்பதில் எங்கள் ஊர் மிகுந்த மகிழ்ச்சி அடைகிறது.",
+   "tanglish": "Indha mudhal padhippil naangu sooniyaakkari-galai varaverpadhil engal oor migundha magizhchi adaigiradhu.",
+   "madras": "இந்த முதல் தடவை நாலு சூனியக்காரிகளை வரவேற்கிறதுல நம்ம ஊரு செம குஷியா இருக்கு!"
+  },
+  {
+   "box_2d": [
+    763,
+    203,
+    828,
+    455
+   ],
+   "text": "Please give a huge round of applause:",
+   "kind": "speech",
+   "speaker": "Mayor",
+   "tone": "excited",
+   "tamil": "தயவுசெய்து பலத்த கைதட்டல்களுடன் வரவேற்கவும்:",
+   "tanglish": "Thayavu seidhu balatha kaithattalgaludan varaverkavum:",
+   "madras": "எல்லாரும் சத்தமா கைதட்டுங்கப்பா!"
+  }
+ ]
+}
