@@ -22,7 +22,7 @@ for (const file of pages) {
     continue;
   }
   const data = (await readFile(path.join(episode, "en", file))).toString("base64");
-  const { model, bubbles, ms } = await dubPage({ mimeType: "image/jpeg", data }, cast);
+  const { model, bubbles, ms } = await dubPage({ mimeType: "image/jpeg", data }, { apiKey: process.env.GEMINI_API_KEY ?? "", cast });
   await writeFile(target, JSON.stringify({ model, page, bubbles }, null, 1));
   console.log(`${page}: ${bubbles.length} bubbles in ${(ms / 1000).toFixed(1)}s`);
 }

@@ -4,10 +4,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { currentKey, forgetKey } from "@/lib/key";
 import { creditLabel } from "@/lib/share";
 import type { DubResult, View } from "@/lib/types";
 import { Caption, Tag } from "./Comic";
 import { DubbedPage } from "./DubbedPage";
+import { KeyCard } from "./KeyCard";
 import { SaveButton } from "./Share";
 import { StyleSwitch } from "./StyleSwitch";
 
@@ -15,12 +17,22 @@ type Upload = { url: string; width: number; height: number };
 type State =
   | { phase: "idle" }
   | { phase: "dubbing"; page: Upload; started: number }
-  | { phase: "done"; page: Upload; result: DubResult; cached: boolean }
+  | { phase: "needs-key"; page: Upload; note?: string }
+  // `cached` says why a sample shows the dub Gemma made of it earlier instead of a live one.
+  | { phase: "done"; page: Upload; result: DubResult; cached?: "no-key" | "busy" }
   | { phase: "error"; page: Upload; message: string };
 
 const SAMPLES = ["P03", "P07", "P09"].map((id) => `/comics/pepper-carrot/ep06/en/${id}.jpg`);
 const STAGES = ["Reading the page", "Finding every bubble", "Localizing into Tamil", "Lettering it back in"];
-const MAX_SIDE = 1600; // keeps uploads well under the 4.5 MB request limit while staying readable to Gemma
+const MAX_SIDE = 1600; // keeps the request small while staying readable to Gemma
+
+/** The dub Gemma made of a sample page earlier, shipped with the site. */
+async function cachedDub(sample: string): Promise<DubResult | null> {
+  return fetch(sample.replace("/en/", "/gemma/").replace(".jpg", ".json"))
+    .then((r) => r.json() as Promise<{ model: string; bubbles: DubResult["bubbles"] }>)
+    .then((cached) => ({ ...cached, ms: 0 }))
+    .catch(() => null);
+}
 
 export function LiveDub() {
   const [state, setState] = useState<State>({ phase: "idle" });
@@ -29,37 +41,44 @@ export function LiveDub() {
   const inputRef = useRef<HTMLInputElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const keyRef = useRef<HTMLInputElement>(null);
 
   const dub = useCallback(async (source: Blob | string) => {
-    const sample = typeof source === "string" ? SAMPLES.indexOf(source) : -1;
+    const sample = typeof source === "string" && SAMPLES.includes(source) ? source : null;
     const page = await toJpeg(source);
-    setState({ phase: "dubbing", page, started: Date.now() });
     setView("tamil");
-    // On a phone the page sits below the intro; bring it up so the scan is actually seen.
+    // On a phone the page sits below the intro; bring it up so the result is actually seen.
     if (window.innerWidth < 1024) stageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    track("dub_started", { source: sample >= 0 ? "sample" : "upload" });
+
+    const apiKey = currentKey();
+    if (!apiKey) {
+      // No key: samples show the dub Gemma made of them earlier; your own pages wait for a key.
+      const cached = sample && (await cachedDub(sample));
+      if (cached) return setState({ phase: "done", page, result: cached, cached: "no-key" });
+      setState({ phase: "needs-key", page });
+      keyRef.current?.focus({ preventScroll: true });
+      return;
+    }
+
+    setState({ phase: "dubbing", page, started: Date.now() });
+    track("dub_started", { source: sample ? "sample" : "upload" });
+    const { dubPage, explain, isKeyError } = await import("@/lib/gemma");
     try {
-      const response = await fetch("/api/dub", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: page.url }),
-      });
-      const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.error ?? "Something went wrong. Try again in a moment.");
-      const result = body as DubResult;
-      setState({ phase: "done", page, result, cached: false });
+      const [, mimeType, data] = /^data:([^;]+);base64,(.*)$/.exec(page.url) ?? [];
+      const result = await dubPage({ mimeType, data }, { apiKey });
+      setState({ phase: "done", page, result });
       track("dub_done", { bubbles: result.bubbles.length, seconds: Math.round(result.ms / 1000) });
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      track("dub_failed", { source: sample >= 0 ? "sample" : "upload" });
-      // When Gemma is swamped, the sample pages fall back to the dub Gemma made of them earlier.
-      if (sample >= 0) {
-        const cached = await fetch(SAMPLES[sample].replace("/en/", "/gemma/").replace(".jpg", ".json"))
-          .then((r) => r.json() as Promise<{ model: string; bubbles: DubResult["bubbles"] }>)
-          .catch(() => null);
-        if (cached) return setState({ phase: "done", page, result: { ...cached, ms: 0 }, cached: true });
+      console.error(error);
+      track("dub_failed", { source: sample ? "sample" : "upload" });
+      if (isKeyError(error)) {
+        forgetKey();
+        return setState({ phase: "needs-key", page, note: explain(error) });
       }
-      setState({ phase: "error", page, message });
+      // When Gemma is swamped, the sample pages fall back to the dub it made of them earlier.
+      const cached = sample && (await cachedDub(sample));
+      if (cached) return setState({ phase: "done", page, result: cached, cached: "busy" });
+      setState({ phase: "error", page, message: explain(error) });
     }
   }, []);
 
@@ -87,6 +106,14 @@ export function LiveDub() {
           Drop in a comic or manga page. Gemma 4 finds every bubble and localizes it, and Inkdub letters the Tamil back
           into the art. Usually in fifteen to forty seconds.
         </p>
+        <div className="mt-7">
+          <KeyCard
+            inputRef={keyRef}
+            note={state.phase === "needs-key" ? (state.note ?? "Add a key to dub your page") : undefined}
+            // A page dropped before there was a key gets dubbed the moment one is saved.
+            onSaved={() => state.phase === "needs-key" && dub(state.page.url)}
+          />
+        </div>
         <div className="mt-9">
           <p className="mb-3 font-mono text-[11px] font-semibold tracking-[0.14em] text-ink-soft uppercase">
             Or try a real page
@@ -115,9 +142,11 @@ export function LiveDub() {
               <p className="font-mono text-xs leading-relaxed text-ink-soft">
                 {state.result.bubbles.length} bubbles lettered by{" "}
                 <span className="font-semibold text-ink">{state.result.model}</span>{" "}
-                {state.cached
-                  ? "earlier. Gemma is swamped right now, so this is the dub it made of this page before."
-                  : `in ${(state.result.ms / 1000).toFixed(1)}s`}
+                {state.cached === "no-key"
+                  ? "earlier. Add your key to watch it dub a page live."
+                  : state.cached === "busy"
+                    ? "earlier. Gemma is swamped right now, so this is the dub it made of this page before."
+                    : `in ${(state.result.ms / 1000).toFixed(1)}s`}
               </p>
             </motion.div>
           )}
@@ -208,6 +237,25 @@ export function LiveDub() {
                   {/* eslint-disable-next-line @next/next/no-img-element -- local preview of the upload */}
                   <img src={page.url} alt="Your page" className="absolute inset-0 h-full w-full" />
                   {state.phase === "dubbing" && <Scanner started={state.started} />}
+                  {state.phase === "needs-key" && (
+                    <div className="absolute inset-0 grid place-items-center bg-paper/80 p-6">
+                      <Caption className="max-w-xs text-center">
+                        <p className="font-letter font-bold">
+                          {state.note ?? "Add your free Gemini key and this page dubs right away."}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            keyRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                            keyRef.current?.focus({ preventScroll: true });
+                          }}
+                          className="stamp stamp-ink mt-4"
+                        >
+                          Add my key
+                        </button>
+                      </Caption>
+                    </div>
+                  )}
                   {state.phase === "error" && (
                     <div className="absolute inset-0 grid place-items-center bg-paper/80 p-6">
                       <Caption className="max-w-xs text-center">
@@ -244,8 +292,8 @@ export function LiveDub() {
           </div>
         )}
         <p className="mt-6 max-w-md font-mono text-[10px] leading-relaxed tracking-[0.04em] text-ink-soft">
-          Your page goes to Google&apos;s Gemini API to be read and is not stored by Inkdub. Please only dub pages you
-          have the right to share.
+          Your page goes from this browser straight to Google&apos;s Gemini API, on your key. Inkdub never sees or
+          stores it. Please only dub pages you have the right to share.
         </p>
       </div>
     </div>

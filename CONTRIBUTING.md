@@ -6,7 +6,7 @@ Thanks for helping more people read comics in their own language.
 
 ```bash
 pnpm install
-cp .env.example .env.local   # add a free Gemini API key from https://aistudio.google.com/apikey
+cp .env.example .env.local   # only for pnpm dub:episode; /dub asks for your key in the browser
 pnpm dev
 ```
 

@@ -1,8 +1,9 @@
 import { ApiError, GoogleGenAI, ThinkingLevel } from "@google/genai";
 import type { Bubble, DubResult, Tone } from "./types";
 
-// Gemma 4 is an open-weight model (Apache 2.0). We call it through the Gemini API;
-// the same weights also run locally with Ollama, llama.cpp or MLX.
+// Gemma 4 is an open-weight model (Apache 2.0). We call it through the Gemini API with the reader's own
+// key, straight from their browser (scripts pass one from the environment); the same weights also run
+// locally with Ollama, llama.cpp or MLX.
 export const MODELS = ["gemma-4-26b-a4b-it", "gemma-4-31b-it"] as const;
 
 export const SYSTEM_PROMPT = `You are Inkdub, a manga letterer and localizer for Tamil readers in Chennai.
@@ -21,11 +22,14 @@ Skip sound effects drawn outside bubbles. For each one return:
 "madras": Chennai Madras Bashai slang in Tamil script, like "சாரிப்பா... ஒரு பிரியாணி அமுக்கிட்டு வந்தேன்" (never English letters).
 Return ONLY a JSON array.`;
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const RETRYABLE = new Set([429, 500, 502, 503, 504]);
 
 /** One Gemma 4 call per page: find every bubble, read it, and localize it three ways. */
-export async function dubPage(image: { mimeType: string; data: string }, cast?: string): Promise<DubResult> {
+export async function dubPage(
+  image: { mimeType: string; data: string },
+  { apiKey, cast }: { apiKey: string; cast?: string },
+): Promise<DubResult> {
+  const ai = new GoogleGenAI({ apiKey });
   const started = Date.now();
   let lastError: unknown;
   for (const model of MODELS) {
@@ -46,12 +50,36 @@ export async function dubPage(image: { mimeType: string; data: string }, cast?: 
       } catch (error) {
         lastError = error;
         // The free tier throws intermittent 500s under load; malformed JSON is worth a second roll too.
+        // A bad key fails the same way on every model, so stop at once.
+        if (error instanceof ApiError && badKey(error)) throw error;
         if (error instanceof ApiError && !RETRYABLE.has(error.status)) break;
         await new Promise((resolve) => setTimeout(resolve, 1500 * (attempt + 1)));
       }
     }
   }
   throw lastError;
+}
+
+/** A cheap call that tells a working key from a mistyped one before a whole page is sent. */
+export async function checkKey(apiKey: string) {
+  await new GoogleGenAI({ apiKey }).models.get({ model: MODELS[0] });
+}
+
+const badKey = (error: ApiError) =>
+  error.status === 401 || error.status === 403 || (error.status === 400 && /api key/i.test(error.message));
+
+/** True when the failure means the key itself is wrong, so the reader should be asked for another. */
+export const isKeyError = (error: unknown) => error instanceof ApiError && badKey(error);
+
+/** What to tell a reader when their call fails, in plain words. */
+export function explain(error: unknown) {
+  const status = error instanceof ApiError ? error.status : 0;
+  const message = error instanceof Error ? error.message : String(error);
+  if (isKeyError(error)) return "That Gemini key didn't work. Check it, or make a new one in Google AI Studio.";
+  if (status === 429) return "Your key's free quota is used up for the moment. Wait a minute and try again.";
+  if (status >= 500) return "Gemma is busy right now. Give it a few seconds and try again.";
+  if (/bubble list|JSON/i.test(message)) return "Gemma's answer came back garbled. Try the page again.";
+  return "Couldn't reach Gemma. Check your connection and try again.";
 }
 
 export function parseBubbles(text: string): Bubble[] {

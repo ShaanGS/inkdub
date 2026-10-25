@@ -16,7 +16,7 @@
   <a href="docs/inkdub-demo.mp4"><b>▶ Demo video</b></a>
 </p>
 
-> **Demo video** ([`docs/inkdub-demo.mp4`](docs/inkdub-demo.mp4), 90 s): the landing banner, one page re-lettered into Tamil, Tanglish and Madras Bashai, and a **live Gemma 4 dub** of a page on the production site, recorded in real time (the wait for Gemma is not sped up). Recorded with [`scripts/record-demo.mjs`](scripts/record-demo.mjs).
+> **Demo video** ([`docs/inkdub-demo.mp4`](docs/inkdub-demo.mp4), 90 s): the landing banner, one page re-lettered into Tamil, Tanglish and Madras Bashai, and a **live Gemma 4 dub** of a page, recorded in real time (the wait for Gemma is not sped up). Recorded with [`scripts/record-demo.mjs`](scripts/record-demo.mjs).
 
 <p align="center">
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-ff4d2e"></a>
@@ -44,7 +44,7 @@ Anime has Tamil dubs now. Manga, manhwa and comics still don't. Inkdub fixes tha
 - **Read a whole episode in Tamil.** All 10 pages of Pepper&Carrot episode 6 at [`/read`](https://inkdub-app.vercel.app/read), with a style switch (keys `1`–`4`), page turns (`←` `→`), and a tap on any bubble to see the original, the speaker and all three dubs.
 - **Peek at the original.** Hold `space` (or the button) to see the English underneath.
 - **Compare with human translators.** Press `C` to swap in the Pepper&Carrot community's own Tamil edition of the same page.
-- **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdub-app.vercel.app/dub). Gemma 4 letters it in about 15–40 seconds.
+- **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdub-app.vercel.app/dub) and paste your free Gemini API key. Gemma 4 letters it in about 15–40 seconds. The sample pages work without a key.
 - **Save and share a page.** One tap renders the lettered page as an image with an Inkdub credit strip and opens your phone's share sheet (WhatsApp, Instagram), or downloads it on a laptop.
 - **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdub-app.vercel.app/read?page=7&view=madras) open on that page, in that style. On a phone, swipe to turn pages.
 
@@ -70,9 +70,16 @@ flowchart LR
 2. **Bubble tracing** ([`components/DubbedPage.tsx`](components/DubbedPage.tsx)). From each box, the browser samples the bubble's paper colour, flood-fills the paper outward, and treats everything the paper encloses as original lettering. A closed bubble gets its whole interior repainted. A bubble cut open by the panel edge only gets the enclosed letters near Gemma's box, so the gutter and nearby art are never touched.
 3. **Lettering** ([`components/FitText.tsx`](components/FitText.tsx)). The Tamil is set in Baloo Thambi 2 and binary-searched to the largest size that fits. Shouts are heavier and pop in; switching styles ripples across the page with [Motion](https://motion.dev).
 
-**Under load.** `/api/dub` allows each visitor 8 pages per 10 minutes and turns Gemini quota errors into a plain "try again in a minute". If Gemma can't be reached, the three sample pages on `/dub` fall back to the dub Gemma made of them earlier, and say so.
+### Bring your own key
 
-The bundled episode was dubbed once and cached as JSON in [`public/comics/pepper-carrot/ep06/gemma`](public/comics/pepper-carrot/ep06/gemma), so the reader is instant. `/dub` calls Gemma live through [`app/api/dub/route.ts`](app/api/dub/route.ts).
+Inkdub has no backend and no AI bill. On `/dub`, each reader pastes their own [free Gemini API key](https://aistudio.google.com/apikey), and the browser calls Gemma 4 directly with the same [`lib/gemma.ts`](lib/gemma.ts) the batch script uses. So:
+
+- **The key stays with the reader.** It is checked with one cheap call, kept in that browser's `localStorage` ([`lib/key.ts`](lib/key.ts)), sent only to Google, and can be forgotten with one click.
+- **Pages never touch Inkdub's server.** They go from the browser straight to the Gemini API.
+- **It scales for free.** Every reader brings their own quota, so a traffic spike costs nothing and can't exhaust anyone else's.
+- **No key? Still a demo.** The three sample pages show the dub Gemma made of them earlier, labelled as such, and the whole bundled episode in the reader needs no key at all.
+
+The bundled episode was dubbed once and cached as JSON in [`public/comics/pepper-carrot/ep06/gemma`](public/comics/pepper-carrot/ep06/gemma), so the reader is instant.
 
 ## The model
 
@@ -101,15 +108,14 @@ The bundled episode was dubbed once and cached as JSON in [`public/comics/pepper
 ```bash
 git clone https://github.com/ShaanGS/inkdub && cd inkdub
 pnpm install
-cp .env.example .env.local   # then paste a free Gemini API key from https://aistudio.google.com/apikey
-pnpm dev                     # http://localhost:3000
+pnpm dev                     # http://localhost:3000, then paste your key on /dub
 ```
 
 | Script | What it does |
 | --- | --- |
 | `pnpm dev` / `pnpm build` / `pnpm start` | Develop, build, serve |
 | `pnpm lint` | ESLint |
-| `pnpm dub:episode public/comics/pepper-carrot/ep06` | Dub an episode with the same pipeline as the live API and cache the JSON (skips pages already done) |
+| `pnpm dub:episode public/comics/pepper-carrot/ep06` | Dub an episode with the same pipeline as `/dub` and cache the JSON (skips pages already done). Reads `GEMINI_API_KEY` from `.env.local` (copy `.env.example`) |
 | `pnpm shoot` | Rebuild the README screenshots and the social card from a running production server |
 
 ## Project layout
@@ -118,8 +124,7 @@ pnpm dev                     # http://localhost:3000
 app/
   page.tsx            landing page
   read/               episode reader (deep-linkable)
-  dub/                live dubbing for your own pages
-  api/dub/route.ts    the Gemma 4 endpoint
+  dub/                live dubbing for your own pages, on the reader's own key
   card/               the social card, screenshotted into opengraph-image.png
 components/
   DubbedPage.tsx      bubble tracing, patches, lettering and animation
@@ -127,9 +132,11 @@ components/
   Comic.tsx           the design kit: the logo, inked panels, speech bubbles, sound effects, captions
   Share.tsx           save/share buttons (lib/share.ts renders the page and its credit strip)
   PanelCrop.tsx       one panel cut from a real page (the four-voices strip)
+  KeyCard.tsx         bring-your-own-key: paste, check and forget a Gemini key
   Reader.tsx, LiveDub.tsx, HeroDemo.tsx, StyleSwitch.tsx, BubbleCard.tsx
 lib/
-  gemma.ts            prompt, Gemini API call, retries, JSON validation
+  gemma.ts            prompt, Gemini API call, retries, JSON validation (runs in the browser and in scripts)
+  key.ts              the reader's Gemini key, kept in their browser
   mark.ts             the logo mark as paths: an ink speech bubble whose tail is a drop of red ink, with இ
   episode.ts          the bundled Pepper&Carrot episode and its cached dub
 scripts/
