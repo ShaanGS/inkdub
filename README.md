@@ -159,4 +159,4 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Code:** Apache-2.0, see [LICENSE](LICENSE).
 - **Comic:** [Pepper&Carrot](https://www.peppercarrot.com) episode 6, "The Potion Contest", art and story by David Revoy, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The English pages are unmodified; Inkdub draws its lettering on top at display time. The pages in `public/comics/pepper-carrot/ep06/ta` are the Pepper&Carrot community's Tamil translation, kept for comparison.
 - **Model:** Gemma 4 by Google, Apache 2.0.
-- **Art:** the Kollywood banner, the rooftop reader and the hand-painted INKDUB title lettering (in `public/brand`, with the app icons cut from it) were made with [Magnific](https://www.magnific.ai) for this project.
+- **Art:** the Kollywood banner, the rooftop reader and the hand-painted INKDUB title lettering (in `public/brand`, with the app icons cut from it) were made for this project.

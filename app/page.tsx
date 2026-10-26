@@ -279,8 +279,7 @@ export default function Home() {
             <a href={episode.sourceUrl} className="underline underline-offset-2">
               {episode.author}
             </a>
-            , {episode.license} · Lettering: {episode.model} via the Gemini API · Illustration made
-            with Magnific
+            , {episode.license} · Lettering: {episode.model} via the Gemini API
           </p>
         </div>
       </footer>
