@@ -1,31 +1,28 @@
 "use client";
 
 import { motion, useInView } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef, type ReactNode } from "react";
-import { MARK_BUBBLE, MARK_DROP, MARK_DROP_AT, MARK_GLYPH, MARK_VIEWBOX } from "@/lib/mark";
+import wordmark from "@/public/brand/inkdub-wordmark.webp";
 import { FitText } from "./FitText";
 
-/** The mark: an ink speech bubble carrying இ, its tail a falling drop of red ink. `light` is for dark grounds. */
-export function Mark({ light = false, className = "" }: { light?: boolean; className?: string }) {
-  return (
-    <svg viewBox={MARK_VIEWBOX} className={`overflow-visible ${className}`} aria-hidden>
-      <ellipse {...MARK_BUBBLE} fill={light ? "var(--paper-hi)" : "var(--ink)"} />
-      {/* The drop sits in its own group so hover can let it fall without fighting its own transform. */}
-      <g className="transition-transform duration-500 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover:translate-x-[-1.5px] group-hover:translate-y-[4px]">
-        <path d={MARK_DROP} transform={MARK_DROP_AT} fill="var(--accent)" />
-      </g>
-      <path d={MARK_GLYPH} fill={light ? "var(--ink)" : "var(--paper-hi)"} />
-    </svg>
-  );
-}
-
-/** The logo: the mark beside INKDUB in poster gothic. */
+/**
+ * The logo: INKDUB as a hand-painted Kollywood film title (marigold face, ink outline, red extrude).
+ * On dark grounds (`light`) a thin paper halo keeps the ink outline from sinking into the night.
+ */
 export function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link href="/" className="group inline-flex items-center gap-2" aria-label="Inkdub home">
-      <Mark light={light} className="size-10 -rotate-6 transition-transform duration-300 group-hover:rotate-0" />
-      <span className={`font-display text-xl tracking-tight ${light ? "text-paper-hi" : "text-ink"}`}>INKDUB</span>
+    <Link href="/" className="group inline-flex items-center" aria-label="Inkdub home">
+      <Image
+        src={wordmark}
+        alt="Inkdub"
+        priority
+        sizes="120px"
+        className={`h-9 w-auto -rotate-2 transition-transform duration-300 group-hover:rotate-0 group-hover:scale-105 ${
+          light ? "drop-shadow-[0_0_1.5px_var(--paper-hi)]" : ""
+        }`}
+      />
     </Link>
   );
 }

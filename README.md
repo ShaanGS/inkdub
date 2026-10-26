@@ -2,7 +2,7 @@
   <img src="docs/inkdub-demo.gif" width="640" alt="Inkdub re-lettering a Pepper&Carrot page from English into Tamil, Tanglish and Madras Bashai">
 </p>
 
-<h1 align="center"><img src="app/icon.svg" width="56" alt=""><br>Inkdub</h1>
+<h1 align="center"><img src="public/brand/inkdub-wordmark.webp" width="360" alt="Inkdub"></h1>
 
 <p align="center">
   <b>Anime gets dubs. Manga never did.</b><br>
@@ -137,7 +137,6 @@ components/
 lib/
   gemma.ts            prompt, Gemini API call, retries, JSON validation (runs in the browser and in scripts)
   key.ts              the reader's Gemini key, kept in their browser
-  mark.ts             the logo mark as paths: an ink speech bubble whose tail is a drop of red ink, with இ
   episode.ts          the bundled Pepper&Carrot episode and its cached dub
 scripts/
   dub-episode.ts      batch-dub an episode
@@ -160,6 +159,6 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Code:** Apache-2.0, see [LICENSE](LICENSE).
 - **Comic:** [Pepper&Carrot](https://www.peppercarrot.com) episode 6, "The Potion Contest", art and story by David Revoy, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The English pages are unmodified; Inkdub draws its lettering on top at display time. The pages in `public/comics/pepper-carrot/ep06/ta` are the Pepper&Carrot community's Tamil translation, kept for comparison.
 - **Model:** Gemma 4 by Google, Apache 2.0.
-- **Art:** the Kollywood banner and the rooftop reader were made with [Magnific](https://www.magnific.ai) for this project.
+- **Art:** the Kollywood banner, the rooftop reader and the hand-painted INKDUB title lettering (in `public/brand`, with the app icons cut from it) were made with [Magnific](https://www.magnific.ai) for this project.
 
 Built in one day at **Otaku.dev'26**, the Hacktoberfest Hack Day in Chennai hosted by Commit Culture.

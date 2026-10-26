@@ -6,6 +6,7 @@ import { PanelCrop } from "@/components/PanelCrop";
 import { episode } from "@/lib/episode";
 import banner from "@/public/art/kollywood-banner.jpg";
 import rooftop from "@/public/art/rooftop-reader.jpg";
+import wordmark from "@/public/brand/inkdub-wordmark.webp";
 
 const REPO = "https://github.com/ShaanGS/inkdub";
 
@@ -59,8 +60,14 @@ export default function Home() {
           </div>
         </Panel>
         <div className="relative z-10 -mt-[3.2rem] text-center sm:-mt-[5.5rem]">
-          <h1 className="font-display text-[clamp(3.6rem,13vw,9.5rem)] leading-[0.9] tracking-tight text-sun [-webkit-text-stroke:4px_var(--ink)] [paint-order:stroke_fill] [text-shadow:7px_7px_0_var(--accent)]">
-            INKDUB
+          <h1>
+            <Image
+              src={wordmark}
+              alt="Inkdub"
+              priority
+              sizes="(min-width: 640px) 720px, 88vw"
+              className="mx-auto h-auto w-[min(88vw,720px)] -rotate-1"
+            />
           </h1>
           <p className="mt-3 font-poster text-2xl tracking-[0.16em] uppercase sm:text-4xl">Anime × Tamil · Now dubbing</p>
           <p className="mx-auto mt-4 max-w-3xl font-poster text-[12px] leading-snug tracking-[0.12em] text-ink-soft uppercase sm:text-[14px]">

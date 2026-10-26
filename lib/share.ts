@@ -2,7 +2,6 @@
 
 import { track } from "@vercel/analytics";
 import { domToCanvas } from "modern-screenshot";
-import { MARK_BUBBLE, MARK_DROP, MARK_GLYPH } from "./mark";
 import type { View } from "./types";
 
 export const SITE = "inkdub-app.vercel.app";
@@ -71,32 +70,17 @@ async function withCredit(page: HTMLCanvasElement, label: string): Promise<Blob>
   ctx.fillStyle = "#141210";
   ctx.fillRect(0, top, w, h);
 
-  // The mark, paper on ink, in its 100-unit box scaled to the strip.
-  const s = (h * 0.78) / 88;
-  ctx.save();
-  ctx.translate(pad - 11 * s, top + (h - 88 * s) / 2 - 7 * s);
-  ctx.scale(s, s);
-  ctx.fillStyle = "#fffcf4";
-  ctx.beginPath();
-  ctx.ellipse(MARK_BUBBLE.cx, MARK_BUBBLE.cy, MARK_BUBBLE.rx, MARK_BUBBLE.ry, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.save();
-  ctx.translate(24, 84);
-  ctx.rotate((32 * Math.PI) / 180);
-  ctx.fillStyle = "#e4321b";
-  ctx.fill(new Path2D(MARK_DROP));
-  ctx.restore();
-  ctx.fillStyle = "#141210";
-  ctx.fill(new Path2D(MARK_GLYPH));
-  ctx.restore();
+  // The painted wordmark, as on the site's header.
+  const logo = new Image();
+  logo.src = "/brand/inkdub-wordmark.webp";
+  await logo.decode();
+  const logoH = h * 0.68;
+  const logoW = (logo.naturalWidth / logo.naturalHeight) * logoH;
+  ctx.drawImage(logo, pad, top + (h - logoH) / 2, logoW, logoH);
 
   const mid = top + h / 2;
   ctx.textBaseline = "middle";
-  ctx.fillStyle = "#fffcf4";
-  ctx.font = `${Math.round(h * 0.4)}px ${family("font-display")}`;
-  const word = pad + h * 0.95;
-  ctx.fillText("INKDUB", word, mid);
-  const after = word + ctx.measureText("INKDUB").width + h * 0.35;
+  const after = pad + logoW + h * 0.35;
 
   const mono = family("font-mono");
   ctx.font = `600 ${Math.round(h * 0.2)}px ${mono}`;
