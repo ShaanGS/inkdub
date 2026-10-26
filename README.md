@@ -10,9 +10,9 @@
 </p>
 
 <p align="center">
-  <a href="https://inkdub-app.vercel.app"><b>Try it live</b></a> ·
-  <a href="https://inkdub-app.vercel.app/read?page=4&view=madras">Read an episode in Madras Bashai</a> ·
-  <a href="https://inkdub-app.vercel.app/dub">Dub your own page</a> ·
+  <a href="https://inkdubs.vercel.app"><b>Try it live</b></a> ·
+  <a href="https://inkdubs.vercel.app/read?page=4&view=madras">Read an episode in Madras Bashai</a> ·
+  <a href="https://inkdubs.vercel.app/dub">Dub your own page</a> ·
   <a href="docs/inkdub-demo.mp4"><b>▶ Demo video</b></a>
 </p>
 
@@ -41,12 +41,12 @@ Anime has Tamil dubs now. Manga, manhwa and comics still don't. Inkdub fixes tha
 
 ## What you can do
 
-- **Read a whole episode in Tamil.** All 10 pages of Pepper&Carrot episode 6 at [`/read`](https://inkdub-app.vercel.app/read), with a style switch (keys `1`–`4`), page turns (`←` `→`), and a tap on any bubble to see the original, the speaker and all three dubs.
+- **Read a whole episode in Tamil.** All 10 pages of Pepper&Carrot episode 6 at [`/read`](https://inkdubs.vercel.app/read), with a style switch (keys `1`–`4`), page turns (`←` `→`), and a tap on any bubble to see the original, the speaker and all three dubs.
 - **Peek at the original.** Hold `space` (or the button) to see the English underneath.
 - **Compare with human translators.** Press `C` to swap in the Pepper&Carrot community's own Tamil edition of the same page.
-- **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdub-app.vercel.app/dub) and paste your free Gemini API key. Gemma 4 letters it in about 15–40 seconds. The sample pages work without a key.
+- **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdubs.vercel.app/dub) and paste your free Gemini API key. Gemma 4 letters it in about 15–40 seconds. The sample pages work without a key.
 - **Save and share a page.** One tap renders the lettered page as an image with an Inkdub credit strip and opens your phone's share sheet (WhatsApp, Instagram), or downloads it on a laptop.
-- **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdub-app.vercel.app/read?page=7&view=madras) open on that page, in that style. On a phone, swipe to turn pages.
+- **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdubs.vercel.app/read?page=7&view=madras) open on that page, in that style. On a phone, swipe to turn pages.
 
 ## Design
 

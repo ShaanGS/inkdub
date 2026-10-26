@@ -25,7 +25,7 @@ const description =
   "Inkdub letters any comic page into natural Tamil, Tanglish or Madras Bashai, right inside the speech bubbles. Powered by Gemma 4, an open model.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://inkdub-app.vercel.app"),
+  metadataBase: new URL("https://inkdubs.vercel.app"),
   title: "Inkdub · Anime gets dubs. Manga never did.",
   description,
   openGraph: {

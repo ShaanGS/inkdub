@@ -4,7 +4,7 @@ import { track } from "@vercel/analytics";
 import { domToCanvas } from "modern-screenshot";
 import type { View } from "./types";
 
-export const SITE = "inkdub-app.vercel.app";
+export const SITE = "inkdubs.vercel.app";
 
 /**
  * Render a lettered page to a JPEG at the page's own resolution with an Inkdub credit strip along the

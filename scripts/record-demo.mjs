@@ -6,7 +6,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const BASE = process.argv[2] ?? "https://inkdub-app.vercel.app";
+const BASE = process.argv[2] ?? "https://inkdubs.vercel.app";
 const CHROME = process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const PORT = 9334;
 const FRAMES = path.resolve(".demo-frames");

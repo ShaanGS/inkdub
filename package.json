@@ -34,5 +34,5 @@
   "license": "Apache-2.0",
   "description": "Read any comic in Tamil, Tanglish or Madras Bashai, lettered inside the speech bubbles by Gemma 4.",
   "repository": "github:ShaanGS/inkdub",
-  "homepage": "https://inkdub-app.vercel.app"
+  "homepage": "https://inkdubs.vercel.app"
 }
