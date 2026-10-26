@@ -73,7 +73,7 @@ export default function Home() {
           <p className="mt-3 font-poster text-2xl tracking-[0.16em] uppercase sm:text-4xl">Anime × Tamil · Now dubbing</p>
           <p className="mx-auto mt-4 max-w-3xl font-poster text-[12px] leading-snug tracking-[0.12em] text-ink-soft uppercase sm:text-[14px]">
             Gemma 4 presents · an open-source production · lettering in Tamil, Tanglish and Madras Bashai · starring
-            Pepper &amp; Carrot by David Revoy · built in one day at Otaku.dev&apos;26, Chennai
+            Pepper &amp; Carrot by David Revoy
           </p>
         </div>
       </section>
@@ -279,8 +279,8 @@ export default function Home() {
             <a href={episode.sourceUrl} className="underline underline-offset-2">
               {episode.author}
             </a>
-            , {episode.license} · Lettering: {episode.model} via the Gemini API · Illustration made with Magnific · Built
-            at Otaku.dev&apos;26, the Hacktoberfest Hack Day in Chennai
+            , {episode.license} · Lettering: {episode.model} via the Gemini API · Illustration made
+            with Magnific
           </p>
         </div>
       </footer>
