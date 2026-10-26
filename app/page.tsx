@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BannerLine, Caption, Logo, Panel, Sfx, Tag } from "@/components/Comic";
+import { BannerLine, Caption, GitHubMark, Logo, Panel, Sfx, Tag } from "@/components/Comic";
 import { HeroDemo } from "@/components/HeroDemo";
 import { PanelCrop } from "@/components/PanelCrop";
 import { episode } from "@/lib/episode";
@@ -34,8 +34,9 @@ export default function Home() {
           <Link href="/dub" className="hidden underline-offset-4 hover:underline sm:block">
             Dub a page
           </Link>
-          <a href={REPO} className="stamp stamp-paper !px-3 !py-1.5 !text-[11px]">
-            ★ GitHub
+          <a href={REPO} className="stamp stamp-paper !gap-1.5 !px-3 !py-1.5 !text-[11px]">
+            <GitHubMark className="size-3.5" />
+            GitHub
           </a>
         </nav>
       </header>
@@ -239,6 +240,7 @@ export default function Home() {
           </div>
           <div className="mt-9 flex flex-wrap items-center gap-6">
             <a href={REPO} className="stamp stamp-ink">
+              <GitHubMark className="size-4" />
               Star it on GitHub
             </a>
             <span className="-rotate-[8deg] border-[3px] border-accent px-3 py-1 font-display text-lg text-accent opacity-90">
