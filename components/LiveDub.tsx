@@ -201,8 +201,9 @@ export function LiveDub() {
                 <span className="border-2 border-dashed border-ink/30" />
                 <span className="border-2 border-dashed border-ink/30" />
               </span>
+              {/* The call to action sits in an empty speech bubble, waiting for its line. */}
               <span className="absolute inset-0 grid place-items-center text-center">
-                <span>
+                <span className="rounded-[50%] border-[3px] border-ink bg-paper-hi px-10 py-7 shadow-[5px_5px_0_var(--accent)] sm:px-14 sm:py-9">
                   <span className="block font-letter text-4xl font-extrabold uppercase pointer-coarse:hidden">Drop a page</span>
                   <span className="hidden font-letter text-4xl font-extrabold uppercase pointer-coarse:block">Add a page</span>
                   <span className="mt-2 block font-mono text-xs tracking-[0.1em] text-ink-soft uppercase pointer-coarse:hidden">
@@ -294,13 +295,11 @@ export function LiveDub() {
           </div>
         )}
         <p className="mt-6 max-w-md font-mono text-[10px] leading-relaxed tracking-[0.04em] text-ink-soft">
-          Your page goes from this browser straight to Google&apos;s Gemini API, on your key. Inkdub never sees or
-          stores it. On a free key,{" "}
+          Pages go from this browser straight to Google on your key; Inkdub never sees them. On a free key{" "}
           <a href={GEMINI_TERMS} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-accent">
-            Google may use it to improve its products and people may review it
-          </a>{" "}
-          (not in the EEA, UK or Switzerland), so don&apos;t upload anything private. Please only dub pages you have the
-          right to share.
+            Google may use and review them
+          </a>
+          , so nothing private, and only pages you have the right to share.
         </p>
       </div>
     </div>

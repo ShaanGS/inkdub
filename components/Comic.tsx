@@ -19,11 +19,34 @@ export function Logo({ light = false }: { light?: boolean }) {
         alt="Inkdub"
         priority
         sizes="120px"
-        className={`h-9 w-auto -rotate-2 transition-transform duration-300 group-hover:rotate-0 group-hover:scale-105 ${
+        className={`h-10 w-auto -rotate-2 sm:h-11 transition-transform duration-300 group-hover:rotate-0 group-hover:scale-105 ${
           light ? "drop-shadow-[0_0_1.5px_var(--paper-hi)]" : ""
         }`}
       />
     </Link>
+  );
+}
+
+/**
+ * The film title: the painted wordmark slams onto the poster, a beat after the banner comes up.
+ * Position it from the outside; this only owns the entrance.
+ */
+export function PosterTitle({ className = "" }: { className?: string }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, scale: 1.6, rotate: -7 }}
+      animate={{ opacity: 1, scale: 1, rotate: -2 }}
+      transition={{ type: "spring", stiffness: 260, damping: 15, delay: 0.25 }}
+    >
+      <Image
+        src={wordmark}
+        alt="Inkdub"
+        priority
+        sizes="(min-width: 1152px) 660px, 86vw"
+        className="h-auto w-full drop-shadow-[0_14px_18px_rgba(20,18,16,0.45)]"
+      />
+    </motion.div>
   );
 }
 

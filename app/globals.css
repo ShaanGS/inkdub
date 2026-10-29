@@ -115,9 +115,20 @@ body {
   animation: ribbon 70s linear infinite;
 }
 
+/* The banner pushes in slowly, like the opening shot of a film. */
+@keyframes push-in {
+  from {
+    transform: scale(1.09);
+  }
+}
+.push-in {
+  animation: push-in 14s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .focus-lines,
-  .ribbon {
+  .ribbon,
+  .push-in {
     animation: none;
   }
 }

@@ -61,16 +61,8 @@ export function KeyCard({
     <Caption className="max-w-md">
       <p className="font-display text-lg leading-tight">Bring your own key</p>
       <p className="mt-2 font-letter text-[15px] leading-snug">
-        Inkdub is free and open source, so it runs on <b>your</b> free Gemini API key. The key stays in this browser,
-        and your pages go straight from here to Google. Inkdub&apos;s server never sees either.
-      </p>
-      <p className="mt-2 font-mono text-[11px] leading-relaxed tracking-[0.04em] text-ink-soft">
-        Heads up: on a free key,{" "}
-        <a href={GEMINI_TERMS} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-accent">
-          Google&apos;s terms
-        </a>{" "}
-        let it use what you send to improve its products, and people at Google may review it (not in the EEA, UK or
-        Switzerland). Don&apos;t upload anything private.
+        Inkdub runs on <b>your</b> free Gemini key. It stays in this browser, and pages go straight to Google, never to
+        Inkdub.
       </p>
       <AnimatePresence>
         {note && (
@@ -110,9 +102,17 @@ export function KeyCard({
       <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-[0.04em] text-ink-soft">
         No key?{" "}
         <a href={GET_KEY} target="_blank" rel="noreferrer" className="font-semibold text-ink underline underline-offset-4 hover:text-accent">
-          Get one free in Google AI Studio
+          Get one free
         </a>{" "}
-        (a minute, no card). The sample pages below work without one.
+        (a minute, no card). The sample pages work without one.
+      </p>
+      <p className="mt-2 border-t-2 border-dashed border-ink/20 pt-2 font-mono text-[10.5px] leading-relaxed tracking-[0.03em] text-ink-soft">
+        On a free key,{" "}
+        <a href={GEMINI_TERMS} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-accent">
+          Google may use what you send
+        </a>{" "}
+        to improve its products, and people may review it (not in the EEA, UK or Switzerland). Don&apos;t upload
+        anything private.
       </p>
     </Caption>
   );
