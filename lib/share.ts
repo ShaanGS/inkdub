@@ -9,11 +9,15 @@ export const SITE = "inkdubs.vercel.app";
 /**
  * Render a lettered page to a JPEG at the page's own resolution with an Inkdub credit strip along the
  * bottom (so a forwarded image always says where it came from), then hand it to the phone's share
- * sheet when there is one, or download it.
+ * sheet when there is one, or download it. `art` credits the artwork when it is known (the sample
+ * comic is CC BY, so its credit has to travel with every copy).
  */
-export async function savePage(node: HTMLElement, { pixelWidth, name, label }: { pixelWidth: number; name: string; label: string }) {
+export async function savePage(
+  node: HTMLElement,
+  { pixelWidth, name, label, art }: { pixelWidth: number; name: string; label: string; art?: string },
+) {
   const page = await domToCanvas(node, { scale: Math.max(1, pixelWidth / node.clientWidth) });
-  const blob = await withCredit(page, label);
+  const blob = await withCredit(page, label, art);
   const file = new File([blob], `${name}.jpg`, { type: "image/jpeg" });
 
   if (navigator.canShare?.({ files: [file] })) {
@@ -58,7 +62,7 @@ function family(className: string) {
   return value;
 }
 
-async function withCredit(page: HTMLCanvasElement, label: string): Promise<Blob> {
+async function withCredit(page: HTMLCanvasElement, label: string, art?: string): Promise<Blob> {
   const w = page.width;
   const h = Math.round(w * 0.075);
   const canvas = Object.assign(document.createElement("canvas"), { width: w, height: page.height + h });
@@ -85,7 +89,12 @@ async function withCredit(page: HTMLCanvasElement, label: string): Promise<Blob>
   const mono = family("font-mono");
   ctx.font = `600 ${Math.round(h * 0.2)}px ${mono}`;
   ctx.fillStyle = "rgba(255,252,244,0.62)";
-  ctx.fillText(label.toUpperCase(), after, mid);
+  ctx.fillText(label.toUpperCase(), after, art ? mid - h * 0.14 : mid);
+  if (art) {
+    ctx.font = `500 ${Math.round(h * 0.15)}px ${mono}`;
+    ctx.fillStyle = "rgba(255,252,244,0.5)";
+    ctx.fillText(art, after, mid + h * 0.16);
+  }
 
   ctx.textAlign = "right";
   ctx.fillStyle = "#ffc21a";
@@ -106,3 +115,7 @@ const CREDITS: Record<View, string> = {
 
 /** The line on the credit strip for a given dub style. */
 export const creditLabel = (view: View) => CREDITS[view];
+
+/** The CC BY credit for an openly licensed comic: author, license, and that the lettering was changed. */
+export const artCredit = ({ series, author, license }: { series: string; author: string; license: string }, view: View) =>
+  `${series} by ${author} · ${license}${view === "original" ? "" : " · lettering changed by Inkdub"}`;

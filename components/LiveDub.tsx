@@ -5,15 +5,15 @@ import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { currentKey, forgetKey } from "@/lib/key";
-import { creditLabel } from "@/lib/share";
+import { artCredit, creditLabel } from "@/lib/share";
 import type { DubResult, View } from "@/lib/types";
 import { Caption, Tag } from "./Comic";
 import { DubbedPage } from "./DubbedPage";
-import { KeyCard } from "./KeyCard";
+import { GEMINI_TERMS, KeyCard } from "./KeyCard";
 import { SaveButton } from "./Share";
 import { StyleSwitch } from "./StyleSwitch";
 
-type Upload = { url: string; width: number; height: number };
+type Upload = { url: string; width: number; height: number; sample?: boolean };
 type State =
   | { phase: "idle" }
   | { phase: "dubbing"; page: Upload; started: number }
@@ -23,6 +23,7 @@ type State =
   | { phase: "error"; page: Upload; message: string };
 
 const SAMPLES = ["P03", "P07", "P09"].map((id) => `/comics/pepper-carrot/ep06/en/${id}.jpg`);
+const SAMPLE_ART = { series: "Pepper&Carrot", author: "David Revoy", license: "CC BY 4.0" };
 const STAGES = ["Reading the page", "Finding every bubble", "Localizing into Tamil", "Lettering it back in"];
 const MAX_SIDE = 1600; // keeps the request small while staying readable to Gemma
 
@@ -45,7 +46,7 @@ export function LiveDub() {
 
   const dub = useCallback(async (source: Blob | string) => {
     const sample = typeof source === "string" && SAMPLES.includes(source) ? source : null;
-    const page = await toJpeg(source);
+    const page = { ...(await toJpeg(source)), sample: !!sample };
     setView("tamil");
     // On a phone the page sits below the intro; bring it up so the result is actually seen.
     if (window.innerWidth < 1024) stageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -279,6 +280,7 @@ export function LiveDub() {
                 pixelWidth={page.width}
                 name={`inkdub-${view}`}
                 label={creditLabel(view)}
+                art={page.sample ? artCredit(SAMPLE_ART, view) : undefined}
                 className="stamp-ink"
               />
             )}
@@ -293,7 +295,12 @@ export function LiveDub() {
         )}
         <p className="mt-6 max-w-md font-mono text-[10px] leading-relaxed tracking-[0.04em] text-ink-soft">
           Your page goes from this browser straight to Google&apos;s Gemini API, on your key. Inkdub never sees or
-          stores it. Please only dub pages you have the right to share.
+          stores it. On a free key,{" "}
+          <a href={GEMINI_TERMS} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-accent">
+            Google may use it to improve its products and people may review it
+          </a>{" "}
+          (not in the EEA, UK or Switzerland), so don&apos;t upload anything private. Please only dub pages you have the
+          right to share.
         </p>
       </div>
     </div>

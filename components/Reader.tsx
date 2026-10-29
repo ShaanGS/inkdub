@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Episode } from "@/lib/episode";
-import { creditLabel } from "@/lib/share";
+import { artCredit, creditLabel } from "@/lib/share";
 import type { View } from "@/lib/types";
 import { VIEWS } from "@/lib/views";
 import { BubbleCard } from "./BubbleCard";
@@ -195,6 +195,7 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
                 pixelWidth={episode.width}
                 name={`inkdub-${episode.series.replace("&", "-and-").toLowerCase()}-p${index + 1}-${view}`}
                 label={creditLabel(view)}
+                art={artCredit(episode, view)}
                 className="stamp-paper !px-3 !py-1.5 !text-[11px] !shadow-[3px_3px_0_var(--accent)]"
               />
             )}

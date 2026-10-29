@@ -14,12 +14,14 @@ export function SaveButton({
   pixelWidth,
   name,
   label,
+  art,
   className = "",
 }: {
   target: RefObject<HTMLElement | null>;
   pixelWidth: number;
   name: string;
   label: string;
+  art?: string;
   className?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
@@ -27,7 +29,7 @@ export function SaveButton({
     if (!target.current || status === "working") return;
     setStatus("working");
     try {
-      const result = await savePage(target.current, { pixelWidth, name, label });
+      const result = await savePage(target.current, { pixelWidth, name, label, art });
       setStatus(result === "cancelled" ? "idle" : result);
     } catch (error) {
       console.error(error);

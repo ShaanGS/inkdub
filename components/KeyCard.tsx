@@ -7,6 +7,7 @@ import { forgetKey, maskKey, saveKey, useGeminiKey } from "@/lib/key";
 import { Caption } from "./Comic";
 
 const GET_KEY = "https://aistudio.google.com/apikey";
+export const GEMINI_TERMS = "https://ai.google.dev/gemini-api/terms";
 
 /**
  * Bring your own key: Inkdub has no server bill because each reader dubs with their own free Gemini key,
@@ -62,6 +63,14 @@ export function KeyCard({
       <p className="mt-2 font-letter text-[15px] leading-snug">
         Inkdub is free and open source, so it runs on <b>your</b> free Gemini API key. The key stays in this browser,
         and your pages go straight from here to Google. Inkdub&apos;s server never sees either.
+      </p>
+      <p className="mt-2 font-mono text-[11px] leading-relaxed tracking-[0.04em] text-ink-soft">
+        Heads up: on a free key,{" "}
+        <a href={GEMINI_TERMS} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-accent">
+          Google&apos;s terms
+        </a>{" "}
+        let it use what you send to improve its products, and people at Google may review it (not in the EEA, UK or
+        Switzerland). Don&apos;t upload anything private.
       </p>
       <AnimatePresence>
         {note && (
