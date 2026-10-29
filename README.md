@@ -11,12 +11,12 @@
 
 <p align="center">
   <a href="https://inkdubs.vercel.app"><b>Try it live</b></a> ·
-  <a href="https://inkdubs.vercel.app/read?page=4&view=madras">Read an episode in Madras Bashai</a> ·
+  <a href="https://inkdubs.vercel.app/read?page=7&view=madras">Read an episode in Madras Bashai</a> ·
   <a href="https://inkdubs.vercel.app/dub">Dub your own page</a> ·
   <a href="docs/inkdub-demo.mp4"><b>▶ Demo video</b></a>
 </p>
 
-> **Demo video** ([`docs/inkdub-demo.mp4`](docs/inkdub-demo.mp4), 90 s): the landing banner, one page re-lettered into Tamil, Tanglish and Madras Bashai, and a **live Gemma 4 dub** of a page, recorded in real time (the wait for Gemma is not sped up). Recorded with [`scripts/record-demo.mjs`](scripts/record-demo.mjs).
+> **Demo video** ([`docs/inkdub-demo.mp4`](docs/inkdub-demo.mp4), 30 s): the landing banner, page 7 re-lettered into Tamil, Tanglish and Madras Bashai, and a sample page on `/dub` as a visitor without a key sees it (the dub Gemma 4 made of it earlier). A live dub needs your own key. Recorded with [`scripts/record-demo.mjs`](scripts/record-demo.mjs).
 
 <p align="center">
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-ff4d2e"></a>
@@ -99,7 +99,7 @@ The bundled episode was dubbed once and cached as JSON in [`public/comics/pepper
 
 ## Why open matters here
 
-- **Comic translation is volunteer work.** [Pepper&Carrot](https://www.peppercarrot.com) is translated into 69 languages by its community, and the Tamil edition is 21% done. Inkdub drafts every bubble so a Tamil reader only has to review, not start from a blank page.
+- **Comic translation is volunteer work.** [Pepper&Carrot](https://www.peppercarrot.com) is translated into 69 languages by its community, and the Tamil edition is [21% done](https://www.peppercarrot.com/ta/webcomics/index.html). Inkdub drafts every bubble so a Tamil reader only has to review, not start from a blank page.
 - **Open weights mean no gatekeeper.** Gemma 4 is Apache 2.0, so fan translators can run the same model on their own machines with no per-page bill, and a community can fine-tune it for Tamil comics and share the result.
 - **Inkdub is Apache-2.0 too.** Add your language, your slang, your favourite series.
 

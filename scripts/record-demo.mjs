@@ -1,6 +1,7 @@
-// Record docs/inkdub-demo.mp4: the landing banner, the reader switching styles, and a live Gemma 4
-// dub of a page on the production site. Drives headless Chrome over the DevTools protocol and stitches
-// the screencast frames with ffmpeg, keeping real timings (the Gemma wait is not sped up).
+// Record docs/inkdub-demo.mp4: the landing banner, the reader switching styles, and a sample page on
+// /dub on the production site. Drives headless Chrome over the DevTools protocol and stitches the
+// screencast frames with ffmpeg, keeping real timings. It runs without a Gemini key, so /dub shows the
+// dub Gemma made of the sample earlier, exactly as a visitor without a key sees it.
 // usage: node scripts/record-demo.mjs [base-url]
 import { spawn, spawnSync } from "node:child_process";
 import { mkdir, rm, writeFile } from "node:fs/promises";
@@ -67,7 +68,7 @@ await send("Page.navigate", { url: `${BASE}/` });
 await sleep(5500);
 
 // 2. One page, four voices, then a page turn.
-await send("Page.navigate", { url: `${BASE}/read?page=4&view=original` });
+await send("Page.navigate", { url: `${BASE}/read?page=7&view=original` });
 await sleep(3000);
 for (const key of ["2", "3", "4"]) {
   await press(key, `Digit${key}`, 48 + Number(key));
@@ -76,14 +77,14 @@ for (const key of ["2", "3", "4"]) {
 await press("ArrowRight", "ArrowRight", 39);
 await sleep(3000);
 
-// 3. A live dub through the production API.
+// 3. A sample page on /dub, with no key.
 await send("Page.navigate", { url: `${BASE}/dub` });
 await sleep(2500);
 await run(`document.querySelector('img[alt="Sample comic page"]').closest('button').click()`);
 for (let i = 0; i < 120; i++) {
   await sleep(500);
-  const { value } = await run(`document.body.innerText.includes("bubbles lettered by")`);
-  if (value) break;
+  const { result } = await run(`document.body.innerText.includes("bubbles lettered by")`);
+  if (result.value) break;
 }
 await sleep(3500);
 await run(`[...document.querySelectorAll('[role=radio]')].find((b) => b.textContent.includes("Madras")).click()`);

@@ -5,54 +5,54 @@
   {
    "box_2d": [
     244,
-    38,
-    312,
+    39,
+    311,
     244
    ],
    "text": "Oh shoot, I fell asleep with the window open, again...",
    "kind": "thought",
    "speaker": "Pepper",
    "tone": "thinking",
-   "tamil": "அய்யோ, ஜன்னலை திறந்து வச்சதுனால மறுபடியும் தூங்கிட்டேனே...",
-   "tanglish": "Aiyyo, jannala thirandhu vachadhunala marubadiyum thoongitene...",
-   "madras": "அய்யோ, ஜன்னலை திறந்து வச்சதுனால மறுபடியும் தூங்கிட்டேனே..."
+   "tamil": "அய்யோ, ஜன்னலைத் திறந்து வச்சதுனால மறுபடியும் தூங்கிட்டேனே...",
+   "tanglish": "Ayyo, jannala thirandhu vachadhunala marubadiyum thoongittene...",
+   "madras": "அய்யோடா... ஜன்னலைத் திறந்து வச்சதுனால மறுபடியும் தூங்கிட்டேனே!"
   },
   {
    "box_2d": [
-    358,
-    96,
-    404,
-    272
+    361,
+    95,
+    406,
+    268
    ],
    "text": "...it's so windy...",
    "kind": "thought",
    "speaker": "Pepper",
    "tone": "thinking",
-   "tamil": "...காத்து ரொம்ப வேகமா வீசுது...",
-   "tanglish": "...kaathu romba vegama veesudhu...",
-   "madras": "...காத்து செம வேகமா அடிக்குது..."
+   "tamil": "...காத்து ரொம்ப வேகமா வீசுதே...",
+   "tanglish": "...kaathu romba vegama veesudhe...",
+   "madras": "...என்னடா காத்து இவ்வளவு அடிக்குது..."
   },
   {
    "box_2d": [
-    452,
-    107,
-    519,
-    328
+    451,
+    108,
+    518,
+    327
    ],
    "text": "...and why can I see Komona through the window?",
    "kind": "thought",
    "speaker": "Pepper",
    "tone": "thinking",
-   "tamil": "...அதுவும் ஏன் ஜன்னல் வழியா கொமோனா தெரியுது?",
-   "tanglish": "...adhuvum yen jannal vazhiya Komona theriyudhu?",
-   "madras": "...அதுவும் ஏன் ஜன்னல் வழியா கொமோனா தெரியுது?"
+   "tamil": "...அப்புறம் ஏன் ஜன்னல் வழியா கொமோனா தெரியுது?",
+   "tanglish": "...appuram yen jannal vazhiya Komona theriyudhu?",
+   "madras": "...அப்புறம் ஏன் ஜன்னல் வழியா கொமோனா தெரியுதுப்பா?"
   },
   {
    "box_2d": [
     603,
     337,
-    636,
-    433
+    637,
+    431
    ],
    "text": "KOMONA!",
    "kind": "speech",
@@ -64,39 +64,39 @@
   },
   {
    "box_2d": [
-    600,
-    467,
-    637,
-    578
+    598,
+    468,
+    640,
+    585
    ],
    "text": "The Potion Contest!",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "excited",
-   "tamil": "அந்த போஷன் போட்டி!",
-   "tanglish": "Andha Potion potti!",
-   "madras": "அந்த போஷன் போட்டி!"
+   "tamil": "மந்திர பானப் போட்டி!",
+   "tanglish": "Manthira paana potti!",
+   "madras": "அந்த மந்திர பானப் போட்டியா!"
   },
   {
    "box_2d": [
-    600,
+    601,
     634,
-    663,
-    795
+    659,
+    788
    ],
    "text": "I must've... must've accidentally fallen asleep!",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "excited",
-   "tamil": "நான்... தெரியாம தூங்கிட்டேனோ!",
-   "tanglish": "Naan... theriyama thoongiteno!",
-   "madras": "நான்... தெரியாம தூங்கிட்டேனோ!"
+   "tamil": "நான் தெரியாம... தெரியாம தூங்கிட்டேனோ!",
+   "tanglish": "Naan theriyaama... theriyaama thoongitteno!",
+   "madras": "நான் தெரியாம... அப்படியே தூங்கிட்டேனோ!"
   },
   {
    "box_2d": [
     800,
     478,
-    835,
+    831,
     567
    ],
    "text": "...but?",
@@ -105,22 +105,22 @@
    "tone": "thinking",
    "tamil": "...ஆனா?",
    "tanglish": "...aana?",
-   "madras": "...ஆனா?"
+   "madras": "...ஆனா என்னப்பா இது?"
   },
   {
    "box_2d": [
-    801,
-    627,
-    851,
-    743
+    803,
+    628,
+    847,
+    745
    ],
-   "text": "Where am I ? way!?",
+   "text": "Where am I ?!?",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "excited",
    "tamil": "நான் எங்க இருக்கேன்?!",
-   "tanglish": "Naan enga iruken?!",
-   "madras": "நான் எங்க இருக்கேன்?!"
+   "tanglish": "Naan enga irukken?!",
+   "madras": "நான் எங்க இருக்கேன்ப்பா?!"
   }
  ]
 }
