@@ -4,153 +4,183 @@
  "bubbles": [
   {
    "box_2d": [
-    15,
-    44,
-    98,
-    288
+    13,
+    41,
+    107,
+    286
    ],
-   "text": "All the way from the great Technologist's Union, it's an honor to welcome the ravishing and ingenious Coriander!",
-   "kind": "speech",
+   "text": "All the way from the great Technologist's Union, it's an honor to welcome the ravishing and ingenious\nCoriander!",
+   "kind": "narration",
    "speaker": "Announcer",
    "tone": "excited",
-   "tamil": "பெரிய டெக்னாலஜிஸ்ட் யூனியன்ல இருந்து வர்ற, ரொம்ப புத்திசாலி அப்புறம் அசத்தலான கொரியாண்டரை (Coriander) வரவேற்கிறதுல எங்களுக்கு ரொம்ப பெருமை!",
-   "tanglish": "Periya Technologist's Union-la irundhu varra, romba buddhisali appuram asathalana Coriander-ai varaverkuradhula engalukku romba perumai!",
-   "madras": "பெரிய Technologist's Union-ல இருந்து வர்ற, செம்ம புத்திசாலி, மாஸான Coriander-அ welcome பண்றது நம்ம கெத்து!"
+   "tamil": "பெரிய டெக்னாலஜிஸ்ட் யூனியனில் இருந்து வந்திருக்கும், பேரழகியும் புத்திசாலிமானியுமான\nகொரியாண்டர்!",
+   "tanglish": "Periya Technologist's Union-la irundhu vandhirukanga, sema azhaga buddhisaliya irukira\nCoriander!",
+   "madras": "அங்க பெரிய டெக்னாலஜிஸ்ட் யூனியன்ல இருந்து வந்திருக்காங்க, செம அழகா புத்திசாலியா இருக்கிற\nகொரியாண்டர்!"
   },
   {
    "box_2d": [
-    15,
+    13,
     318,
-    68,
+    67,
     494
    ],
-   "text": "...not to forget our local girl, Komona's very own witch Saffron!",
-   "kind": "speech",
+   "text": "...not to forget our local girl, Komona's very own witch",
+   "kind": "narration",
    "speaker": "Announcer",
    "tone": "excited",
-   "tamil": "...நம்ம ஊரு பொண்ணு, கொமோனா (Komona) நகரத்தோட சொந்த சூனியக்காரி சாப்ரன் (Saffron)-ஐயும் மறந்துடக் கூடாது!",
-   "tanglish": "...namma ooru ponnu, Komona nagarathoda sondha sooniyakkari Saffron-aiyum marandhuda koodadhu!",
-   "madras": "நம்ம ஊரு பொண்ணு, Komona-ஓட ஸ்வந்தமான witch Saffron-அ மறந்திடக் கூடாது!"
+   "tamil": "...நம்ம ஊரு பொண்ணு, கொமோனாவின் சொந்த சூனியக்காரி",
+   "tanglish": "...Namma ooru ponnu, Komona-vukke uriya sooniya kaari",
+   "madras": "...நம்ம ஊரு பொண்ணு, கொமோனாவுக்கே உரிய சூனியக்காரி"
   },
   {
    "box_2d": [
-    15,
-    505,
-    98,
+    87,
+    368,
+    107,
+    447
+   ],
+   "text": "Saffron!",
+   "kind": "narration",
+   "speaker": "Announcer",
+   "tone": "shout",
+   "tamil": "சாஃபிரன்!",
+   "tanglish": "Saffron!",
+   "madras": "சாஃபிரன்!"
+  },
+  {
+   "box_2d": [
+    13,
+    504,
+    111,
     686
    ],
-   "text": "...Our third participant comes to us from the lands of the setting moons, Shichimi!",
-   "kind": "speech",
+   "text": "...Our third participant comes to us from the lands of the setting moons,\nShichimi!",
+   "kind": "narration",
    "speaker": "Announcer",
    "tone": "excited",
-   "tamil": "...எங்களுடைய மூன்றாவது போட்டியாளர், மறையும் நிலவுகளின் தேசத்திலிருந்து வர்ற ஷிச்சிமி (Shichimi)!",
-   "tanglish": "...engaludaiya moonavadhu pottiyalar, maraiyum nilavugalin dhesathilirundhu varra Shichimi!",
-   "madras": "நம்ம மூனாவது player, அந்த மூன்-உ land-ல இருந்து வர்ற Shichimi!"
+   "tamil": "...எங்கள் மூன்றாவது போட்டியாளர் மறையும் நிலவின் தேசத்திலிருந்து வருகிறார்,\nஷிச்சிமி!",
+   "tanglish": "...Enga moonavadhu pottiyalar andha nilavu maraiyura oorula irundhu varanga,\nShichimi!",
+   "madras": "...எங்க மூணாவது போட்டியாளர் அந்த நிலவு மறையுற ஊருல இருந்து வராங்க,\nஷிச்சிமி!"
   },
   {
    "box_2d": [
-    15,
-    746,
-    111,
-    941
+    13,
+    743,
+    87,
+    943
    ],
-   "text": "...and finally, our last participant, from the forest of Squirrel's End, Pepper!",
-   "kind": "speech",
+   "text": "...and finally, our last participant, from the forest of Squirrel's End,",
+   "kind": "narration",
    "speaker": "Announcer",
    "tone": "excited",
-   "tamil": "...அப்புறம் கடைசியா, ஸ்குயிரல்ஸ் எண்ட் (Squirrel's End) காட்டில் இருந்து வர்ற நம்ம கடைசி போட்டியாளர் பெப்பர் (Pepper)!",
-   "tanglish": "...appuram kadaisiya, Squirrel's End kaattil irundhu varra namma kadaisi pottiyalar Pepper!",
-   "madras": "கடைசியா, Squirrel's End காட்டுல இருந்து வர்ற நம்ம last player Pepper!"
+   "tamil": "...மற்றும் இறுதியாக, ஸ்குயிரல்ஸ் எண்ட் காட்டில் இருந்து வரும் எங்கள் கடைசி போட்டியாளர்,",
+   "tanglish": "...Appuram kadaisiya, Squirrel's End kaatula irundhu varra kadaisi pottiyalar,",
+   "madras": "...அப்புறம் கடைசியா, ஸ்குயிரல்ஸ் எண்ட் காட்டுல இருந்து வர்ற கடைசி போட்டியாளர்,"
   },
   {
    "box_2d": [
-    447,
-    88,
-    501,
-    226
+    91,
+    795,
+    111,
+    891
+   ],
+   "text": "Pepper!",
+   "kind": "narration",
+   "speaker": "Announcer",
+   "tone": "shout",
+   "tamil": "பெப்பர்!",
+   "tanglish": "Pepper!",
+   "madras": "பெப்பர்!"
+  },
+  {
+   "box_2d": [
+    458,
+    106,
+    493,
+    207
    ],
    "text": "Let the games begin!",
    "kind": "speech",
    "speaker": "Announcer",
    "tone": "shout",
    "tamil": "விளையாட்டு தொடங்கட்டும்!",
-   "tanglish": "Vilaiyaattu thodangattum!",
-   "madras": "Game-அ start பண்ணுங்க!"
+   "tanglish": "Vilaiyattu aarambikkattum!",
+   "madras": "விளையாட்டு ஆரம்பிக்கட்டும்!"
   },
   {
    "box_2d": [
-    500,
-    263,
-    540,
-    487
+    503,
+    270,
+    538,
+    471
    ],
    "text": "The vote will be by applaud-o-meter",
    "kind": "speech",
    "speaker": "Announcer",
    "tone": "calm",
-   "tamil": "வாக்குகள் கைதட்டல் அளவீட்டின் மூலம் தீர்மானிக்கப்படும்",
-   "tanglish": "Vaakkugal kaithattal alaveettin moolam theermaanikkappadum",
-   "madras": "Applaud-o-meter வெச்சு தான் vote போடுவோம்!"
+   "tamil": "வாக்களிப்பு கைதட்டல் அளவீடு மூலம் நடைபெறும்",
+   "tanglish": "Kai thattal satham-a vechu dhaan vote poduvanga",
+   "madras": "கைதட்டல் சத்தத்தை வச்சு தான் ஓட்டு போடுவாங்க"
   },
   {
    "box_2d": [
-    598,
-    171,
-    656,
-    338
+    601,
+    188,
+    653,
+    324
    ],
    "text": "First up, Coriander's demonstration",
    "kind": "speech",
    "speaker": "Announcer",
    "tone": "excited",
-   "tamil": "முதலில், கொரியாண்டரின் (Coriander) செயல்முறை விளக்கம்",
-   "tanglish": "Mudhalil, Coriander-in seyalmurai vilakkam",
-   "madras": "First-உ, Coriander-ஓட demo!"
+   "tamil": "முதலில், கொரியாண்டரின் செயல்முறை விளக்கம்",
+   "tanglish": "Mudhalla, Coriander-oda demonstration",
+   "madras": "முதல்ல, கொரியாண்டரோட டெமான்ஸ்ட்ரேஷன்"
   },
   {
    "box_2d": [
-    687,
-    267,
-    741,
-    374
+    688,
+    276,
+    738,
+    367
    ],
-   "text": "Ladies & Gentlemen...",
+   "text": "Ladies\n&\nGentlemen...",
    "kind": "speech",
    "speaker": "Coriander",
    "tone": "calm",
    "tamil": "பெரியோர்களே மற்றும் தாய்மார்களே...",
-   "tanglish": "Periyorgale matrum thaaimaargale...",
-   "madras": "Ladies and Gentlemen..."
+   "tanglish": "Annans, thambis, makkale...",
+   "madras": "அண்ணன் தம்பிகளே, மக்களே..."
   },
   {
    "box_2d": [
-    598,
-    378,
-    636,
-    577
+    596,
+    385,
+    631,
+    583
    ],
    "text": "...fear death no more, thanks to my...",
    "kind": "speech",
    "speaker": "Coriander",
-   "tone": "calm",
-   "tamil": "...இனி மரணத்தைக் கண்டு பயப்பட வேண்டாம், இதோ எனது...",
-   "tanglish": "...ini maranathai kandu bayappada vendam, idho enadhu...",
-   "madras": "இனி சேத்துறதுக்கு பயப்பட வேணாம், இதோ என்னோடய..."
+   "tone": "excited",
+   "tamil": "...இனி மரணத்தைப் கண்டு அஞ்சாதீர்கள், இதோ என்னுடைய...",
+   "tanglish": "...Ini saavukkum bayappada venaam, idho en...",
+   "madras": "...இனி சாவுக்கும் பயப்பட வேணாம், இதோ என்..."
   },
   {
    "box_2d": [
     601,
-    663,
-    656,
-    838
+    683,
+    646,
+    833
    ],
-   "text": "...Potion of ZOMBIFICATION!",
+   "text": "... Potion of\nZOMBIFICATION!",
    "kind": "speech",
    "speaker": "Coriander",
    "tone": "shout",
-   "tamil": "...ஸோம்பிஃபிகேஷன் (ZOMBIFICATION) மருந்து!",
-   "tanglish": "...ZOMBIFICATION marundhu!",
-   "madras": "ZOMBIFICATION potion!"
+   "tamil": "...ஸோம்பிஃபிகேஷன் மருந்து!",
+   "tanglish": "...Zombification marundhu!",
+   "madras": "...ஸோம்பிஃபிகேஷன் மருந்து!"
   }
  ]
 }

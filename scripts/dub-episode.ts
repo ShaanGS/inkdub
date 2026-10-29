@@ -22,7 +22,19 @@ for (const file of pages) {
     continue;
   }
   const data = (await readFile(path.join(episode, "en", file))).toString("base64");
-  const { model, bubbles, ms } = await dubPage({ mimeType: "image/jpeg", data }, { apiKey: process.env.GEMINI_API_KEY ?? "", cast });
+  // Gemma sometimes slips: Madras lines in English letters, or a copy of the plain Tamil. Try up to
+  // three times and keep the take with the fewest slips.
+  let best: (Awaited<ReturnType<typeof dubPage>> & { slips: number }) | null = null;
+  for (let take = 0; take < 3 && (best?.slips ?? 1) > 0; take++) {
+    const result = await dubPage({ mimeType: "image/jpeg", data }, { apiKey: process.env.GEMINI_API_KEY ?? "", cast }).catch(
+      (error) => (console.warn(`${page}: take ${take + 1} failed, ${error.message.slice(0, 80)}`), null),
+    );
+    if (!result) continue;
+    const slips = result.bubbles.filter((b) => /[A-Za-z]/.test(b.madras) || (b.text.length > 12 && b.madras.trim() === b.tamil.trim())).length;
+    if (!best || slips < best.slips) best = { ...result, slips };
+  }
+  if (!best) throw new Error(`${page}: every take failed`);
+  const { model, bubbles, ms, slips } = best;
   await writeFile(target, JSON.stringify({ model, page, bubbles }, null, 1));
-  console.log(`${page}: ${bubbles.length} bubbles in ${(ms / 1000).toFixed(1)}s`);
+  console.log(`${page}: ${bubbles.length} bubbles in ${(ms / 1000).toFixed(1)}s, ${slips} slips`);
 }

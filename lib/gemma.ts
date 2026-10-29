@@ -8,7 +8,8 @@ export const MODELS = ["gemma-4-26b-a4b-it", "gemma-4-31b-it"] as const;
 
 export const SYSTEM_PROMPT = `You are Inkdub, a manga letterer and localizer for Tamil readers in Chennai.
 Localize, never translate word-for-word: keep each character's emotion and voice, adapt honorifics,
-and keep the story meaning exact. Keep character names unchanged, written in Tamil script inside Tamil-script fields.`;
+and keep the story meaning exact. Keep character names unchanged, written in Tamil script inside Tamil-script fields.
+Keep each line about as long as the original so it fits the bubble. Every Tamil word must be a real word, spelled correctly.`;
 
 export const PAGE_PROMPT = `Find every speech bubble, thought bubble and narration box on this comic page, in reading order.
 Skip sound effects drawn outside bubbles. For each one return:
@@ -17,9 +18,9 @@ Skip sound effects drawn outside bubbles. For each one return:
 "kind": "speech" | "thought" | "narration",
 "speaker": character name or best guess,
 "tone": "calm" | "excited" | "shout" | "whisper" | "sad" | "thinking",
-"tamil": natural Tamil in Tamil script,
-"tanglish": casual spoken Tamil written in English letters,
-"madras": Chennai Madras Bashai slang in Tamil script, like "சாரிப்பா... ஒரு பிரியாணி அமுக்கிட்டு வந்தேன்" (never English letters).
+"tamil": natural Tamil in Tamil script, the way a good Tamil comic would print it (no English words in brackets),
+"madras": Chennai Madras Bashai slang in Tamil script, like "சாரிப்பா... ஒரு பிரியாணி அமுக்கிட்டு வந்தேன்" (never English letters),
+"tanglish": how Chennai friends text: spoken Tamil in English letters, mixing in the English words people really say, never a letter-by-letter spelling of formal Tamil.
 Return ONLY a JSON array.`;
 
 const RETRYABLE = new Set([429, 500, 502, 503, 504]);
@@ -96,7 +97,47 @@ export function parseBubbles(text: string): Bubble[] {
     raw = JSON.parse(json.replace(/,\s*([}\]])/g, "$1")); // trailing commas show up now and then
   }
   if (!Array.isArray(raw)) throw new Error("Gemma returned no bubble list");
-  return (raw as Record<string, unknown>[]).flatMap(toBubble);
+  return mergeOverlaps((raw as Record<string, unknown>[]).flatMap(toBubble));
+}
+
+// Two boxes are one bubble when they share at least a third of the smaller one; neighbours that merely
+// touch (a caption sitting on a speech bubble) stay apart.
+function overlaps(a: Bubble, b: Bubble) {
+  const [ay0, ax0, ay1, ax1] = a.box_2d;
+  const [by0, bx0, by1, bx1] = b.box_2d;
+  const shared = Math.max(0, Math.min(ay1, by1) - Math.max(ay0, by0)) * Math.max(0, Math.min(ax1, bx1) - Math.max(ax0, bx0));
+  const smaller = Math.min((ay1 - ay0) * (ax1 - ax0), (by1 - by0) * (bx1 - bx0));
+  return shared >= smaller / 3;
+}
+
+/**
+ * Gemma sometimes reads one bubble as two boxes, typically a bold name on its own line ("...the ingenious"
+ * + "Coriander!"). Lettered separately they would print on top of each other, so overlapping boxes become
+ * one bubble with each line kept on its own row.
+ */
+function mergeOverlaps(bubbles: Bubble[]): Bubble[] {
+  const merged: Bubble[] = [];
+  for (const bubble of bubbles) {
+    const host = merged.find((other) => overlaps(other, bubble));
+    if (!host) {
+      merged.push({ ...bubble });
+      continue;
+    }
+    const [a, b] = host.box_2d[0] <= bubble.box_2d[0] ? [host, bubble] : [bubble, host];
+    Object.assign(host, {
+      box_2d: [
+        Math.min(a.box_2d[0], b.box_2d[0]),
+        Math.min(a.box_2d[1], b.box_2d[1]),
+        Math.max(a.box_2d[2], b.box_2d[2]),
+        Math.max(a.box_2d[3], b.box_2d[3]),
+      ],
+      text: `${a.text}\n${b.text}`,
+      tamil: `${a.tamil}\n${b.tamil}`,
+      tanglish: `${a.tanglish}\n${b.tanglish}`,
+      madras: `${a.madras}\n${b.madras}`,
+    });
+  }
+  return merged;
 }
 
 const TONES: Tone[] = ["calm", "excited", "shout", "whisper", "sad", "thinking"];

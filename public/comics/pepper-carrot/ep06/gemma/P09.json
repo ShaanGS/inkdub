@@ -4,93 +4,93 @@
  "bubbles": [
   {
    "box_2d": [
-    8,
-    98,
-    80,
-    255
+    11,
+    102,
+    78,
+    273
    ],
    "text": "Yeah, read the label, carefully...",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "shout",
-   "tamil": "ஆமா, லேபிளை நல்லா கவனிச்சு படி...",
-   "tanglish": "Aama, label-ah nalla gavunichu padi...",
-   "madras": "அட போப்பா, லேபிள ஒழுங்கா படிடா..."
+   "tamil": "ஆமா, அந்த லேபிளைத் தெளிவா படி...",
+   "tanglish": "Aama, andha label-ah clear-ah pidi...",
+   "madras": "ஆமாப்பா, அந்த லேபிள சரியா படி..."
   },
   {
    "box_2d": [
     104,
-    704,
-    187,
+    703,
+    185,
     958
    ],
    "text": "...I won't think twice before pouring it all over you if you don't get out of Komona right away!",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "shout",
-   "tamil": "...நீ உடனே கொமோனாவ விட்டு கிளம்பலன்னா, இத அப்படியே உன் மேல கொட்டிடுவேன், அப்புறம் யோசிக்க மாட்டேன்!",
-   "tanglish": "...Nee udane Komona-va vittu kilambalanna, idha appadiye un mela kottiduven, appram yosikka maaten!",
-   "madras": "டேய், உடனே கொமோனாவ விட்டு கிளம்புடா, இல்லன்னா இத அப்படியே உன் மேல ஊத்திடுவேன், அப்புறம் நான் யோசிக்க மாட்டேன்!"
+   "tamil": "...நீ உடனே கொமோனாவை விட்டு கிளம்பலன்னா, இதை உன் மேல ஊத்த நான் யோசிக்கவே மாட்டேன்!",
+   "tanglish": "...Nee udane Komona-va vittu kilamba la na, idha un mela ootha naan rendu vaati yosikka maaten!",
+   "madras": "...நீ உடனே கொமோனாவ விட்டு கிளம்பலன்னா, இத உன் மேல ஊத்த நான் ரெண்டு வாட்டி யோசிக்க மாட்டேன்!"
   },
   {
    "box_2d": [
-    571,
-    51,
-    604,
-    263
+    570,
+    58,
+    601,
+    264
    ],
    "text": "Because she saved our town when it was in peril",
    "kind": "speech",
-   "speaker": "Town Official",
+   "speaker": "Saffron",
    "tone": "calm",
-   "tamil": "எங்கள் ஊர் ஆபத்தில் இருந்தபோது அவள் அதைக் காப்பாற்றியதால்,",
-   "tanglish": "Engal oor aabathil irundhapothu aval adhai kaapaatriyathaal,",
-   "madras": "நம்ம ஊரு ஆபத்துல இருந்தப்போ அவதான் காப்பாத்துனா..."
+   "tamil": "எங்கள் ஊர் ஆபத்தில் இருந்தபோது அவள்தான் காப்பாற்றினாள்,",
+   "tanglish": "Enga ooru aabathula irundhappo aval dhaan kaapaathuna,",
+   "madras": "எங்க ஊரு ஆபத்துல இருந்தப்போ அவதான் காப்பாத்துனா,"
   },
   {
    "box_2d": [
-    613,
-    121,
-    669,
-    277
+    616,
+    122,
+    678,
+    354
    ],
    "text": "we award first place to Pepper for her Potion of ... ??!!",
    "kind": "speech",
-   "speaker": "Town Official",
+   "speaker": "Saffron",
    "tone": "excited",
-   "tamil": "பெப்பரின் அந்த விசித்திரமான மருந்துக்காக அவளுக்கு முதல் பரிசு வழங்குகிறோம்... ??!!",
-   "tanglish": "Pepper-in andha visithiramaana marundhukkaga avalukku mudhal parisu vazhangugirom... ??!!",
-   "madras": "பெப்பருக்கு அந்த மேஜிக் மருந்துக்காக ஃபர்ஸ்ட் பிரைஸ் தர்றோம்... ??!!"
+   "tamil": "அதனால், பெப்பரின் அந்த மர்மமான பானத்திற்காக அவளுக்கு முதலிடம் வழங்குகிறோம்... ??!!",
+   "tanglish": "Adhanala, Pepper-oda andha magic paanathukkaga avalukku first prize tharom... ??!!",
+   "madras": "அதனால, பெப்பரோட அந்த மேஜிக் பானத்துக்காக அவளுக்கு ஃபர்ஸ்ட் ப்ரைஸ் தரோம்... ??!!"
   },
   {
    "box_2d": [
     793,
-    647,
-    832,
-    738
+    648,
+    927,
+    936
    ],
-   "text": "... Haha! yep ...",
+   "text": "... Haha! yep ...\n... huh... in fact, it's not really a potion ;\nit's my cat's pee sample from his last trip to the vet!",
    "kind": "speech",
    "speaker": "Pepper",
-   "tone": "calm",
-   "tamil": "... ஹா ஹா! ஆமா...",
-   "tanglish": "... Haha! Aama...",
-   "madras": "... ஹா ஹா! ஆமாப்பா..."
+   "tone": "excited",
+   "tamil": "... ஹா ஹா! ஆமா...\n... ஹ்ம்... சொல்லப்போனால், இது உண்மையில் ஒரு பானம் கிடையாது;\nஎன் பூனை கடைசியாக மருத்துவமனைக்குச் சென்றபோது எடுத்த சிறுநீர் மாதிரி இது!",
+   "tanglish": "... Haha! Aama...\n... Huh... Nijatha sollanum na, idhu onnum potion illa;\nEn poonai last time vet kitta ponappa edutha pee sample idhu!",
+   "madras": "... ஹா ஹா! ஆமாப்பா...\n... ஹ்ம்... நிஜத்தைச் சொல்லணும்னா, இது ஒன்னும் பானம் இல்ல;\nஎன் பூனை கடைசியா வெட் கிட்ட போனப்ப எடுத்த பீ சாம்பிள் இது!"
   },
   {
    "box_2d": [
-    822,
-    714,
-    957,
-    954
+    931,
+    834,
+    961,
+    943
    ],
-   "text": "... huh... in fact, it's not really a potion ; it's my cat's pee sample from his last trip to the vet! ... no demo then ?...",
+   "text": "... no demo then ?...",
    "kind": "speech",
-   "speaker": "Pepper",
-   "tone": "calm",
-   "tamil": "... ஹ்ம்... சொல்லப்போனால், இது மருந்து கிடையாது; இது என் பூனை கடைசியா வெட்டரிக்கு போனப்ப எடுத்த சிறுநீர் மாதிரி! ... அப்போ டெமோ இல்லையா?...",
-   "tanglish": "... Hmm... sollapponal, idhu marundhu kidaiyadhu; idhu en poonai kadaisiya vet-ku ponappo edutha pee sample! ... Appo demo illaiya?...",
-   "madras": "... ஹ்ம்... நிஜத்தைச் சொல்லணும்னா, இது மருந்து இல்ல; இது என் பூனை வெட்டரிக்கு போனப்ப எடுத்த பீ சாம்பிள்! ... அப்போ டெமோ காட்டமாட்டீங்களா?..."
+   "speaker": "Coriander",
+   "tone": "thinking",
+   "tamil": "... அப்போ டெமோ காட்டவே மாட்டீங்களா?...",
+   "tanglish": "... Appo demo kaatta maateengala?...",
+   "madras": "... அப்போ டெமோ காட்ட மாட்டீங்களா?..."
   }
  ]
 }

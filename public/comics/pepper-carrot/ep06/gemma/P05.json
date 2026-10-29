@@ -4,153 +4,153 @@
  "bubbles": [
   {
    "box_2d": [
-    10,
-    74,
-    32,
-    212
+    6,
+    73,
+    36,
+    214
    ],
    "text": "FANTASTIC!",
    "kind": "speech",
-   "speaker": "Crowd member",
-   "tone": "excited",
+   "speaker": "Crowd",
+   "tone": "shout",
    "tamil": "அற்புதம்!",
-   "tanglish": "Arpudham!",
-   "madras": "செம்ம!"
+   "tanglish": "Semma mass!",
+   "madras": "செம்ம மாஸ்!"
   },
   {
    "box_2d": [
-    30,
+    26,
     155,
-    87,
-    375
+    89,
+    373
    ],
    "text": "Coriander defies death itself with this mi-ra-cu-lous potion!",
    "kind": "speech",
-   "speaker": "Crowd member",
+   "speaker": "MC/Announcer",
    "tone": "excited",
-   "tamil": "கொரியாண்டர் இந்த அதிசய பானத்தினால் மரணத்தையே வென்றுவிட்டார்!",
-   "tanglish": "Coriander indha adhisaya paanathinaala maranathaiyae vendruivittaar!",
-   "madras": "கொரியாண்டர் இந்த மேஜிக் பொஷன்-அ வெச்சு சாவத்த கூட தூக்கிப் போட்டுட்டாரு!"
+   "tamil": "இந்த அதிசயக் கலவையால் கொரியாண்டர் மரணத்தையே வென்றுவிட்டார்!",
+   "tanglish": "Indha magic tonic vachu Coriander maranatha mairatturaaru!",
+   "madras": "இந்த மேஜிக் டானிக் வச்சு கொரியாண்டர் மரணத்தையே மிரட்டுறாரு!"
   },
   {
    "box_2d": [
     171,
     94,
-    228,
-    271
+    231,
+    276
    ],
    "text": "...but please, save your applause, people of Komona!",
    "kind": "speech",
-   "speaker": "Saffron",
-   "tone": "excited",
-   "tamil": "...ஆனால் தயவுசெய்து, கோமோனாவே, உங்கள் கைதட்டல்களைச் சேமித்து வையுங்கள்!",
-   "tanglish": "...Aana dhayavu seidhu, Komona-ve, ungal kaithattalkalai semithu vaiyungal!",
-   "madras": "ஆனா கொஞ்சம் இருங்க, கொமோனா மக்களே, கிளாப் பண்றத கொஞ்சம் தள்ளி வைங்க!"
+   "speaker": "Pepper",
+   "tone": "calm",
+   "tamil": "...ஆனால் தயவுசெய்து, கொமோனா மக்களே, உங்கள் கைதட்டலைச் சேமித்து வையுங்கள்!",
+   "tanglish": "...Aana konjam wait pannunga Komona makkale, kai thattala apparam pannunga!",
+   "madras": "...ஆனா கொஞ்சம் வெயிட் பண்ணுங்க கொமோனா மக்களே, கைதட்டலை அப்புறம் பண்ணுங்க!"
   },
   {
    "box_2d": [
     223,
-    253,
+    254,
     261,
     401
    ],
    "text": "Because here is MY Potion!",
    "kind": "speech",
-   "speaker": "Saffron",
-   "tone": "shout",
-   "tamil": "ஏனென்றால் இதோ எனது பானம்!",
-   "tanglish": "Yenendral idho enadhu paanam!",
-   "madras": "என்ன இது தான் என் ரியல் பொஷன்!"
+   "speaker": "Pepper",
+   "tone": "excited",
+   "tamil": "ஏனென்றால் இதோ எனது மந்திரக் கலவை!",
+   "tanglish": "Ena idho en magic tonic vandhachu!",
+   "madras": "ஏன்னா இதோ என் மேஜிக் டானிக் வந்தாச்சு!"
   },
   {
    "box_2d": [
-    259,
-    698,
-    331,
-    931
+    258,
+    696,
+    333,
+    935
    ],
    "text": "The real potion you've all been waiting for: the one which will amaze your neighbors...",
    "kind": "speech",
-   "speaker": "Saffron",
+   "speaker": "Pepper",
    "tone": "excited",
-   "tamil": "நீங்கள் அனைவரும் எதிர்பார்த்த உண்மையான பானம் இதுதான்: உங்கள் பக்கத்து வீட்டுக்காரர்களை வியக்க வைக்கும்...",
-   "tanglish": "Neengal anaivarum edhirpaartha unmaiyaana paanam idhudhaan: ungal pakkathu veettukaarargalai viyakka vaikkum...",
-   "madras": "நீங்க எல்லாரும் காத்துட்டு இருந்தா ரியல் மேட்டர் இது தான்: பக்கத்து வீட்டு ஆளுங்க ஷாக் ஆகுற மாறி..."
+   "tamil": "நீங்கள் அனைவரும் எதிர்பார்த்த உண்மையான மருந்து இதுதான்: உங்கள் பக்கத்து வீட்டுக்காரர்களை வியக்க வைக்கும்...",
+   "tanglish": "Neenga ellarum wait panna original tonic idhudhan: idha paatha unga pakkathu veetukaaranga appadiye shock aayiduvaanga...",
+   "madras": "நீங்க எல்லாரும் வெயிட் பண்ணுன ஒரிஜினல் டானிக் இதுதான்: இதப் பார்த்தா உங்க பக்கத்து வீட்டுக்காரங்க அப்படியே ஷாக் ஆயிடுவாங்க..."
   },
   {
    "box_2d": [
-    336,
-    802,
+    338,
+    803,
     376,
-    944
+    943
    ],
    "text": "...make them jealous!",
    "kind": "speech",
-   "speaker": "Saffron",
+   "speaker": "Pepper",
    "tone": "excited",
-   "tamil": "...அவர்களை பொறாமைப்பட வைக்கும்!",
-   "tanglish": "...avargalai poramaipada vaikkum!",
-   "madras": "...அவங்கள நல்லா கல்லா குள்ள பண்ண போறோம்!"
+   "tamil": "...அவர்களைப் பொறாமைப்பட வைக்கும்!",
+   "tanglish": "...Avangala appadiye poramaipada vaikkum!",
+   "madras": "...அவங்கள அப்படியே பொறாமைப்பட வைக்கும்!"
   },
   {
    "box_2d": [
     401,
     196,
-    467,
-    507
+    462,
+    505
    ],
    "text": "...all this is possible with the simple application of a single drop of my...",
    "kind": "speech",
-   "speaker": "Saffron",
-   "tone": "excited",
-   "tamil": "...இவை அனைத்தும் எனது ஒரு சொட்டுப் பானத்தினால் சாத்தியமாகும்...",
-   "tanglish": "...ivai anaithum enadhu oru sottu paanathinaal saathiyamagum...",
-   "madras": "...இது எல்லாம் என் ஒரு டிராப் பொஷன்-ல ஈஸியா முடிஞ்சிடும்..."
+   "speaker": "Pepper",
+   "tone": "calm",
+   "tamil": "...இதெல்லாம் எனது மந்திரக் கலவையின் ஒரே ஒரு சொட்டு மூலம் சாத்தியம்...",
+   "tanglish": "...Idhellam en magic tonic la irundhu oru suttu potale podhum...",
+   "madras": "...இதெல்லாம் என் மேஜிக் டானிக்ல இருந்து ஒரு சொட்டு போட்டாலே போதும்..."
   },
   {
    "box_2d": [
-    395,
-    643,
-    438,
-    796
+    396,
+    641,
+    441,
+    811
    ],
    "text": "...Potion of POSHNESS!",
    "kind": "speech",
-   "speaker": "Saffron",
+   "speaker": "Pepper",
    "tone": "shout",
-   "tamil": "...கெத்து பானம்!",
-   "tanglish": "...Gethu Paanam!",
-   "madras": "...கெத்து பானம்!"
+   "tamil": "...கெத்து தரும் மந்திரக் கலவை!",
+   "tanglish": "...Gethu kaattum magic tonic!",
+   "madras": "...கெத்து காட்டும் மேஜிக் டானிக்!"
   },
   {
    "box_2d": [
     793,
-    55,
+    57,
     848,
-    268
+    265
    ],
-   "text": "Fantastic! Incredible! This potion could make all of Komona rich!",
+   "text": "Fantastic! Incredible!\nThis potion could make all of Komona rich!",
    "kind": "speech",
-   "speaker": "Crowd member",
+   "speaker": "Man in crowd",
    "tone": "excited",
-   "tamil": "அற்புதம்! நம்பமுடியவில்லை! இந்த பானம் கோமோனாவையே பணக்காரர்களாக்கிவிடும்!",
-   "tanglish": "Arpudham! Nambamudiyavillai! Indha paanam Komona-vaiye panakkaarargalaakkividum!",
-   "madras": "செம்ம! வேற லெவல்! இந்த பொஷன் இருந்தா கொமோனா மொத்தம் செம்ம காசு கொட்டும்!"
+   "tamil": "அற்புதம்! நம்பவே முடியல!\nஇந்த மருந்து கொமோனாவையே பணக்காரர்களாக்கிவிடும்!",
+   "tanglish": "Semma! Vera level!\nIndha tonic Komonavae kodiswaran aakkidum!",
+   "madras": "செம்ம! வேற லெவல்!\nஇந்த டானிக் கொமோனாவையே கோடீஸ்வரனாக்கிடும்!"
   },
   {
    "box_2d": [
     900,
-    348,
-    965,
-    501
+    351,
+    966,
+    500
    ],
-   "text": "Your applause can't be wrong. Coriander has already been eliminated.",
+   "text": "Your applause can't be wrong.\nCoriander has already been eliminated.",
    "kind": "speech",
-   "speaker": "Saffron",
+   "speaker": "Pepper",
    "tone": "calm",
-   "tamil": "உங்கள் கைதட்டல் தவறாக இருக்க முடியாது. கொரியாண்டர் ஏற்கனவே வெளியேற்றப்பட்டுவிட்டார்.",
-   "tanglish": "Ungal kaithattal thavaraaga irukka mudiyaadhu. Coriander erkanavae veliyetrappattuvittaar.",
-   "madras": "நீங்க கிளாப் பண்றது தப்பு இல்ல. கொரியாண்டர்-அ நம்ம அப்பவே முடிச்சிட்டோம்."
+   "tamil": "உங்கள் கைதட்டல் தவறாக இருக்க முடியாது.\nஏனென்றால் கொரியாண்டர் ஏற்கனவே வெளியேற்றப்பட்டுவிட்டார்.",
+   "tanglish": "Neenga kai thattura dhu thappu illa...\nEna Coriander earkanaave out aayittaaru.",
+   "madras": "நீங்க கைதட்டுறது தப்பு இல்ல...\nஏன்னா கொரியாண்டர் ஏற்கனவே அவுட் ஆயிட்டாரு."
   }
  ]
 }

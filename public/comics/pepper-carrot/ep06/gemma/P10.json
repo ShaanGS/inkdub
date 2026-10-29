@@ -4,45 +4,63 @@
  "bubbles": [
   {
    "box_2d": [
-    4,
-    31,
-    73,
-    968
+    5,
+    42,
+    68,
+    957
    ],
    "text": "Pepper&Carrot is entirely free(libre), open-source and sponsored thanks to the kind patronage of readers. For this episode, thank you to the 245 Patrons:",
    "kind": "narration",
    "speaker": "narrator",
    "tone": "calm",
-   "tamil": "Pepper&Carrot முற்றிலும் இலவசமானது, திறந்த மூலமானது மற்றும் வாசகர்களின் அன்பான ஆதரவினால் நிதியளிக்கப்படுகிறது. இந்த எபிசோடிற்கு, 245 ஆதரவாளர்களுக்கு நன்றி:",
-   "tanglish": "Pepper&Carrot muzhuvadhum free, open-source, readers oda support-la run aagudhu. Indha episode-ku, 245 patrons-ku thanks!"
+   "tamil": "பெப்பர் மற்றும் கேரட் முற்றிலும் இலவசமானது, திறந்த மூல மென்பொருளைச் சார்ந்தது மற்றும் வாசகர்களின் அன்பான ஆதரவினால் நிதியளிக்கப்படுகிறது. இந்தத் தொகுப்பிற்கு, 245 ஆதரவாளர்களுக்கு நன்றி:",
+   "tanglish": "Pepper & Carrot muzhusa free dhaan, readers kudukura support-nala dhaan idhu nadakudhu. Indha episode-ku support panna 245 peruku romba thanks:",
+   "madras": "Pepper & Carrot முழுசா ஃப்ரீ தான், வாசகர்ங்க குடுக்குற சப்போர்ட்னால தான் இது முடியுது. இந்த எபிசோட்-க்கு சப்போர்ட் பண்ண 245 பேருக்கு ரொம்ப தேங்க்ஸ்:"
   },
   {
    "box_2d": [
-    700,
-    355,
-    743,
-    653
+    704,
+    297,
+    778,
+    700
    ],
-   "text": "You can also become a patron of Pepper&Carrot for the next episode:",
+   "text": "You can also become a patron of\nPepper&Carrot for the next episode:\nhttps://www.patreon.com/davidrevoy",
    "kind": "narration",
    "speaker": "narrator",
    "tone": "calm",
-   "tamil": "அடுத்த எபிசோடிற்கும் நீங்கள் Pepper&Carrot-ன் ஆதரவாளராக முடியும்:",
-   "tanglish": "Adutha episode-kum neenga Pepper&Carrot-ku patron aagalam:"
+   "tamil": "அடுத்த தொகுப்பிற்கும் பெப்பர் மற்றும் கேரட்டின் ஆதரவாளராக நீங்கள் மாறலாம்:\nhttps://www.patreon.com/davidrevoy",
+   "tanglish": "Adutha episode-kum neenga Pepper & Carrot-ku support pannalam:\nhttps://www.patreon.com/davidrevoy",
+   "madras": "அடுத்த எபிசோட்-க்கும் நீங்க பெப்பர் & கேரட்-க்கு சப்போர்ட் பண்ணலாம்:\nhttps://www.patreon.com/davidrevoy"
   },
   {
    "box_2d": [
-    838,
+    786,
+    358,
+    826,
+    641
+   ],
+   "text": "License: Creative Commons Attribution\nYou can modify, reshare, sell etc. ...",
+   "kind": "narration",
+   "speaker": "narrator",
+   "tone": "calm",
+   "tamil": "உரிமம்: கிரியேட்டிவ் காமன்ஸ் அட்ரிபியூஷன்\nநீங்கள் மாற்றியமைக்கலாம், மீண்டும் பகிரலாம், விற்கலாம் போன்றவை...",
+   "tanglish": "License: Creative Commons Attribution\nNeenga idha maathalam, share pannalam, vikkalam... ellam pannalam:",
+   "madras": "லைசென்ஸ்: கிரியேட்டிவ் காமன்ஸ் அட்ரிபியூஷன்\nநீங்க இத மாத்தலாம், ஷேர் பண்ணலாம், விக்கலாம்... எல்லாம் பண்ணலாம்:"
+  },
+  {
+   "box_2d": [
+    839,
     223,
-    882,
-    776
+    899,
+    777
    ],
    "text": "Open-source: all source files with layers and fonts, are available on the official site\nTools: This episode was 100% drawn with Free/Libre software\nKrita on Linux Mint",
    "kind": "narration",
    "speaker": "narrator",
    "tone": "calm",
-   "tamil": "திறந்த மூல மென்பொருள்: லேயர்கள் மற்றும் எழுத்துருக்களுடன் கூடிய அனைத்து மூலக் கோப்புகளும் அதிகாரப்பூர்வ தளத்தில் கிடைக்கின்றன\nகருவிகள்: இந்த எபிசோட் 100% இலவச மென்பொருளால் வரையப்பட்டது\nLinux Mint-ல் Krita",
-   "tanglish": "Open-source: layers matrum fonts ulla ella source files-um official site-la iruku\nTools: Indha episode 100% free software-la varainjadhhu\nLinux Mint-la Krita"
+   "tamil": "திறந்த மூலம்: லேயர்கள் மற்றும் எழுத்துருக்களுடன் கூடிய அனைத்து மூலக் கோப்புகளும் அதிகாரப்பூர்வ தளத்தில் கிடைக்கின்றன\nகருவிகள்: இந்தத் தொகுப்பு 100% இலவச மென்பொருளால் வரையப்பட்டது\nலினக்ஸ் மின்ட்டில் கிரிட்டா",
+   "tanglish": "Open-source: layers matrum fonts ellam official site-la iruku\nTools: Indha episode muzhusa free software vachu dhaan varainjom\nLinux Mint-la Krita",
+   "madras": "ஓபன் சோர்ஸ்: லேயர்ஸ் மற்றும் ஃபான்ட்ஸ் எல்லாம் அதிகாரப்பூர்வ சைட்ல இருக்கு\nடூல்ஸ்: இந்த எபிசோட் முழுக்க ஃப்ரீ சாஃப்ட்வேர் வச்சு தான் வரைஞ்சோம்\nலினக்ஸ் மின்ட்ல கிரிட்டா"
   }
  ]
 }

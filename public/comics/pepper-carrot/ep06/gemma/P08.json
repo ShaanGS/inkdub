@@ -5,121 +5,76 @@
   {
    "box_2d": [
     101,
-    171,
-    136,
-    335
+    158,
+    201,
+    363
    ],
-   "text": "There you go...",
+   "text": "There you go...\n...as usual, everyone leaves just when it's our turn.",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "sad",
-   "tamil": "அப்படியே போயிட்டீங்க...",
-   "tanglish": "Appadiye poyitinga...",
-   "madras": "அப்படியே போயிட்டீங்கடா..."
+   "tamil": "போயிட்டாங்க...\n...எப்பவும் போல, நம்ம முறை வரும்போது எல்லாரும் கிளம்பிடுறாங்க.",
+   "tanglish": "Poyittaanga...\n...eppavum pola, namma time varumbo ellarum odiduraanga.",
+   "madras": "போயிட்டாங்கப்பா...\n...எப்பவும் போல, நம்ம டைம் வரும்போது எல்லாரும் ஓடிடுறாங்க."
   },
   {
    "box_2d": [
-    132,
-    163,
-    199,
-    362
+    197,
+    634,
+    356,
+    867
    ],
-   "text": "...as usual, everyone leaves just when it's our turn.",
+   "text": "At least I have an idea of what we'll be able to do with your \"potion\", Carrot.\n...put everything back in order here and head home!",
    "kind": "speech",
    "speaker": "Pepper",
-   "tone": "sad",
-   "tamil": "...எப்பவும் போல, நம்ம முறை வரும்போது எல்லாரும் கிளம்பிடுறாங்க.",
-   "tanglish": "...eppavum pola, namma murai varumbodhu ellarum kilambiduraanga.",
-   "madras": "...எப்பவும் போல, நம்ம டைம் வரும்போது எல்லாரும் கட் பண்ணிடுறாங்க."
-  },
-  {
-   "box_2d": [
-    196,
-    632,
-    298,
-    818
-   ],
-   "text": "At least I have an idea of what we'll be able to do with your \"potion\", Carrot.",
-   "kind": "speech",
-   "speaker": "Pepper",
-   "tone": "calm",
-   "tamil": "உன்னோட இந்த \"மருந்தால\" என்ன பண்ண முடியும்னு எனக்கு ஒரு ஐடியா இருக்கு, கேரட்.",
-   "tanglish": "Unnoda indha \"marundhala\" enna panna mudiyumnu enakku oru idea irukku, Carrot.",
-   "madras": "உன் இந்த \"மருந்த வச்சு\" என்ன பண்ணலாம்னு எனக்கு ஒரு ஐடியா இருக்கு, கேரட்."
-  },
-  {
-   "box_2d": [
-    298,
-    691,
-    358,
-    868
-   ],
-   "text": "...put everything back in order here and head home!",
-   "kind": "speech",
-   "speaker": "Pepper",
-   "tone": "calm",
-   "tamil": "...எல்லாத்தையும் ஒழுங்கா வச்சிட்டு கிளம்பு!",
-   "tanglish": "...ellathaiyum ozhunga vachittu kilambu!",
-   "madras": "...எல்லாத்தையும் கரெக்டா வச்சிட்டு வீட்டுக்கு போ!"
-  },
-  {
-   "box_2d": [
-    467,
-    88,
-    508,
-    208
-   ],
-   "text": "HEY!",
-   "kind": "speech",
-   "speaker": "Pepper",
-   "tone": "shout",
-   "tamil": "ஏய்!",
-   "tanglish": "Hey!",
-   "madras": "ஏய்!"
+   "tone": "thinking",
+   "tamil": "உன்னோட இந்த \"மருந்து\" வச்சு என்ன பண்ணலாம்னு எனக்கு ஒரு ஐடியா இருக்கு, கேரட்.\n...இங்க எல்லாத்தையும் ஒழுங்கா வச்சுட்டு வீட்டுக்கு கிளம்பு!",
+   "tanglish": "Unnoda indha \"marundhu\" vachu enna pannalamnu enakku oru idea irukku, Carrot.\n...Inga ellathayum set pannittu veetukku po!",
+   "madras": "உன்னோட இந்த \"மருந்து\" வச்சு என்ன பண்ணலாம்னு எனக்கு ஒரு பிளான் இருக்கு, கேரட்.\n...இங்க எல்லாத்தையும் செட் பண்ணிட்டு வீட்டுக்கு போ!"
   },
   {
    "box_2d": [
     476,
-    301,
-    530,
-    636
+    299,
+    527,
+    637
    ],
    "text": "You Oversized-posh-zombie-canary!",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "shout",
-   "tamil": "டேய், பெரிய உருவத்துல இருக்குற அந்த பகட்டு ஜோம்பி குருவி!",
-   "tanglish": "Dei, periya uruvathula irukkura andha pagattu zombie kuruvi!",
-   "madras": "டேய், அந்த உருப்படியில்லாத பெரிய பகட்டு ஜோம்பி குருவி!"
+   "tamil": "ஏய், நீ ஒரு உருவத்தால பெரிய, பகட்டுக்கார, ஜோம்பி-கானரி!",
+   "tanglish": "Ei, nee oru uruvathala periya, scene podura, zombie-canary!",
+   "madras": "ஏய், நீ ஒரு உருவத்தால பெரிய, சீன் போடுற, ஜோம்பி-கானரி!"
   },
   {
    "box_2d": [
-    789,
+    791,
     103,
     832,
-    318
+    313
    ],
    "text": "Wanna try one last potion? ...",
    "kind": "speech",
    "speaker": "Pepper",
    "tone": "excited",
    "tamil": "கடைசியா ஒரு மருந்து ட்ரை பண்ணலாமா? ...",
-   "tanglish": "Kadaisiya oru marundhu try pannalama? ...",
-   "madras": "கடைசியா ஒரு தடவை ட்ரை பண்ணலாமா? ..."
+   "tanglish": "Kadasiya oru marundhu try pannalama? ...",
+   "madras": "கடைசியா ஒரு மருந்து ட்ரை பண்ணலாமா? ..."
   },
   {
    "box_2d": [
-    894,
-    723,
-    945,
-    896
+    893,
+    724,
+    941,
+    898
    ],
    "text": "...not really, huh?",
    "kind": "speech",
    "speaker": "Pepper",
-   "tone": "calm",
-   "tamil": "...அப்படியெல்லாம் இல்ல, இல்லையே?",
-   "tanglish": "...appadiyellam illa, illaye?",
+   "tone": "thinking",
+   "tamil": "...உண்மையாவே வேண்டாம், இல்லையா?",
+   "tanglish": "...Appadiyellam illaye, illa?",
    "madras": "...அப்படியெல்லாம் இல்லையே, இல்ல?"
   }
  ]
