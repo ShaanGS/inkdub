@@ -369,8 +369,49 @@ function traceBubble({ data, width: w, height: h }: ImageData, box: Box, paper: 
     ((wx0 + x1 + 1) / w) * 1000,
   ];
   const maskBox = toBox(minX, minY, maxX, maxY);
+
+  // Pull in any side of a text rectangle that touches the outline or the art, with a little clearance
+  // so Tamil's tall vowel signs never kiss the line. Paper and the old letters are fair ground.
+  const clearance = Math.max(2, Math.round(size * 0.025));
+  const clear = (x: number, y: number) => {
+    const cx = Math.round(x);
+    const cy = Math.round(y);
+    return cx >= 0 && cy >= 0 && cx < ww && cy < wh && !outside[cy * ww + cx];
+  };
+  const sideClear = (x0: number, y0: number, x1: number, y1: number) => {
+    for (let t = 0; t <= 16; t++) if (!clear(x0 + ((x1 - x0) * t) / 16, y0 + ((y1 - y0) * t) / 16)) return false;
+    return true;
+  };
+  const tighten = (r: { left: number; right: number; top: number; bottom: number }) => {
+    const out = { ...r };
+    for (let step = 0; step < 24; step++) {
+      const [l, t, rt, b] = [out.left - clearance, out.top - clearance, out.right + clearance, out.bottom + clearance];
+      const moves = { top: !sideClear(l, t, rt, t), bottom: !sideClear(l, b, rt, b), left: !sideClear(l, t, l, b), right: !sideClear(rt, t, rt, b) };
+      if (!moves.top && !moves.bottom && !moves.left && !moves.right) break;
+      // Each side gives up at most a fifth of the box: a jagged shout burst always touches somewhere, and a
+      // line that grazes a spike reads better than one shrunk to nothing.
+      const dx = (r.right - r.left) * 0.02;
+      const dy = (r.bottom - r.top) * 0.024;
+      const room = { x: (r.right - r.left) * 0.2, y: (r.bottom - r.top) * 0.2 };
+      if (moves.left && out.left + dx - r.left <= room.x) out.left += dx;
+      if (moves.right && r.right - (out.right - dx) <= room.x) out.right -= dx;
+      if (moves.top && out.top + dy - r.top <= room.y) out.top += dy;
+      if (moves.bottom && r.bottom - (out.bottom - dy) <= room.y) out.bottom -= dy;
+    }
+    return out;
+  };
+
   // An open bubble keeps to Gemma's box: its paper runs into the gutter, so its true edge is unknown.
-  if (open) return { maskBox, mask: canvas.toDataURL(), textBox: padded(box), round: false };
+  if (open) {
+    const [py0, px0, py1, px1] = padded(box);
+    const gemma = tighten({
+      left: (px0 / 1000) * w - wx0,
+      right: (px1 / 1000) * w - wx0,
+      top: (py0 / 1000) * h - wy0,
+      bottom: (py1 / 1000) * h - wy0,
+    });
+    return { maskBox, mask: canvas.toDataURL(), textBox: toBox(gemma.left, gemma.top, gemma.right, gemma.bottom), round: false };
+  }
 
   // A closed bubble: try the interior with a margin that clears an oval's curve, and the roomiest
   // rectangle that actually fits the traced shape, and keep whichever sets this line larger.
@@ -383,6 +424,7 @@ function traceBubble({ data, width: w, height: h }: ImageData, box: Box, paper: 
     const snug = { left: roomy.left + padX, right: roomy.right - padX, top: roomy.top + padY, bottom: roomy.bottom - padY };
     if (fitEstimate(snug, longest) > fitEstimate(inset, longest) * 1.04) pick = snug;
   }
+  pick = tighten(pick);
   return { maskBox, mask: canvas.toDataURL(), textBox: toBox(pick.left, pick.top, pick.right, pick.bottom), round: false };
 }
 
