@@ -3,12 +3,13 @@ import { Suspense } from "react";
 import { Reader } from "@/components/Reader";
 import { VIEWS } from "@/lib/views";
 import { episode } from "@/lib/episode";
+import { shareMeta } from "@/lib/meta";
 import type { View } from "@/lib/types";
 
-export const metadata: Metadata = {
-  title: `${episode.series}: ${episode.title} in Tamil · Inkdub`,
-  description: `Read ${episode.series} episode ${episode.number} lettered in Tamil, Tanglish and Madras Bashai by Gemma 4.`,
-};
+const title = `${episode.series}: ${episode.title} in Tamil · Inkdub`;
+const description = `Read ${episode.series} episode ${episode.number} lettered in Tamil, Tanglish and Madras Bashai by Gemma 4.`;
+
+export const metadata: Metadata = shareMeta(title, description);
 
 export default function ReadPage({ searchParams }: PageProps<"/read">) {
   return (

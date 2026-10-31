@@ -127,7 +127,7 @@ app/
   page.tsx            landing page
   read/               episode reader (deep-linkable)
   dub/                live dubbing for your own pages, on the reader's own key
-  card/               the social card, screenshotted into opengraph-image.png
+  card/               the social card, screenshotted into opengraph-image.jpg
 components/
   DubbedPage.tsx      bubble tracing, patches, lettering and animation
   FitText.tsx         fit-to-bubble type setting

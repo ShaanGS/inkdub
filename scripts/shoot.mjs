@@ -45,18 +45,20 @@ async function shot(out, width, height, path, wait = 5000) {
   await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: false });
   await send("Page.navigate", { url: BASE + path });
   await sleep(wait);
-  const { data } = await send("Page.captureScreenshot", { format: "png" });
+  // JPEGs keep the social card well under the ~300 KB WhatsApp will preview.
+  const jpeg = out.endsWith(".jpg");
+  const { data } = await send("Page.captureScreenshot", jpeg ? { format: "jpeg", quality: 78 } : { format: "png" });
   await writeFile(out, Buffer.from(data, "base64"));
   console.log(out);
 }
 
 await mkdir("docs/frames", { recursive: true });
 await send("Page.enable");
-await shot("app/opengraph-image.png", 1200, 630, "/card", 3000);
-await shot("app/twitter-image.png", 1200, 630, "/card", 3000);
-await shot("docs/landing.png", 1440, 900, "/?hero=madras");
-await shot("docs/reader-madras.png", 1440, 1100, "/read?page=4&view=madras");
-await shot("docs/reader-tamil.png", 1440, 1100, "/read?page=2&view=tamil");
+await shot("app/opengraph-image.jpg", 1200, 630, "/card", 3000);
+await shot("app/twitter-image.jpg", 1200, 630, "/card", 3000);
+await shot("docs/landing.jpg", 1440, 900, "/?hero=madras");
+await shot("docs/reader-madras.jpg", 1440, 1100, "/read?page=4&view=madras");
+await shot("docs/reader-tamil.jpg", 1440, 1100, "/read?page=2&view=tamil");
 for (const view of ["original", "tamil", "tanglish", "madras"]) {
   await shot(`docs/frames/${view}.png`, 1100, 1500, `/read?page=6&view=${view}`);
 }

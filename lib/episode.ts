@@ -16,7 +16,8 @@ export { voiceSrc } from "./voice-clips";
 // so the reader is instant and never depends on the free tier being up.
 const dubs = [p01, p02, p03, p04, p05, p06, p07, p08, p09, p10];
 
-export type Page = { id: string; src: string; humanTamilSrc: string; bubbles: Bubble[] };
+// `thumb` is a 160px copy for the page strip, so opening the reader fetches one page, not all ten.
+export type Page = { id: string; src: string; thumb: string; humanTamilSrc: string; bubbles: Bubble[] };
 
 
 export const episode = {
@@ -35,6 +36,7 @@ export const episode = {
     return {
       id,
       src: `/comics/pepper-carrot/ep06/en/${id}.jpg`,
+      thumb: `/comics/pepper-carrot/ep06/thumb/${id}.jpg`,
       humanTamilSrc: `/comics/pepper-carrot/ep06/ta/${id}.jpg`,
       bubbles: dub.bubbles as unknown as Bubble[],
     };

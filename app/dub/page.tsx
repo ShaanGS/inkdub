@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/Comic";
 import { LiveDub } from "@/components/LiveDub";
+import { shareMeta } from "@/lib/meta";
 
-export const metadata: Metadata = { title: "Dub a page live · Inkdub" };
+const title = "Dub a page live · Inkdub";
+const description = "Drop in any comic page and Gemma 4 letters it into Tamil, Tanglish or Madras Bashai, bubble by bubble.";
+
+export const metadata: Metadata = shareMeta(title, description);
 
 export default function DubPage() {
   return (

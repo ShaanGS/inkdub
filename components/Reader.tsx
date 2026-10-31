@@ -34,6 +34,7 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
   const [selected, setSelected] = useState<number | null>(null);
   const [reading, setReading] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
+  const zoomed = usePinchZoomed();
   const { speaking, play, stop } = useVoice();
   const page = episode.pages[index];
   const last = episode.pages.length - 1;
@@ -140,16 +141,16 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
               animate="center"
               exit="exit"
               transition={{ type: "spring", stiffness: 210, damping: 26 }}
-              // Swipe to turn the page on phones, where the arrows are hidden.
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.3}
-              dragSnapToOrigin
-              onDragEnd={(_, { offset, velocity }) => {
+              // Swipe to turn the page on phones, where the arrows are hidden. A pan, not a drag: drag would
+              // claim the touch and stop the browser's pinch-zoom, which phones need to read the lettering.
+              // Zoomed in, a sideways swipe scrolls around the page instead of turning it.
+              onPanEnd={(_, { offset, velocity }) => {
+                if (zoomed) return;
                 if (offset.x < -70 || velocity.x < -500) goTo(index + 1);
                 else if (offset.x > 70 || velocity.x > 500) goTo(index - 1);
               }}
-              className="relative touch-pan-y bg-paper-hi shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-black/40"
+              style={{ touchAction: zoomed ? "auto" : "pan-y pinch-zoom" }}
+              className="relative bg-paper-hi shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-black/40"
             >
               {community ? (
                 <>
@@ -201,7 +202,7 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element -- tiny page thumbnails */}
-                <img src={p.src} alt="" className="block w-full" style={{ aspectRatio: `${episode.width} / ${episode.height}` }} />
+                <img src={p.thumb} alt="" className="block w-full" style={{ aspectRatio: `${episode.width} / ${episode.height}` }} />
                 {i === index && <motion.span layoutId="thumb" className="absolute -inset-1 border-2 border-accent" />}
               </button>
             ))}
@@ -311,4 +312,17 @@ function PageArrow({ label, disabled, onClick, flip }: { label: string; disabled
       {flip ? "←" : "→"}
     </motion.button>
   );
+}
+
+/** True while the reader has pinched the page bigger than the screen. */
+function usePinchZoomed() {
+  const [zoomed, setZoomed] = useState(false);
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    const check = () => setZoomed(viewport.scale > 1.05);
+    viewport.addEventListener("resize", check);
+    return () => viewport.removeEventListener("resize", check);
+  }, []);
+  return zoomed;
 }
