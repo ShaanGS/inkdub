@@ -16,6 +16,8 @@ type Props = {
   playKey?: string | number;
   selected?: number | null;
   onSelect?: (index: number) => void;
+  /** The bubble whose line is being spoken right now. */
+  speaking?: number | null;
   /** Seconds before the first bubble letters in. */
   delay?: number;
 };
@@ -45,7 +47,7 @@ const place = ([top, left, bottom, right]: Box) => ({
   height: `${(bottom - top) / 10}%`,
 });
 
-export function DubbedPage({ src, alt, width, height, bubbles, view, playKey, selected, onSelect, delay = 0.2 }: Props) {
+export function DubbedPage({ src, alt, width, height, bubbles, view, playKey, selected, onSelect, speaking, delay = 0.2 }: Props) {
   const layouts = useBubbleLayouts(src, bubbles);
   const [settledKey, setSettledKey] = useState<Props["playKey"] | null>(null);
   const settled = settledKey === playKey;
@@ -105,7 +107,13 @@ export function DubbedPage({ src, alt, width, height, bubbles, view, playKey, se
             className="absolute cursor-pointer rounded-[40%] outline-none focus-visible:ring-2 focus-visible:ring-accent"
             style={place(layout.textBox)}
             whileHover={{ scale: 1.03 }}
-            transition={{ type: "spring", stiffness: 400, damping: 24 }}
+            // A bubble that is talking throbs gently, like a mouth moving.
+            animate={speaking === i ? { scale: [1, 1.05, 1] } : { scale: 1 }}
+            transition={
+              speaking === i
+                ? { duration: 0.42, repeat: Infinity, ease: "easeInOut" }
+                : { type: "spring", stiffness: 400, damping: 24 }
+            }
           >
             <AnimatePresence mode="wait">
               {dubbed && (
@@ -129,7 +137,15 @@ export function DubbedPage({ src, alt, width, height, bubbles, view, playKey, se
                 </motion.span>
               )}
             </AnimatePresence>
-            {selected === i && (
+            {speaking === i && (
+              <motion.span
+                aria-hidden
+                className="pointer-events-none absolute -inset-2 rounded-[40%] border-[3px] border-sun shadow-[0_0_34px_rgba(255,194,26,0.7)]"
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+              />
+            )}
+            {selected === i && speaking !== i && (
               <motion.span
                 layoutId="bubble-ring"
                 aria-hidden

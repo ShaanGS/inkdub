@@ -1,10 +1,12 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Episode } from "@/lib/episode";
+import { type Episode, voiceSrc } from "@/lib/episode";
 import { artCredit, creditLabel } from "@/lib/share";
-import type { View } from "@/lib/types";
+import type { Style, View } from "@/lib/types";
+import { useVoice } from "@/lib/voice-player";
 import { VIEWS } from "@/lib/views";
 import { BubbleCard } from "./BubbleCard";
 import { Logo } from "./Comic";
@@ -13,6 +15,8 @@ import { LinkButton, SaveButton } from "./Share";
 import { StyleSwitch } from "./StyleSwitch";
 
 type ReaderProps = { episode: Episode; initialPage?: number; initialView?: View };
+
+const pause = (seconds: number) => new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 
 // Pages turn on their spine: the old page swings away, the new one settles in from the other side.
 const turn = {
@@ -28,9 +32,16 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
   const [peek, setPeek] = useState(false);
   const [community, setCommunity] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
+  const [reading, setReading] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
+  const { speaking, play, stop } = useVoice();
   const page = episode.pages[index];
   const last = episode.pages.length - 1;
+  const style: Style | null = view === "original" || community ? null : view;
+  const hasVoice = (p: Episode["pages"][number]) => !!style && p.bubbles.some((_, i) => voiceSrc(p.id, i, style));
+  const voiced = episode.pages.some(hasVoice);
+  // Switching to a view with no voices (English, Tamil for now) pauses the reading.
+  const playing = reading && voiced;
 
   // Keep the address bar shareable: /read?page=4&view=madras opens exactly this.
   useEffect(() => {
@@ -46,9 +57,42 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
       setDirection(next > index ? 1 : -1);
       setIndex(next);
       setSelected(null);
+      stop("tap");
     },
-    [index, last],
+    [index, last, stop],
   );
+
+  const select = (i: number) => {
+    setSelected(i);
+    setReading(false);
+    const src = style && voiceSrc(page.id, i, style);
+    if (src) play(i, src);
+  };
+
+  // Read aloud: every bubble in order, then on to the next page, until the episode ends or it's stopped.
+  useEffect(() => {
+    if (!playing) return;
+    let stopped = false;
+    (async () => {
+      await pause(1); // let the page turn and the lettering land first
+      const clips = page.bubbles.map((_, i) => style && voiceSrc(page.id, i, style));
+      // A page that isn't voiced yet gets a few seconds to be looked at.
+      if (!clips.some(Boolean)) await pause(3.5);
+      for (const [i, src] of clips.entries()) {
+        if (stopped) return;
+        if (!src) continue;
+        await play(i, src, "reader");
+        await pause(0.3);
+      }
+      if (stopped) return;
+      if (index < last) goTo(index + 1);
+      else setReading(false);
+    })();
+    return () => {
+      stopped = true;
+      stop("reader");
+    };
+  }, [playing, page, style, index, last, goTo, play, stop]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -58,6 +102,7 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
         e.preventDefault();
         setPeek(true);
       } else if (e.key === "Escape") setSelected(null);
+      else if (e.key === "p") setReading((on) => !on);
       else if (e.key === "c") setCommunity((on) => !on);
       else if (/^[1-4]$/.test(e.key)) setView(VIEWS[Number(e.key) - 1].id);
     };
@@ -130,7 +175,8 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
                     view={shown}
                     playKey={page.id}
                     selected={selected}
-                    onSelect={setSelected}
+                    onSelect={select}
+                    speaking={speaking}
                   />
                 </div>
               )}
@@ -164,6 +210,23 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
             </span>
           </nav>
           <div className="flex flex-wrap gap-2 font-mono text-[11px] font-semibold tracking-[0.1em] uppercase">
+            <button
+              type="button"
+              aria-pressed={playing}
+              disabled={!voiced}
+              title={voiced ? undefined : "Voices are in Madras Bashai for now"}
+              onClick={() => {
+                if (!playing) track("voice_read", { view });
+                setReading(!playing);
+              }}
+              className={`border-2 px-3 py-1.5 transition disabled:opacity-35 ${
+                playing
+                  ? "border-sun bg-sun text-ink"
+                  : "border-sun text-sun hover:bg-sun hover:text-ink"
+              }`}
+            >
+              {playing ? "■ Stop" : "▶ Read it to me"} <kbd className="ml-1 hidden opacity-60 sm:inline">P</kbd>
+            </button>
             <button
               type="button"
               onPointerDown={() => setPeek(true)}
@@ -215,7 +278,20 @@ export function Reader({ episode, initialPage = 0, initialView = "tamil" }: Read
       </footer>
 
       <AnimatePresence>
-        {bubble && <BubbleCard key={selected} bubble={bubble} model={episode.model} onClose={() => setSelected(null)} />}
+        {bubble && selected !== null && (
+          <BubbleCard
+            key={selected}
+            bubble={bubble}
+            model={episode.model}
+            onClose={() => setSelected(null)}
+            voices={(["tamil", "tanglish", "madras"] as const).filter((s) => voiceSrc(page.id, selected, s))}
+            speaking={speaking === selected}
+            onPlay={(s) => {
+              const src = voiceSrc(page.id, selected, s);
+              if (src) play(selected, src);
+            }}
+          />
+        )}
       </AnimatePresence>
     </div>
   );

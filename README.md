@@ -42,9 +42,10 @@ Anime has Tamil dubs now. Manga, manhwa and comics still don't. Inkdub fixes tha
 ## What you can do
 
 - **Read a whole episode in Tamil.** All 10 pages of Pepper&Carrot episode 6 at [`/read`](https://inkdubs.vercel.app/read), with a style switch (keys `1`–`4`), page turns (`←` `→`), and a tap on any bubble to see the original, the speaker and all three dubs.
+- **Hear it.** Tap a bubble and it speaks its line in Madras Bashai, or press **Read it to me** (`P`) and the reader voices each bubble in order and turns the pages. Voices come from Gemini's text-to-speech models. Pages 1, 3, 7 and 9 are voiced so far: the free tier allows about 40 spoken lines a day, so the rest of the episode is filled in a day at a time.
 - **Peek at the original.** Hold `space` (or the button) to see the English underneath.
 - **Compare with human translators.** Press `C` to swap in the Pepper&Carrot community's own Tamil edition of the same page.
-- **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdubs.vercel.app/dub) and paste your free Gemini API key. Gemma 4 letters it in about 15–40 seconds. The sample pages work without a key.
+- **Dub your own page, live.** Drop, upload or paste (⌘V) any comic or manga page at [`/dub`](https://inkdubs.vercel.app/dub) and paste your free Gemini API key. Gemma 4 letters it in about 15–40 seconds. The sample pages work without a key. Tap a bubble on a dubbed page to hear it, voiced on your key.
 - **Save and share a page.** One tap renders the lettered page as an image with an Inkdub credit strip and opens your phone's share sheet (WhatsApp, Instagram), or downloads it on a laptop.
 - **Share a moment.** Links like [`/read?page=7&view=madras`](https://inkdubs.vercel.app/read?page=7&view=madras) open on that page, in that style. On a phone, swipe to turn pages.
 
@@ -116,6 +117,7 @@ pnpm dev                     # http://localhost:3000, then paste your key on /du
 | `pnpm dev` / `pnpm build` / `pnpm start` | Develop, build, serve |
 | `pnpm lint` | ESLint |
 | `pnpm dub:episode public/comics/pepper-carrot/ep06` | Dub an episode with the same pipeline as `/dub` and cache the JSON (skips pages already done). Reads `GEMINI_API_KEY` from `.env.local` (copy `.env.example`) |
+| `pnpm voice:episode public/comics/pepper-carrot/ep06 madras` | Voice every dubbed bubble as an MP3 beside the pages (skips clips already made; needs ffmpeg). Stops cleanly when the day's free quota runs out, so rerun it the next day |
 | `pnpm shoot` | Rebuild the README screenshots and the social card from a running production server |
 
 ## Project layout
@@ -136,10 +138,12 @@ components/
   Reader.tsx, LiveDub.tsx, HeroDemo.tsx, StyleSwitch.tsx, BubbleCard.tsx
 lib/
   gemma.ts            prompt, Gemini API call, retries, JSON validation (runs in the browser and in scripts)
+  voice.ts            speaks a dubbed line with Gemini TTS; voice-player.ts plays one clip at a time
   key.ts              the reader's Gemini key, kept in their browser
   episode.ts          the bundled Pepper&Carrot episode and its cached dub
 scripts/
   dub-episode.ts      batch-dub an episode
+  voice-episode.ts    voice an episode's bubbles into MP3s
   shoot.mjs           screenshots over the Chrome DevTools protocol
 ```
 

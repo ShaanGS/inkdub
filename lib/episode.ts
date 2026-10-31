@@ -10,11 +10,14 @@ import p09 from "@/public/comics/pepper-carrot/ep06/gemma/P09.json";
 import p10 from "@/public/comics/pepper-carrot/ep06/gemma/P10.json";
 import type { Bubble } from "./types";
 
+export { voiceSrc } from "./voice-clips";
+
 // Pages were dubbed once with scripts/dub-episode.mjs (same prompt as the live API) and cached,
 // so the reader is instant and never depends on the free tier being up.
 const dubs = [p01, p02, p03, p04, p05, p06, p07, p08, p09, p10];
 
 export type Page = { id: string; src: string; humanTamilSrc: string; bubbles: Bubble[] };
+
 
 export const episode = {
   series: "Pepper&Carrot",

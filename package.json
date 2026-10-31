@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "dub:episode": "node --env-file=.env.local scripts/dub-episode.ts",
+    "voice:episode": "node --env-file=.env.local scripts/voice-episode.ts",
     "shoot": "node scripts/shoot.mjs",
     "record-demo": "node scripts/record-demo.mjs"
   },

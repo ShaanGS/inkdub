@@ -1,16 +1,26 @@
 "use client";
 
 import { motion } from "motion/react";
-import type { Bubble } from "@/lib/types";
+import type { Bubble, Style } from "@/lib/types";
 
-const ROWS: { key: "tamil" | "tanglish" | "madras"; label: string }[] = [
+const ROWS: { key: Style; label: string }[] = [
   { key: "tamil", label: "Tamil" },
   { key: "tanglish", label: "Tanglish" },
   { key: "madras", label: "Madras Bashai" },
 ];
 
+type Props = {
+  bubble: Bubble;
+  model: string;
+  onClose: () => void;
+  /** Styles this line has a voice clip in, each with its own play button. */
+  voices?: Style[];
+  speaking?: boolean;
+  onPlay?: (style: Style) => void;
+};
+
 /** A translator's note pinned over the page: who speaks, how, the original line and all three dubs. */
-export function BubbleCard({ bubble, model, onClose }: { bubble: Bubble; model: string; onClose: () => void }) {
+export function BubbleCard({ bubble, model, onClose, voices = [], speaking, onPlay }: Props) {
   return (
     <motion.aside
       initial={{ opacity: 0, y: 30, rotate: 2 }}
@@ -38,14 +48,30 @@ export function BubbleCard({ bubble, model, onClose }: { bubble: Bubble; model: 
       <dl className="space-y-3">
         {ROWS.map((row) => (
           <div key={row.key}>
-            <dt className="font-mono text-[10px] font-semibold tracking-[0.14em] text-ink-soft uppercase">{row.label}</dt>
+            <dt className="flex items-center gap-2 font-mono text-[10px] font-semibold tracking-[0.14em] text-ink-soft uppercase">
+              {row.label}
+              {voices.includes(row.key) && (
+                <button
+                  type="button"
+                  onClick={() => onPlay?.(row.key)}
+                  aria-label={`Hear it in ${row.label}`}
+                  className="border-2 border-ink px-1.5 leading-4 text-ink transition hover:bg-ink hover:text-paper-hi"
+                >
+                  ▶ hear
+                </button>
+              )}
+            </dt>
             <dd className={`mt-0.5 font-bubble text-[17px] leading-snug ${row.key === "madras" ? "font-bold text-accent" : ""}`}>
               {bubble[row.key]}
             </dd>
           </div>
         ))}
       </dl>
-      <p className="mt-4 font-mono text-[10px] tracking-[0.06em] text-ink-soft">Lettered by {model} · Gemini API</p>
+      <p className="mt-4 font-mono text-[10px] tracking-[0.06em] text-ink-soft">
+        Lettered by {model} · Gemini API
+        {voices.length > 0 && " · voiced by Gemini TTS"}
+        {speaking && <span className="ml-2 text-accent">● speaking</span>}
+      </p>
     </motion.aside>
   );
 }

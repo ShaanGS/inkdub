@@ -4,16 +4,19 @@ import { AnimatePresence, motion } from "motion/react";
 import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { currentKey, forgetKey } from "@/lib/key";
+import { currentKey, forgetKey, useGeminiKey } from "@/lib/key";
 import { artCredit, creditLabel } from "@/lib/share";
 import type { DubResult, View } from "@/lib/types";
+import { voiceSrc } from "@/lib/voice-clips";
+import { useVoice } from "@/lib/voice-player";
 import { Caption, Tag } from "./Comic";
 import { DubbedPage } from "./DubbedPage";
 import { GEMINI_TERMS, KeyCard } from "./KeyCard";
 import { SaveButton } from "./Share";
 import { StyleSwitch } from "./StyleSwitch";
 
-type Upload = { url: string; width: number; height: number; sample?: boolean };
+// `sample` is the episode page id ("P07") when the reader picked one of the sample pages.
+type Upload = { url: string; width: number; height: number; sample?: string };
 type State =
   | { phase: "idle" }
   | { phase: "dubbing"; page: Upload; started: number }
@@ -43,11 +46,19 @@ export function LiveDub() {
   const pageRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const keyRef = useRef<HTMLInputElement>(null);
+  const { speaking, play, stop } = useVoice();
+  const [voicing, setVoicing] = useState<number | null>(null);
+  const [voiceNote, setVoiceNote] = useState<string | null>(null);
+  const clips = useRef(new Map<string, string>());
+  const savedKey = useGeminiKey();
 
   const dub = useCallback(async (source: Blob | string) => {
     const sample = typeof source === "string" && SAMPLES.includes(source) ? source : null;
-    const page = { ...(await toJpeg(source)), sample: !!sample };
+    const page = { ...(await toJpeg(source)), sample: sample ? /P\d+/.exec(sample)?.[0] : undefined };
     setView("tamil");
+    stop();
+    clips.current.forEach((url) => URL.revokeObjectURL(url));
+    clips.current.clear();
     // On a phone the page sits below the intro; bring it up so the result is actually seen.
     if (window.innerWidth < 1024) stageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
@@ -81,7 +92,7 @@ export function LiveDub() {
       if (cached) return setState({ phase: "done", page, result: cached, cached: "busy" });
       setState({ phase: "error", page, message: explain(error) });
     }
-  }, []);
+  }, [stop]);
 
   useEffect(() => {
     const onPaste = (e: ClipboardEvent) => {
@@ -93,6 +104,40 @@ export function LiveDub() {
   }, [dub]);
 
   const page = state.phase === "idle" ? null : state.page;
+  // A sample shown from the cache has the clips voiced with the episode; anything else is voiced on the key.
+  const sampleClip = (i: number) =>
+    state.phase === "done" && state.cached && page?.sample && view !== "original" ? voiceSrc(page.sample, i, view) : null;
+  const canHear = view !== "original" && (!!savedKey || (state.phase === "done" && state.result.bubbles.some((_, i) => sampleClip(i))));
+
+  const hear = async (i: number) => {
+    if (state.phase !== "done" || view === "original" || !page) return;
+    const id = `${i}-${view}`;
+    let src = clips.current.get(id) ?? sampleClip(i);
+    if (!src) {
+      const apiKey = currentKey();
+      if (!apiKey) return;
+      setVoicing(i);
+      setVoiceNote(null);
+      try {
+        const { speak } = await import("@/lib/voice");
+        src = URL.createObjectURL(new Blob([await speak(state.result.bubbles[i], view, { apiKey })], { type: "audio/wav" }));
+        clips.current.set(id, src);
+        track("voice_live", { view });
+      } catch (error) {
+        console.error(error);
+        const status = (error as { status?: number }).status;
+        setVoiceNote(
+          status === 429
+            ? "Your key's free voice quota is used up for now. Google allows a few dozen spoken lines a day."
+            : "Couldn't voice that line. Try another bubble.",
+        );
+        return;
+      } finally {
+        setVoicing(null);
+      }
+    }
+    play(i, src);
+  };
 
   return (
     <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 pt-2 pb-16 lg:grid-cols-[1fr_minmax(0,540px)]">
@@ -149,6 +194,13 @@ export function LiveDub() {
                     ? "earlier. Gemma is swamped right now, so this is the dub it made of this page before."
                     : `in ${(state.result.ms / 1000).toFixed(1)}s`}
               </p>
+              {canHear && (
+                <p className="font-letter text-lg font-bold">
+                  <span className="mr-2 inline-block bg-sun px-1.5 font-mono text-xs tracking-[0.1em] uppercase">New</span>
+                  Tap any bubble to hear it said out loud.
+                </p>
+              )}
+              {voiceNote && <p className="font-mono text-xs text-accent">{voiceNote}</p>}
             </motion.div>
           )}
         </AnimatePresence>
@@ -232,6 +284,8 @@ export function LiveDub() {
                     bubbles={state.result.bubbles}
                     view={view}
                     playKey={page.url}
+                    onSelect={hear}
+                    speaking={speaking ?? voicing}
                   />
                 </div>
               ) : (

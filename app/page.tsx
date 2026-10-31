@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BannerLine, Caption, GitHubMark, Logo, Panel, PosterTitle, Sfx, Tag } from "@/components/Comic";
+import { HearLine } from "@/components/HearLine";
 import { HeroDemo } from "@/components/HeroDemo";
 import { PanelCrop } from "@/components/PanelCrop";
-import { episode } from "@/lib/episode";
+import { episode, voiceSrc } from "@/lib/episode";
 import banner from "@/public/art/kollywood-banner.jpg";
 import rooftop from "@/public/art/rooftop-reader.jpg";
 
@@ -195,6 +196,9 @@ export default function Home() {
                     <dt className="text-ink-soft uppercase">{label}</dt>
                     <dd className={label === "Madras" ? "font-bubble text-base font-bold text-accent" : "font-bubble text-[15px]"}>
                       {line}
+                      {label === "Madras" && (
+                        <HearLine src={voiceSrc(STRIP_PAGE.id, 3, "madras")} label="Hear the Madras line" />
+                      )}
                     </dd>
                   </div>
                 ))}
